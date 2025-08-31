@@ -13,6 +13,7 @@ import ResumeBuilder from "@/pages/ResumeBuilder";
 import Placeholder from "@/pages/Placeholder";
 import PitchGenerator from "@/pages/PitchGenerator";
 import PortfolioBuilder from "@/pages/PortfolioBuilder";
+import ExportHub from "@/pages/ExportHub";
 
 const queryClient = new QueryClient();
 
