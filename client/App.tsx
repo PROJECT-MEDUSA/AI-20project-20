@@ -12,6 +12,7 @@ import Layout from "@/components/layout/Layout";
 import ResumeBuilder from "@/pages/ResumeBuilder";
 import Placeholder from "@/pages/Placeholder";
 import PitchGenerator from "@/pages/PitchGenerator";
+import PortfolioBuilder from "@/pages/PortfolioBuilder";
 
 const queryClient = new QueryClient();
 
