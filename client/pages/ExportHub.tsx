@@ -1,25 +1,7 @@
 import { toast } from "sonner";
 import { FileText, Clipboard, Save, ExternalLink, Settings2 } from "lucide-react";
-
-type Resume = { id: string; title: string; preview?: string };
-type Pitch = { id: string; snippet: string };
-type Portfolio = { id: string; title: string; preview?: string };
-
-const resumes: Resume[] = [
-  { id: "r1", title: "Resume v1" },
-  { id: "r2", title: "Resume v2" },
-  { id: "r3", title: "Resume v3" },
-];
-const pitches: Pitch[] = [
-  { id: "p1", snippet: "Problem: Long application cycles. Solution: AI-assisted summaries. Impact: 30% faster replies." },
-  { id: "p2", snippet: "Problem: Low engagement. Solution: Interactive demos. Impact: +45% conversions." },
-  { id: "p3", snippet: "Problem: Complex onboarding. Solution: Guided flows. Impact: -50% time-to-value." },
-];
-const portfolios: Portfolio[] = [
-  { id: "pf1", title: "Portfolio v1" },
-  { id: "pf2", title: "Portfolio v2" },
-  { id: "pf3", title: "Portfolio v3" },
-];
+import { useQuery } from "@tanstack/react-query";
+import { ExportHubResponse } from "@shared/api";
 
 export default function ExportHub() {
   return (
