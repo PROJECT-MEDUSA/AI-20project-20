@@ -1,115 +1,85 @@
 export default function ResumeBuilder() {
   return (
-    <section className="container py-10 md:py-14">
-      {/* Stepper */}
-      <nav aria-label="Progress" className="mx-auto max-w-3xl">
-        <ol className="flex items-center justify-between gap-2 text-sm text-muted-foreground">
-          {[
-            "Create",
-            "Add Projects",
-            "Preview",
-            "Enter Personal",
-            "Choose",
-            "Download",
-          ].map((label, i) => (
-            <li key={label} className="flex-1">
-              <div className="flex items-center gap-2">
-                <span
-                  className={`grid h-7 w-7 place-items-center rounded-full border ${
-                    i < 3 ? "bg-primary text-white border-primary" : "bg-secondary text-foreground"
-                  }`}
-                  aria-current={i === 3 ? "step" : undefined}
-                >
-                  {i + 1}
-                </span>
-                <span className="hidden sm:block">{label}</span>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </nav>
+    <section className="container py-8 md:py-10">
+      <div className="grid gap-8 lg:grid-cols-2">
+        {/* LEFT: Form panels */}
+        <div className="space-y-6">
+          <Panel title="Personal Information">
+            <UnderlineInput placeholder="Full Name" aria-label="Full Name" />
+            <UnderlineInput placeholder="Email Address" type="email" aria-label="Email Address" />
+            <UnderlineInput placeholder="Phone Number" type="tel" aria-label="Phone Number" />
+          </Panel>
 
-      <h1 className="mt-10 text-3xl font-bold">Enhance Your Resume</h1>
-      <p className="text-muted-foreground">Please fill in your details</p>
+          <Panel title="Skills">
+            <UnderlineInput placeholder="Add your skills here..." aria-label="Skills" />
+          </Panel>
 
-      {/* Layout: Form left, Image UI preview right */}
-      <div className="mt-8 grid gap-8 lg:grid-cols-2">
-        {/* Form */}
-        <form className="grid content-start gap-6" aria-labelledby="personal-info">
-          <fieldset>
-            <legend id="personal-info" className="text-lg font-semibold">Personal Information</legend>
-            <div className="mt-4 grid gap-6 md:grid-cols-2">
-              <Input label="Email Address" type="email" placeholder="your.email@example.com" />
-              <Input label="Phone Number" type="tel" placeholder="+(XX) XX XX XX XX" />
-              <Input label="Full Name" placeholder="First Last" />
-              <Input label="Graduation Date" placeholder="MM/YYYY" />
-              <div className="md:col-span-2 grid gap-6 md:grid-cols-2">
-                <Input label="Major" placeholder="Your Major" />
-                <div>
-                  <label className="mb-2 block text-sm font-medium">Experience Level</label>
-                  <div role="radiogroup" className="flex flex-wrap gap-4">
-                    {[
-                      { id: "intern", label: "Intern" },
-                      { id: "entry", label: "Entry-level" },
-                      { id: "experienced", label: "Experienced" },
-                    ].map((r) => (
-                      <label key={r.id} className="inline-flex items-center gap-2">
-                        <input type="radio" name="experience" id={r.id} className="h-4 w-4 text-primary" />
-                        <span>{r.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </fieldset>
+          <Panel title="Experiences">
+            <UnderlineInput placeholder="Job Title" aria-label="Job Title" />
+            <UnderlineInput placeholder="Company Name" aria-label="Company Name" />
+            <UnderlineInput placeholder="Duration" aria-label="Duration" />
+          </Panel>
 
-          <fieldset className="rounded-2xl border bg-secondary/40 p-6">
-            <legend className="text-lg font-semibold">Do you have a portfolio?</legend>
-            <p className="text-sm text-muted-foreground">Showcase your work to impress employers.</p>
-            <div className="mt-4 flex flex-wrap gap-6">
-              <label className="inline-flex items-center gap-2">
-                <input type="radio" name="portfolio" className="h-4 w-4 text-primary" />
-                <span>Yes, I do!</span>
-              </label>
-              <label className="inline-flex items-center gap-2">
-                <input type="radio" name="portfolio" className="h-4 w-4 text-primary" />
-                <span>No, not yet.</span>
-              </label>
-            </div>
-          </fieldset>
+          <button
+            type="button"
+            className="w-full rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-6 py-3 font-semibold text-white shadow transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label="Download as PDF"
+          >
+            Download as PDF
+          </button>
+        </div>
 
-          <div className="flex justify-end">
-            <button type="button" className="rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-6 py-3 font-semibold text-white shadow transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              Next Step
-            </button>
-          </div>
-        </form>
-
-        {/* Preview Card with the provided image UI */}
-        <aside className="rounded-2xl border bg-card p-6 shadow-sm">
+        {/* RIGHT: Live preview */}
+        <div className="rounded-2xl border bg-card p-6 shadow-sm">
           <h2 className="text-lg font-semibold">Live Preview</h2>
-          <div className="mt-4 rounded-xl border bg-white p-2">
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F3ca0aefecdad489ba588348e0641c323?format=webp&width=1200"
-              alt="Resume Builder UI preview"
-              className="mx-auto h-[520px] w-full max-w-full rounded-lg object-contain"
-            />
+          <div className="mt-4 rounded-xl border bg-white p-6">
+            <article className="prose max-w-none text-sm">
+              <h3 className="mt-0 mb-2 text-base font-bold">[Full Name]</h3>
+              <p className="m-0 text-muted-foreground">[Email Address]</p>
+              <p className="m-0 text-muted-foreground">[Phone Number]</p>
+
+              <h4 className="mt-6 mb-2 text-base font-bold">Skills</h4>
+              <ul className="m-0 list-disc pl-5">
+                <li>Skill 1</li>
+                <li>Skill 2</li>
+                <li>Skill 3</li>
+              </ul>
+
+              <h4 className="mt-6 mb-2 text-base font-bold">Experiences</h4>
+              <section className="space-y-4">
+                <div>
+                  <p className="m-0 font-semibold">Job Title</p>
+                  <p className="m-0">Company Name</p>
+                  <p className="m-0 text-muted-foreground">Duration</p>
+                </div>
+                <div>
+                  <p className="m-0 font-semibold">Job Title</p>
+                  <p className="m-0">Company Name</p>
+                  <p className="m-0 text-muted-foreground">Duration</p>
+                </div>
+              </section>
+            </article>
           </div>
-        </aside>
+        </div>
       </div>
     </section>
   );
 }
 
-function Input({ label, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
+function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div>
-      <label className="mb-2 block text-sm font-medium">{label}</label>
-      <input
-        {...props}
-        className="w-full rounded-xl border bg-background px-4 py-3 shadow-sm outline-none transition placeholder:text-muted-foreground/70 focus:ring-2 focus:ring-ring"
-      />
-    </div>
+    <fieldset className="rounded-2xl border bg-white p-5 shadow-sm">
+      <legend className="px-1 text-sm font-semibold text-foreground">{title}</legend>
+      <div className="mt-3 space-y-3">{children}</div>
+    </fieldset>
+  );
+}
+
+function UnderlineInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
+  return (
+    <input
+      {...props}
+      className="w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm outline-none transition focus:ring-2 focus:ring-ring"
+    />
   );
 }
