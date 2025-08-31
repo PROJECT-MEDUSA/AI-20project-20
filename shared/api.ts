@@ -10,3 +10,27 @@
 export interface DemoResponse {
   message: string;
 }
+
+// Export Hub types
+export interface ResumeExport {
+  id: string;
+  title: string;
+  preview?: string | null;
+}
+
+export interface PitchExport {
+  id: string;
+  snippet: string;
+}
+
+export interface PortfolioExport {
+  id: string;
+  title: string;
+  preview?: string | null;
+}
+
+export interface ExportHubResponse {
+  resumes: ResumeExport[];
+  pitches: PitchExport[];
+  portfolios: PortfolioExport[];
+}
