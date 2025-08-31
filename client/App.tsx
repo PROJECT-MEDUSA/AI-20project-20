@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import Layout from "@/components/layout/Layout";
 import ResumeBuilder from "@/pages/ResumeBuilder";
 import Placeholder from "@/pages/Placeholder";
+import PitchGenerator from "@/pages/PitchGenerator";
 
 const queryClient = new QueryClient();
 
@@ -24,7 +25,7 @@ const App = () => (
           <Route path="/" element={<Layout />}>
             <Route index element={<Index />} />
             <Route path="resume" element={<ResumeBuilder />} />
-            <Route path="pitch" element={<Placeholder title="Pitch Generator" />} />
+            <Route path="pitch" element={<PitchGenerator />} />
             <Route path="portfolio" element={<Placeholder title="Portfolio Builder" />} />
             <Route path="export" element={<Placeholder title="Export Hub" />} />
             <Route path="about" element={<Placeholder title="About" />} />
