@@ -28,7 +28,7 @@ const App = () => (
             <Route path="resume" element={<ResumeBuilder />} />
             <Route path="pitch" element={<PitchGenerator />} />
             <Route path="portfolio" element={<PortfolioBuilder />} />
-            <Route path="export" element={<Placeholder title="Export Hub" />} />
+            <Route path="export" element={<ExportHub />} />
             <Route path="about" element={<Placeholder title="About" />} />
             <Route path="profile" element={<Placeholder title="Profile" />} />
             <Route path="*" element={<NotFound />} />
