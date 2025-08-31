@@ -1,4 +1,4 @@
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 import { FileText, Clipboard, Save, ExternalLink, Settings2 } from "lucide-react";
 
 type Resume = { id: string; title: string; preview?: string };
