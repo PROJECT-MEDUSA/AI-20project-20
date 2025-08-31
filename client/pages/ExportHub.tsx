@@ -4,6 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 import { ExportHubResponse } from "@shared/api";
 
 export default function ExportHub() {
+  const { data, isLoading, isError } = useQuery<ExportHubResponse>({
+    queryKey: ["export-hub"],
+    queryFn: async () => {
+      const res = await fetch("/api/exports");
+      if (!res.ok) throw new Error("Failed to load exports");
+      return (await res.json()) as ExportHubResponse;
+    },
+  });
+
   return (
     <section className="container py-10 md:py-14">
       <header className="mb-8">
@@ -11,33 +20,49 @@ export default function ExportHub() {
         <p className="mt-2 max-w-3xl text-muted-foreground">All your generated resumes, pitches, and portfolios in one place. Download, copy, or customize with a click.</p>
       </header>
 
-      {/* Resumes */}
-      <Section title="Resumes">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {resumes.map((r) => (
-            <ResumeCard key={r.id} title={r.title} preview={r.preview} />
-          ))}
-        </div>
-      </Section>
+      {isLoading && <LoadingGrid />}
+      {isError && (
+        <p className="rounded-xl border bg-secondary/40 p-4 text-sm text-destructive">Could not load your content. Please try again.</p>
+      )}
 
-      {/* Pitches */}
-      <Section title="Pitches">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {pitches.map((p) => (
-            <PitchCard key={p.id} snippet={p.snippet} />
-          ))}
-        </div>
-      </Section>
+      {!!data && (
+        <>
+          <Section title="Resumes">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {data.resumes.map((r) => (
+                <ResumeCard key={r.id} title={r.title} preview={r.preview || undefined} />
+              ))}
+            </div>
+          </Section>
 
-      {/* Portfolios */}
-      <Section title="Portfolios">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {portfolios.map((p) => (
-            <PortfolioCard key={p.id} title={p.title} preview={p.preview} />
-          ))}
-        </div>
-      </Section>
+          <Section title="Pitches">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {data.pitches.map((p) => (
+                <PitchCard key={p.id} snippet={p.snippet} />
+              ))}
+            </div>
+          </Section>
+
+          <Section title="Portfolios">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {data.portfolios.map((p) => (
+                <PortfolioCard key={p.id} title={p.title} preview={p.preview || undefined} />
+              ))}
+            </div>
+          </Section>
+        </>
+      )}
     </section>
+  );
+}
+
+function LoadingGrid() {
+  return (
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="h-48 animate-pulse rounded-2xl border bg-secondary/50" />
+      ))}
+    </div>
   );
 }
 
