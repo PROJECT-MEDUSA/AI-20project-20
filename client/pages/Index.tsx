@@ -1,20 +1,69 @@
 import { Link } from "react-router-dom";
 import { FileText, Rocket, Presentation, Layout as LayoutIcon, Sparkles } from "lucide-react";
 
+const PREVIEW_IMAGES = [
+  {
+    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F5cfe91acdcc04de5a0a1bedc460a66b5?format=webp&width=1200",
+    alt: "Landing Page - AI Resume & Project Booster",
+  },
+  {
+    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F253a7ea37a4f473283365b66b74bf0e1?format=webp&width=1200",
+    alt: "Landing variant preview",
+  },
+  {
+    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2Ffae3513531d04555a4946e337a6008d7?format=webp&width=1200",
+    alt: "Resume form step",
+  },
+  {
+    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2Fc0fc9f2891624cae97e35149874d9e41?format=webp&width=1200",
+    alt: "Export Hub Page",
+  },
+  {
+    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F58fe8b067121458e983cfcbbb0d41e96?format=webp&width=1200",
+    alt: "Portfolio Builder",
+  },
+  {
+    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2Fc1d07f9054f34366ac75ad5fa60f048a?format=webp&width=1200",
+    alt: "Pitch Generator",
+  },
+  {
+    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F3b320fb3116b4be3ac2816cb60c5b60c?format=webp&width=1200",
+    alt: "Resume Builder live preview",
+  },
+  {
+    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F5440e76f934d42cd9b6244c7db1acd45?format=webp&width=1200",
+    alt: "Profile page",
+  },
+  {
+    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2Ffd073c7adf504b50ad77b0524d2cdf77?format=webp&width=1200",
+    alt: "About section",
+  },
+  {
+    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F09aa4d086a024ca0a53395384f46ad19?format=webp&width=1200",
+    alt: "Success page",
+  },
+];
+
 export default function Index() {
   return (
     <div className="w-full">
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-b from-secondary to-white">
-        <div className="absolute inset-0 -z-10 opacity-30 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/40 via-fuchsia-400/30 to-transparent" />
+        {/* Background artwork from uploaded design */}
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F5cfe91acdcc04de5a0a1bedc460a66b5?format=webp&width=1600"
+          alt="Colorful abstract background from landing design"
+          className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover opacity-35"
+        />
         <div className="container py-20 md:py-28 text-center">
-          <div className="mx-auto max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-foreground/70">
+          <div className="mx-auto max-w-4xl">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/70 px-3 py-1 text-xs font-medium text-foreground/70 shadow-sm backdrop-blur">
               <Sparkles className="h-3.5 w-3.5 text-primary" aria-hidden />
               AI Resume & Project Booster
-            </div>
+            </span>
             <h1 className="mt-5 text-4xl/tight font-extrabold md:text-6xl/tight">
-              Boost your resume and projects with AI
+              Boost your resume
+              <br className="hidden md:block" /> and projects with AI
             </h1>
             <p className="mt-4 text-lg text-muted-foreground md:text-xl">
               Build standout resumes, generate compelling pitches, and craft beautiful portfolios using student-friendly tools.
@@ -47,6 +96,34 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Screens Gallery from uploaded PNGs */}
+      <section className="bg-secondary/50">
+        <div className="container py-12 md:py-16">
+          <h2 className="text-3xl font-bold">Product previews</h2>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {PREVIEW_IMAGES.slice(0, 6).map((img) => (
+              <figure key={img.src} className="rounded-2xl border bg-card p-2 shadow-sm transition hover:shadow-md">
+                <img src={img.src} alt={img.alt} className="h-56 w-full rounded-xl object-cover" />
+                <figcaption className="sr-only">{img.alt}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="mt-6 text-center">
+            <details>
+              <summary className="cursor-pointer select-none text-sm text-muted-foreground hover:text-foreground">Show more previews</summary>
+              <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {PREVIEW_IMAGES.slice(6).map((img) => (
+                  <figure key={img.src} className="rounded-2xl border bg-card p-2 shadow-sm">
+                    <img src={img.src} alt={img.alt} className="h-56 w-full rounded-xl object-cover" />
+                    <figcaption className="sr-only">{img.alt}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
       {/* CTA band */}
       <section className="py-14">
         <div className="container">
@@ -67,18 +144,6 @@ export default function Index() {
           </div>
         </div>
       </section>
-
-      {/* Testimonials */}
-      <section className="bg-secondary/50">
-        <div className="container py-12 md:py-16">
-          <h2 className="text-3xl font-bold">What our users say</h2>
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
-            <Testimonial name="Alex Johnson" quote="This tool transformed my job hunt!" />
-            <Testimonial name="Maria Gomez" quote="The portfolio builder helped me showcase my projects professionally." />
-            <Testimonial name="James Lee" quote="The pitch generator is a game changer!" />
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
@@ -94,14 +159,5 @@ function FeatureCard({ icon, title, description }: { icon: React.ReactNode; titl
       </div>
       <p className="mt-3 text-muted-foreground">{description}</p>
     </article>
-  );
-}
-
-function Testimonial({ name, quote }: { name: string; quote: string }) {
-  return (
-    <figure className="rounded-2xl border bg-card p-6 shadow-sm">
-      <blockquote className="text-foreground">“{quote}”</blockquote>
-      <figcaption className="mt-4 text-sm font-medium text-muted-foreground">{name}</figcaption>
-    </figure>
   );
 }
