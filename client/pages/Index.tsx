@@ -1,48 +1,6 @@
 import { Link } from "react-router-dom";
 import { FileText, Rocket, Presentation, Layout as LayoutIcon, Sparkles } from "lucide-react";
 
-const PREVIEW_IMAGES = [
-  {
-    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F5cfe91acdcc04de5a0a1bedc460a66b5?format=webp&width=1200",
-    alt: "Landing Page - AI Resume & Project Booster",
-  },
-  {
-    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F253a7ea37a4f473283365b66b74bf0e1?format=webp&width=1200",
-    alt: "Landing variant preview",
-  },
-  {
-    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2Ffae3513531d04555a4946e337a6008d7?format=webp&width=1200",
-    alt: "Resume form step",
-  },
-  {
-    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2Fc0fc9f2891624cae97e35149874d9e41?format=webp&width=1200",
-    alt: "Export Hub Page",
-  },
-  {
-    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F58fe8b067121458e983cfcbbb0d41e96?format=webp&width=1200",
-    alt: "Portfolio Builder",
-  },
-  {
-    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2Fc1d07f9054f34366ac75ad5fa60f048a?format=webp&width=1200",
-    alt: "Pitch Generator",
-  },
-  {
-    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F3b320fb3116b4be3ac2816cb60c5b60c?format=webp&width=1200",
-    alt: "Resume Builder live preview",
-  },
-  {
-    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F5440e76f934d42cd9b6244c7db1acd45?format=webp&width=1200",
-    alt: "Profile page",
-  },
-  {
-    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2Ffd073c7adf504b50ad77b0524d2cdf77?format=webp&width=1200",
-    alt: "About section",
-  },
-  {
-    src: "https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F09aa4d086a024ca0a53395384f46ad19?format=webp&width=1200",
-    alt: "Success page",
-  },
-];
 
 export default function Index() {
   return (
@@ -96,33 +54,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Screens Gallery from uploaded PNGs */}
-      <section className="bg-secondary/50">
-        <div className="container py-12 md:py-16">
-          <h2 className="text-3xl font-bold">Product previews</h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {PREVIEW_IMAGES.slice(0, 6).map((img) => (
-              <figure key={img.src} className="rounded-2xl border bg-card p-2 shadow-sm transition hover:shadow-md">
-                <img src={img.src} alt={img.alt} className="h-56 w-full rounded-xl object-cover" />
-                <figcaption className="sr-only">{img.alt}</figcaption>
-              </figure>
-            ))}
-          </div>
-          <div className="mt-6 text-center">
-            <details>
-              <summary className="cursor-pointer select-none text-sm text-muted-foreground hover:text-foreground">Show more previews</summary>
-              <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {PREVIEW_IMAGES.slice(6).map((img) => (
-                  <figure key={img.src} className="rounded-2xl border bg-card p-2 shadow-sm">
-                    <img src={img.src} alt={img.alt} className="h-56 w-full rounded-xl object-cover" />
-                    <figcaption className="sr-only">{img.alt}</figcaption>
-                  </figure>
-                ))}
-              </div>
-            </details>
-          </div>
-        </div>
-      </section>
 
       {/* CTA band */}
       <section className="py-14">
