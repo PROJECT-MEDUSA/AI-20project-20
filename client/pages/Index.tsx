@@ -104,3 +104,17 @@ function FeatureCard({ icon, title, description }: { icon: React.ReactNode; titl
     </article>
   );
 }
+
+function BenefitCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
+  return (
+    <article className="rounded-2xl border bg-card p-6 shadow-sm transition hover:shadow-md">
+      <div className="flex items-center gap-3">
+        <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-primary">
+          {icon}
+        </div>
+        <h3 className="text-lg font-semibold">{title}</h3>
+      </div>
+      <p className="mt-3 text-sm text-muted-foreground">{description}</p>
+    </article>
+  );
+}
