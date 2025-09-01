@@ -54,6 +54,18 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Why important */}
+      <section className="bg-secondary/50">
+        <div className="container py-12 md:py-16">
+          <h2 className="text-3xl font-extrabold tracking-tight">WHY IS IT IMPORTANT</h2>
+          <p className="mt-3 max-w-3xl text-muted-foreground">Our tools help students present their best selves: save time with AI assistance, communicate clearly with polished pitches, and showcase work beautifully. Everything exports cleanly and is accessible anywhere.</p>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            <BenefitCard icon={<FileText className="h-6 w-6" aria-hidden />} title="Save hours on formatting" description="Generate structured resumes and documents with consistent design and strong content hints." />
+            <BenefitCard icon={<Presentation className="h-6 w-6" aria-hidden />} title="Tell a clear story" description="Turn projects into compelling pitches that highlight problem, solution, and impact." />
+            <BenefitCard icon={<Rocket className="h-6 w-6" aria-hidden />} title="Stand out & share fast" description="Export to PDF/TXT or share live links so recruiters and peers can view your work instantly." />
+          </div>
+        </div>
+      </section>
 
       {/* CTA band */}
       <section className="py-14">
