@@ -292,7 +292,7 @@ export default function ResumeBuilder() {
         </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-8 lg:grid-cols-2 min-w-0">
         {/* Left: Inputs */}
         <div className="space-y-4 min-w-0">
           <div className="rounded-2xl border bg-white p-4 shadow-sm">
