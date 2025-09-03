@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -109,7 +110,13 @@ const emptyResume: ResumeData = {
   skills: [],
   summary: "",
   interests: [],
-  media: { photoDataUrl: "", facebook: "", twitter: "", linkedin: "", website: "" },
+  media: {
+    photoDataUrl: "",
+    facebook: "",
+    twitter: "",
+    linkedin: "",
+    website: "",
+  },
 };
 
 const TABS = [
@@ -123,7 +130,8 @@ const TABS = [
 ] as const;
 
 export default function ResumeBuilder() {
-  const [activeTab, setActiveTab] = useState<(typeof TABS)[number]["id"]>("profile");
+  const [activeTab, setActiveTab] =
+    useState<(typeof TABS)[number]["id"]>("profile");
   const [data, setData] = useState<ResumeData>(emptyResume);
   const printRef = useRef<HTMLDivElement | null>(null);
 
@@ -165,7 +173,10 @@ export default function ResumeBuilder() {
   };
 
   const onRemoveExperience = (id: string) => {
-    setData((prev) => ({ ...prev, experience: prev.experience.filter((e) => e.id !== id) }));
+    setData((prev) => ({
+      ...prev,
+      experience: prev.experience.filter((e) => e.id !== id),
+    }));
   };
 
   const onAddEducation = () => {
@@ -189,7 +200,10 @@ export default function ResumeBuilder() {
   };
 
   const onRemoveEducation = (id: string) => {
-    setData((prev) => ({ ...prev, education: prev.education.filter((e) => e.id !== id) }));
+    setData((prev) => ({
+      ...prev,
+      education: prev.education.filter((e) => e.id !== id),
+    }));
   };
 
   const onAddSkill = () => {
@@ -203,30 +217,65 @@ export default function ResumeBuilder() {
   };
 
   const onRemoveSkill = (id: string) => {
-    setData((prev) => ({ ...prev, skills: prev.skills.filter((s) => s.id !== id) }));
+    setData((prev) => ({
+      ...prev,
+      skills: prev.skills.filter((s) => s.id !== id),
+    }));
   };
 
   const onAddInterest = (value: string) => {
     if (!value.trim()) return;
-    setData((prev) => ({ ...prev, interests: Array.from(new Set([...prev.interests, value.trim()])) }));
+    setData((prev) => ({
+      ...prev,
+      interests: Array.from(new Set([...prev.interests, value.trim()])),
+    }));
   };
 
   const onRemoveInterest = (value: string) => {
-    setData((prev) => ({ ...prev, interests: prev.interests.filter((i) => i !== value) }));
+    setData((prev) => ({
+      ...prev,
+      interests: prev.interests.filter((i) => i !== value),
+    }));
   };
 
-  const tabIndex = useMemo(() => TABS.findIndex((t) => t.id === activeTab), [activeTab]);
-  const stepProgress = useMemo(() => Math.round(((tabIndex + 1) / TABS.length) * 100), [tabIndex]);
+  const tabIndex = useMemo(
+    () => TABS.findIndex((t) => t.id === activeTab),
+    [activeTab],
+  );
+  const stepProgress = useMemo(
+    () => Math.round(((tabIndex + 1) / TABS.length) * 100),
+    [tabIndex],
+  );
 
   const sectionCompletion = useMemo(() => {
     let completed = 0;
-    if (data.profile.firstName && data.profile.lastName && (data.profile.email || data.profile.phone)) completed++;
-    if (data.experience.length > 0 && data.experience.some((e) => e.jobTitle || e.employer)) completed++;
-    if (data.education.length > 0 && data.education.some((e) => e.school || e.degree)) completed++;
+    if (
+      data.profile.firstName &&
+      data.profile.lastName &&
+      (data.profile.email || data.profile.phone)
+    )
+      completed++;
+    if (
+      data.experience.length > 0 &&
+      data.experience.some((e) => e.jobTitle || e.employer)
+    )
+      completed++;
+    if (
+      data.education.length > 0 &&
+      data.education.some((e) => e.school || e.degree)
+    )
+      completed++;
     if (data.skills.length > 0 && data.skills.some((s) => s.name)) completed++;
     if (data.summary.trim().length > 0) completed++;
     if (data.interests.length > 0) completed++;
-    if (data.media.photoDataUrl || data.media.facebook || data.media.twitter || data.media.linkedin || data.media.website) completed++;
+    if (
+      data.media.photoDataUrl ||
+      data.media.facebook ||
+      data.media.twitter ||
+      data.media.linkedin ||
+      data.media.website
+    )
+      completed++;
     return Math.round((completed / TABS.length) * 100);
   }, [data]);
 
@@ -249,7 +298,10 @@ export default function ResumeBuilder() {
     }
     const reader = new FileReader();
     reader.onload = () => {
-      setData((prev) => ({ ...prev, media: { ...prev.media, photoDataUrl: String(reader.result || "") } }));
+      setData((prev) => ({
+        ...prev,
+        media: { ...prev.media, photoDataUrl: String(reader.result || "") },
+      }));
     };
     reader.readAsDataURL(file);
   };
@@ -258,7 +310,8 @@ export default function ResumeBuilder() {
     const content = printRef.current?.innerHTML ?? "";
     const win = window.open("", "_blank");
     if (!win) return;
-    win.document.write(`<!doctype html><html><head><meta charset=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><title>Resume</title>
+    win.document
+      .write(`<!doctype html><html><head><meta charset=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><title>Resume</title>
     <style>
       :root{--fg:#0f172a;--muted:#475569;--accent:#4f46e5}
       *{box-sizing:border-box}
@@ -283,12 +336,18 @@ export default function ResumeBuilder() {
     <section className="container py-8 md:py-12">
       <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight md:text-3xl">Resume Builder</h1>
-          <p className="text-sm text-muted-foreground">Create a professional resume with a clean, modern layout.</p>
+          <h1 className="text-2xl font-extrabold tracking-tight md:text-3xl">
+            Resume Builder
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Create a professional resume with a clean, modern layout.
+          </p>
         </div>
         <div className="w-full max-w-md">
           <Progress value={sectionCompletion} />
-          <div className="mt-1 text-right text-xs text-muted-foreground">Completion {sectionCompletion}%</div>
+          <div className="mt-1 text-right text-xs text-muted-foreground">
+            Completion {sectionCompletion}%
+          </div>
         </div>
       </div>
 
@@ -296,7 +355,10 @@ export default function ResumeBuilder() {
         {/* Left: Inputs */}
         <div className="space-y-4 min-w-0">
           <div className="rounded-2xl border bg-white p-4 shadow-sm">
-            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
+            <Tabs
+              value={activeTab}
+              onValueChange={(v) => setActiveTab(v as any)}
+            >
               <TabsList className="w-full h-auto min-h-10 flex-wrap justify-start gap-1 gap-y-2 bg-transparent p-0">
                 {TABS.map(({ id, label, icon: Icon }) => (
                   <TabsTrigger
@@ -304,7 +366,7 @@ export default function ResumeBuilder() {
                     value={id}
                     className={cn(
                       "rounded-full bg-muted/60 px-3 py-2 text-xs md:text-sm shrink-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground",
-                      "transition-colors hover:bg-muted"
+                      "transition-colors hover:bg-muted",
                     )}
                   >
                     <Icon className="mr-1.5 h-4 w-4" /> {label}
@@ -317,44 +379,174 @@ export default function ResumeBuilder() {
                 <Panel title="Personal Information">
                   <Grid cols={2}>
                     <Field label="First Name">
-                      <Input value={data.profile.firstName} onChange={(e) => setData({ ...data, profile: { ...data.profile, firstName: e.target.value } })} />
+                      <Input
+                        value={data.profile.firstName}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: {
+                              ...data.profile,
+                              firstName: e.target.value,
+                            },
+                          })
+                        }
+                      />
                     </Field>
                     <Field label="Middle Name">
-                      <Input value={data.profile.middleName} onChange={(e) => setData({ ...data, profile: { ...data.profile, middleName: e.target.value } })} />
+                      <Input
+                        value={data.profile.middleName}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: {
+                              ...data.profile,
+                              middleName: e.target.value,
+                            },
+                          })
+                        }
+                      />
                     </Field>
                     <Field label="Last Name">
-                      <Input value={data.profile.lastName} onChange={(e) => setData({ ...data, profile: { ...data.profile, lastName: e.target.value } })} />
+                      <Input
+                        value={data.profile.lastName}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: {
+                              ...data.profile,
+                              lastName: e.target.value,
+                            },
+                          })
+                        }
+                      />
                     </Field>
                     <Field label="Gender">
-                      <Input value={data.profile.gender} onChange={(e) => setData({ ...data, profile: { ...data.profile, gender: e.target.value } })} placeholder="Male / Female / Other" />
+                      <Input
+                        value={data.profile.gender}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: {
+                              ...data.profile,
+                              gender: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Male / Female / Other"
+                      />
                     </Field>
                     <Field label="Date of Birth">
-                      <Input type="date" value={data.profile.dob} onChange={(e) => setData({ ...data, profile: { ...data.profile, dob: e.target.value } })} />
+                      <Input
+                        type="date"
+                        value={data.profile.dob}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: { ...data.profile, dob: e.target.value },
+                          })
+                        }
+                      />
                     </Field>
                     <Field label="Marital Status">
-                      <Input value={data.profile.maritalStatus} onChange={(e) => setData({ ...data, profile: { ...data.profile, maritalStatus: e.target.value } })} placeholder="Single / Married" />
+                      <Input
+                        value={data.profile.maritalStatus}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: {
+                              ...data.profile,
+                              maritalStatus: e.target.value,
+                            },
+                          })
+                        }
+                        placeholder="Single / Married"
+                      />
                     </Field>
                     <Field label="Profession">
-                      <Input value={data.profile.profession} onChange={(e) => setData({ ...data, profile: { ...data.profile, profession: e.target.value } })} />
+                      <Input
+                        value={data.profile.profession}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: {
+                              ...data.profile,
+                              profession: e.target.value,
+                            },
+                          })
+                        }
+                      />
                     </Field>
                     <Field label="Nationality">
-                      <Input value={data.profile.nationality} onChange={(e) => setData({ ...data, profile: { ...data.profile, nationality: e.target.value } })} />
+                      <Input
+                        value={data.profile.nationality}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: {
+                              ...data.profile,
+                              nationality: e.target.value,
+                            },
+                          })
+                        }
+                      />
                     </Field>
                     <Field label="Passport Number">
-                      <Input value={data.profile.passportNumber} onChange={(e) => setData({ ...data, profile: { ...data.profile, passportNumber: e.target.value } })} />
+                      <Input
+                        value={data.profile.passportNumber}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: {
+                              ...data.profile,
+                              passportNumber: e.target.value,
+                            },
+                          })
+                        }
+                      />
                     </Field>
                     <Field label="Phone">
-                      <Input type="tel" value={data.profile.phone} onChange={(e) => setData({ ...data, profile: { ...data.profile, phone: e.target.value } })} />
+                      <Input
+                        type="tel"
+                        value={data.profile.phone}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: { ...data.profile, phone: e.target.value },
+                          })
+                        }
+                      />
                     </Field>
                     <Field label="Email">
-                      <Input type="email" value={data.profile.email} onChange={(e) => setData({ ...data, profile: { ...data.profile, email: e.target.value } })} />
+                      <Input
+                        type="email"
+                        value={data.profile.email}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: { ...data.profile, email: e.target.value },
+                          })
+                        }
+                      />
                     </Field>
                   </Grid>
                   <Field label="Address">
-                    <Textarea value={data.profile.address} onChange={(e) => setData({ ...data, profile: { ...data.profile, address: e.target.value } })} />
+                    <Textarea
+                      value={data.profile.address}
+                      onChange={(e) =>
+                        setData({
+                          ...data,
+                          profile: { ...data.profile, address: e.target.value },
+                        })
+                      }
+                    />
                   </Field>
                 </Panel>
-                <NavBar onPrev={goPrev} onNext={goNext} onSave={saveData} isFirst />
+                <NavBar
+                  onPrev={goPrev}
+                  onNext={goNext}
+                  onSave={saveData}
+                  isFirst
+                />
               </TabsContent>
 
               {/* Experience */}
@@ -363,56 +555,164 @@ export default function ResumeBuilder() {
                   <div className="space-y-4">
                     {data.experience.map((exp, idx) => (
                       <div key={exp.id} className="rounded-xl border p-4">
-                        <div className="mb-2 text-sm font-medium">Role {idx + 1}</div>
+                        <div className="mb-2 text-sm font-medium">
+                          Role {idx + 1}
+                        </div>
                         <Grid cols={2}>
                           <Field label="Job Title">
-                            <Input value={exp.jobTitle} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, experience: p.experience.map((it) => it.id === exp.id ? { ...it, jobTitle: v } : it) }));
-                            }} />
+                            <Input
+                              value={exp.jobTitle}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  experience: p.experience.map((it) =>
+                                    it.id === exp.id
+                                      ? { ...it, jobTitle: v }
+                                      : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                           <Field label="Employer">
-                            <Input value={exp.employer} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, experience: p.experience.map((it) => it.id === exp.id ? { ...it, employer: v } : it) }));
-                            }} />
+                            <Input
+                              value={exp.employer}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  experience: p.experience.map((it) =>
+                                    it.id === exp.id
+                                      ? { ...it, employer: v }
+                                      : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                           <Field label="City">
-                            <Input value={exp.city} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, experience: p.experience.map((it) => it.id === exp.id ? { ...it, city: v } : it) }));
-                            }} />
+                            <Input
+                              value={exp.city}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  experience: p.experience.map((it) =>
+                                    it.id === exp.id ? { ...it, city: v } : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                           <Field label="State">
-                            <Input value={exp.state} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, experience: p.experience.map((it) => it.id === exp.id ? { ...it, state: v } : it) }));
-                            }} />
+                            <Input
+                              value={exp.state}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  experience: p.experience.map((it) =>
+                                    it.id === exp.id ? { ...it, state: v } : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                           <Field label="Start Date">
-                            <Input type="date" value={exp.startDate} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, experience: p.experience.map((it) => it.id === exp.id ? { ...it, startDate: v } : it) }));
-                            }} />
+                            <Input
+                              type="date"
+                              value={exp.startDate}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  experience: p.experience.map((it) =>
+                                    it.id === exp.id
+                                      ? { ...it, startDate: v }
+                                      : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                           <Field label="End Date">
-                            <Input type="date" disabled={exp.current} value={exp.endDate} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, experience: p.experience.map((it) => it.id === exp.id ? { ...it, endDate: v } : it) }));
-                            }} />
+                            <Input
+                              type="date"
+                              disabled={exp.current}
+                              value={exp.endDate}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  experience: p.experience.map((it) =>
+                                    it.id === exp.id
+                                      ? { ...it, endDate: v }
+                                      : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                         </Grid>
                         <div className="mt-2 flex items-center gap-2">
-                          <Checkbox id={`exp-current-${exp.id}`} checked={exp.current} onCheckedChange={(c) => setData((p) => ({ ...p, experience: p.experience.map((it) => it.id === exp.id ? { ...it, current: Boolean(c) } : it) }))} />
-                          <Label htmlFor={`exp-current-${exp.id}`}>I currently work here</Label>
+                          <Checkbox
+                            id={`exp-current-${exp.id}`}
+                            checked={exp.current}
+                            onCheckedChange={(c) =>
+                              setData((p) => ({
+                                ...p,
+                                experience: p.experience.map((it) =>
+                                  it.id === exp.id
+                                    ? { ...it, current: Boolean(c) }
+                                    : it,
+                                ),
+                              }))
+                            }
+                          />
+                          <Label htmlFor={`exp-current-${exp.id}`}>
+                            I currently work here
+                          </Label>
                         </div>
                         <div className="mt-3">
-                          <Label className="mb-1 block text-sm">Job Duties / Responsibilities</Label>
-                          <Textarea value={exp.responsibilities} onChange={(e) => {
-                            const v = e.target.value; setData((p) => ({ ...p, experience: p.experience.map((it) => it.id === exp.id ? { ...it, responsibilities: v } : it) }));
-                          }} rows={4} />
+                          <Label className="mb-1 block text-sm">
+                            Job Duties / Responsibilities
+                          </Label>
+                          <Textarea
+                            value={exp.responsibilities}
+                            onChange={(e) => {
+                              const v = e.target.value;
+                              setData((p) => ({
+                                ...p,
+                                experience: p.experience.map((it) =>
+                                  it.id === exp.id
+                                    ? { ...it, responsibilities: v }
+                                    : it,
+                                ),
+                              }));
+                            }}
+                            rows={4}
+                          />
                         </div>
                         <div className="mt-3 text-right">
-                          <Button type="button" variant="secondary" onClick={() => onRemoveExperience(exp.id)}>Remove</Button>
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            onClick={() => onRemoveExperience(exp.id)}
+                          >
+                            Remove
+                          </Button>
                         </div>
                       </div>
                     ))}
                     <div className="flex justify-between">
-                      <Button type="button" variant="outline" onClick={onAddExperience}>Add Experience</Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onAddExperience}
+                      >
+                        Add Experience
+                      </Button>
                     </div>
                   </div>
                 </Panel>
@@ -425,30 +725,77 @@ export default function ResumeBuilder() {
                   <div className="space-y-4">
                     {data.education.map((ed, idx) => (
                       <div key={ed.id} className="rounded-xl border p-4">
-                        <div className="mb-2 text-sm font-medium">Entry {idx + 1}</div>
+                        <div className="mb-2 text-sm font-medium">
+                          Entry {idx + 1}
+                        </div>
                         <Grid cols={2}>
                           <Field label="School Name">
-                            <Input value={ed.school} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, education: p.education.map((it) => it.id === ed.id ? { ...it, school: v } : it) }));
-                            }} />
+                            <Input
+                              value={ed.school}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  education: p.education.map((it) =>
+                                    it.id === ed.id ? { ...it, school: v } : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                           <Field label="City">
-                            <Input value={ed.city} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, education: p.education.map((it) => it.id === ed.id ? { ...it, city: v } : it) }));
-                            }} />
+                            <Input
+                              value={ed.city}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  education: p.education.map((it) =>
+                                    it.id === ed.id ? { ...it, city: v } : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                           <Field label="State">
-                            <Input value={ed.state} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, education: p.education.map((it) => it.id === ed.id ? { ...it, state: v } : it) }));
-                            }} />
+                            <Input
+                              value={ed.state}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  education: p.education.map((it) =>
+                                    it.id === ed.id ? { ...it, state: v } : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                           <Field label="Degree">
-                            <Select value={ed.degree} onValueChange={(v) => setData((p) => ({ ...p, education: p.education.map((it) => it.id === ed.id ? { ...it, degree: v } : it) }))}>
-                              <SelectTrigger><SelectValue placeholder="Select degree" /></SelectTrigger>
+                            <Select
+                              value={ed.degree}
+                              onValueChange={(v) =>
+                                setData((p) => ({
+                                  ...p,
+                                  education: p.education.map((it) =>
+                                    it.id === ed.id ? { ...it, degree: v } : it,
+                                  ),
+                                }))
+                              }
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select degree" />
+                              </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="High School">High School</SelectItem>
-                                <SelectItem value="Associate">Associate</SelectItem>
-                                <SelectItem value="Bachelor">Bachelor</SelectItem>
+                                <SelectItem value="High School">
+                                  High School
+                                </SelectItem>
+                                <SelectItem value="Associate">
+                                  Associate
+                                </SelectItem>
+                                <SelectItem value="Bachelor">
+                                  Bachelor
+                                </SelectItem>
                                 <SelectItem value="Master">Master</SelectItem>
                                 <SelectItem value="PhD">PhD</SelectItem>
                                 <SelectItem value="Other">Other</SelectItem>
@@ -456,32 +803,95 @@ export default function ResumeBuilder() {
                             </Select>
                           </Field>
                           <Field label="Field of Study">
-                            <Input value={ed.fieldOfStudy} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, education: p.education.map((it) => it.id === ed.id ? { ...it, fieldOfStudy: v } : it) }));
-                            }} />
+                            <Input
+                              value={ed.fieldOfStudy}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  education: p.education.map((it) =>
+                                    it.id === ed.id
+                                      ? { ...it, fieldOfStudy: v }
+                                      : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                           <Field label="Start Date">
-                            <Input type="date" value={ed.startDate} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, education: p.education.map((it) => it.id === ed.id ? { ...it, startDate: v } : it) }));
-                            }} />
+                            <Input
+                              type="date"
+                              value={ed.startDate}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  education: p.education.map((it) =>
+                                    it.id === ed.id
+                                      ? { ...it, startDate: v }
+                                      : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                           <Field label="End Date">
-                            <Input type="date" disabled={ed.current} value={ed.endDate} onChange={(e) => {
-                              const v = e.target.value; setData((p) => ({ ...p, education: p.education.map((it) => it.id === ed.id ? { ...it, endDate: v } : it) }));
-                            }} />
+                            <Input
+                              type="date"
+                              disabled={ed.current}
+                              value={ed.endDate}
+                              onChange={(e) => {
+                                const v = e.target.value;
+                                setData((p) => ({
+                                  ...p,
+                                  education: p.education.map((it) =>
+                                    it.id === ed.id
+                                      ? { ...it, endDate: v }
+                                      : it,
+                                  ),
+                                }));
+                              }}
+                            />
                           </Field>
                         </Grid>
                         <div className="mt-2 flex items-center gap-2">
-                          <Checkbox id={`ed-current-${ed.id}`} checked={ed.current} onCheckedChange={(c) => setData((p) => ({ ...p, education: p.education.map((it) => it.id === ed.id ? { ...it, current: Boolean(c) } : it) }))} />
-                          <Label htmlFor={`ed-current-${ed.id}`}>I currently study here</Label>
+                          <Checkbox
+                            id={`ed-current-${ed.id}`}
+                            checked={ed.current}
+                            onCheckedChange={(c) =>
+                              setData((p) => ({
+                                ...p,
+                                education: p.education.map((it) =>
+                                  it.id === ed.id
+                                    ? { ...it, current: Boolean(c) }
+                                    : it,
+                                ),
+                              }))
+                            }
+                          />
+                          <Label htmlFor={`ed-current-${ed.id}`}>
+                            I currently study here
+                          </Label>
                         </div>
                         <div className="mt-3 text-right">
-                          <Button type="button" variant="secondary" onClick={() => onRemoveEducation(ed.id)}>Remove</Button>
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            onClick={() => onRemoveEducation(ed.id)}
+                          >
+                            Remove
+                          </Button>
                         </div>
                       </div>
                     ))}
                     <div>
-                      <Button type="button" variant="outline" onClick={onAddEducation}>Add Education</Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onAddEducation}
+                      >
+                        Add Education
+                      </Button>
                     </div>
                   </div>
                 </Panel>
@@ -493,30 +903,68 @@ export default function ResumeBuilder() {
                 <Panel title="Skills">
                   <div className="space-y-4">
                     {data.skills.map((s) => (
-                      <div key={s.id} className="grid gap-3 rounded-xl border p-4 md:grid-cols-2">
+                      <div
+                        key={s.id}
+                        className="grid gap-3 rounded-xl border p-4 md:grid-cols-2"
+                      >
                         <Field label="Skill Name">
-                          <Input value={s.name} onChange={(e) => {
-                            const v = e.target.value; setData((p) => ({ ...p, skills: p.skills.map((it) => it.id === s.id ? { ...it, name: v } : it) }));
-                          }} />
+                          <Input
+                            value={s.name}
+                            onChange={(e) => {
+                              const v = e.target.value;
+                              setData((p) => ({
+                                ...p,
+                                skills: p.skills.map((it) =>
+                                  it.id === s.id ? { ...it, name: v } : it,
+                                ),
+                              }));
+                            }}
+                          />
                         </Field>
                         <Field label="Proficiency">
-                          <Select value={s.level} onValueChange={(v: SkillItem["level"]) => setData((p) => ({ ...p, skills: p.skills.map((it) => it.id === s.id ? { ...it, level: v } : it) }))}>
-                            <SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger>
+                          <Select
+                            value={s.level}
+                            onValueChange={(v: SkillItem["level"]) =>
+                              setData((p) => ({
+                                ...p,
+                                skills: p.skills.map((it) =>
+                                  it.id === s.id ? { ...it, level: v } : it,
+                                ),
+                              }))
+                            }
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select level" />
+                            </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="Beginner">Beginner</SelectItem>
-                              <SelectItem value="Intermediate">Intermediate</SelectItem>
+                              <SelectItem value="Intermediate">
+                                Intermediate
+                              </SelectItem>
                               <SelectItem value="Advanced">Advanced</SelectItem>
                               <SelectItem value="Expert">Expert</SelectItem>
                             </SelectContent>
                           </Select>
                         </Field>
                         <div className="md:col-span-2 text-right">
-                          <Button type="button" variant="secondary" onClick={() => onRemoveSkill(s.id)}>Remove</Button>
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            onClick={() => onRemoveSkill(s.id)}
+                          >
+                            Remove
+                          </Button>
                         </div>
                       </div>
                     ))}
                     <div>
-                      <Button type="button" variant="outline" onClick={onAddSkill}>Add Skill</Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={onAddSkill}
+                      >
+                        Add Skill
+                      </Button>
                     </div>
                   </div>
                 </Panel>
@@ -529,7 +977,14 @@ export default function ResumeBuilder() {
                   <div className="grid gap-6 md:grid-cols-3">
                     <div className="md:col-span-2">
                       <Label className="mb-1 block text-sm">Summary</Label>
-                      <Textarea rows={10} value={data.summary} onChange={(e) => setData({ ...data, summary: e.target.value })} placeholder="Write a concise, impactful summary highlighting your experience and strengths." />
+                      <Textarea
+                        rows={10}
+                        value={data.summary}
+                        onChange={(e) =>
+                          setData({ ...data, summary: e.target.value })
+                        }
+                        placeholder="Write a concise, impactful summary highlighting your experience and strengths."
+                      />
                     </div>
                     <div className="rounded-xl border bg-muted/20 p-4 text-sm">
                       <div className="mb-2 font-semibold">Suggestions</div>
@@ -540,7 +995,12 @@ export default function ResumeBuilder() {
                         <li>Keep it under 4–5 sentences.</li>
                       </ul>
                       <div className="mt-3 font-semibold">Example</div>
-                      <p className="mt-1 text-muted-foreground">Frontend developer with 5+ years building performant React apps. Led migration to a component library, reducing defects by 30%. Strong in TypeScript, accessibility, and cross-functional collaboration.</p>
+                      <p className="mt-1 text-muted-foreground">
+                        Frontend developer with 5+ years building performant
+                        React apps. Led migration to a component library,
+                        reducing defects by 30%. Strong in TypeScript,
+                        accessibility, and cross-functional collaboration.
+                      </p>
                     </div>
                   </div>
                 </Panel>
@@ -552,9 +1012,18 @@ export default function ResumeBuilder() {
                 <Panel title="Interests & Hobbies">
                   <div className="flex flex-wrap items-center gap-2">
                     {data.interests.map((i) => (
-                      <span key={i} className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm">
+                      <span
+                        key={i}
+                        className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm"
+                      >
                         {i}
-                        <button onClick={() => onRemoveInterest(i)} className="text-muted-foreground hover:text-foreground" aria-label={`Remove ${i}`}>×</button>
+                        <button
+                          onClick={() => onRemoveInterest(i)}
+                          className="text-muted-foreground hover:text-foreground"
+                          aria-label={`Remove ${i}`}
+                        >
+                          ×
+                        </button>
                       </span>
                     ))}
                   </div>
@@ -569,31 +1038,93 @@ export default function ResumeBuilder() {
                   <div className="grid gap-6 md:grid-cols-3">
                     <div className="flex flex-col items-center justify-start gap-3">
                       <Avatar className="h-28 w-28">
-                        <AvatarImage src={data.media.photoDataUrl} alt="Profile" />
+                        <AvatarImage
+                          src={data.media.photoDataUrl}
+                          alt="Profile"
+                        />
                         <AvatarFallback>
-                          {(data.profile.firstName || data.profile.lastName) ? `${data.profile.firstName?.[0] ?? ''}${data.profile.lastName?.[0] ?? ''}`.toUpperCase() : "?"}
+                          {data.profile.firstName || data.profile.lastName
+                            ? `${data.profile.firstName?.[0] ?? ""}${data.profile.lastName?.[0] ?? ""}`.toUpperCase()
+                            : "?"}
                         </AvatarFallback>
                       </Avatar>
-                      <div className="text-xs text-muted-foreground">Recommended: square image, up to 2MB</div>
+                      <div className="text-xs text-muted-foreground">
+                        Recommended: square image, up to 2MB
+                      </div>
                       <div>
-                        <Button type="button" variant="outline" className="rounded-full" onClick={() => document.getElementById("photo-input")?.click()}>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="rounded-full"
+                          onClick={() =>
+                            document.getElementById("photo-input")?.click()
+                          }
+                        >
                           <Camera className="mr-2 h-4 w-4" /> Upload Photo
                         </Button>
-                        <input id="photo-input" className="hidden" type="file" accept="image/*" onChange={handlePhotoUpload} />
+                        <input
+                          id="photo-input"
+                          className="hidden"
+                          type="file"
+                          accept="image/*"
+                          onChange={handlePhotoUpload}
+                        />
                       </div>
                     </div>
                     <div className="md:col-span-2 grid gap-4">
                       <Field label="Facebook">
-                        <Input placeholder="https://facebook.com/username" value={data.media.facebook} onChange={(e) => setData({ ...data, media: { ...data.media, facebook: e.target.value } })} />
+                        <Input
+                          placeholder="https://facebook.com/username"
+                          value={data.media.facebook}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              media: {
+                                ...data.media,
+                                facebook: e.target.value,
+                              },
+                            })
+                          }
+                        />
                       </Field>
                       <Field label="Twitter">
-                        <Input placeholder="https://twitter.com/username" value={data.media.twitter} onChange={(e) => setData({ ...data, media: { ...data.media, twitter: e.target.value } })} />
+                        <Input
+                          placeholder="https://twitter.com/username"
+                          value={data.media.twitter}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              media: { ...data.media, twitter: e.target.value },
+                            })
+                          }
+                        />
                       </Field>
                       <Field label="LinkedIn">
-                        <Input placeholder="https://linkedin.com/in/username" value={data.media.linkedin} onChange={(e) => setData({ ...data, media: { ...data.media, linkedin: e.target.value } })} />
+                        <Input
+                          placeholder="https://linkedin.com/in/username"
+                          value={data.media.linkedin}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              media: {
+                                ...data.media,
+                                linkedin: e.target.value,
+                              },
+                            })
+                          }
+                        />
                       </Field>
                       <Field label="Website">
-                        <Input placeholder="https://yourwebsite.com" value={data.media.website} onChange={(e) => setData({ ...data, media: { ...data.media, website: e.target.value } })} />
+                        <Input
+                          placeholder="https://yourwebsite.com"
+                          value={data.media.website}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              media: { ...data.media, website: e.target.value },
+                            })
+                          }
+                        />
                       </Field>
                     </div>
                   </div>
@@ -608,8 +1139,13 @@ export default function ResumeBuilder() {
                     </Button>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button type="button" className="rounded-full bg-green-600 hover:bg-green-700" onClick={printResume}>
-                      <Download className="mr-2 h-4 w-4" /> Finish / Download PDF
+                    <Button
+                      type="button"
+                      className="rounded-full bg-green-600 hover:bg-green-700"
+                      onClick={printResume}
+                    >
+                      <Download className="mr-2 h-4 w-4" /> Finish / Download
+                      PDF
                     </Button>
                   </div>
                 </div>
@@ -628,7 +1164,9 @@ export default function ResumeBuilder() {
           </div>
           <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
             <div>Step progress: {stepProgress}%</div>
-            <div className="w-40"><Progress value={stepProgress} /></div>
+            <div className="w-40">
+              <Progress value={stepProgress} />
+            </div>
           </div>
         </div>
       </div>
@@ -636,7 +1174,13 @@ export default function ResumeBuilder() {
   );
 }
 
-function Panel({ title, children }: { title: string; children: React.ReactNode }) {
+function Panel({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="rounded-2xl border bg-white p-5 shadow-sm">
       <div className="mb-3 flex items-center justify-between">
@@ -647,15 +1191,44 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
   );
 }
 
-function Grid({ cols = 2, children }: { cols?: 1 | 2 | 3 | 4; children: React.ReactNode }) {
-  return <div className={cn("grid gap-4", cols === 1 ? "grid-cols-1" : cols === 2 ? "md:grid-cols-2" : cols === 3 ? "md:grid-cols-3" : "md:grid-cols-4")}>{children}</div>;
+function Grid({
+  cols = 2,
+  children,
+}: {
+  cols?: 1 | 2 | 3 | 4;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={cn(
+        "grid gap-4",
+        cols === 1
+          ? "grid-cols-1"
+          : cols === 2
+            ? "md:grid-cols-2"
+            : cols === 3
+              ? "md:grid-cols-3"
+              : "md:grid-cols-4",
+      )}
+    >
+      {children}
+    </div>
+  );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
   const id = useMemo(() => Math.random().toString(36).slice(2), []);
   return (
     <div>
-      <Label htmlFor={id} className="mb-1 block text-sm">{label}</Label>
+      <Label htmlFor={id} className="mb-1 block text-sm">
+        {label}
+      </Label>
       <div id={id}>{children}</div>
     </div>
   );
@@ -665,17 +1238,52 @@ function AddInterest({ onAdd }: { onAdd: (value: string) => void }) {
   const [value, setValue] = useState("");
   return (
     <div className="mt-4 flex items-center gap-2">
-      <Input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Add an interest" onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); onAdd(value); setValue(""); } }} />
-      <Button type="button" variant="outline" onClick={() => { onAdd(value); setValue(""); }}>Add</Button>
+      <Input
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="Add an interest"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            onAdd(value);
+            setValue("");
+          }
+        }}
+      />
+      <Button
+        type="button"
+        variant="outline"
+        onClick={() => {
+          onAdd(value);
+          setValue("");
+        }}
+      >
+        Add
+      </Button>
     </div>
   );
 }
 
-function NavBar({ onPrev, onNext, onSave, isFirst = false }: { onPrev: () => void; onNext: () => void; onSave: () => void; isFirst?: boolean }) {
+function NavBar({
+  onPrev,
+  onNext,
+  onSave,
+  isFirst = false,
+}: {
+  onPrev: () => void;
+  onNext: () => void;
+  onSave: () => void;
+  isFirst?: boolean;
+}) {
   return (
     <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
       <div className="flex items-center gap-2">
-        <Button type="button" variant="ghost" onClick={onPrev} disabled={isFirst}>
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={onPrev}
+          disabled={isFirst}
+        >
           <ChevronLeft className="mr-1 h-4 w-4" /> Previous
         </Button>
       </div>
@@ -683,7 +1291,11 @@ function NavBar({ onPrev, onNext, onSave, isFirst = false }: { onPrev: () => voi
         <Button type="button" variant="outline" onClick={onSave}>
           <Save className="mr-2 h-4 w-4" /> Save
         </Button>
-        <Button type="button" className="rounded-full bg-primary px-5 hover:bg-primary/90" onClick={onNext}>
+        <Button
+          type="button"
+          className="rounded-full bg-primary px-5 hover:bg-primary/90"
+          onClick={onNext}
+        >
           Next <ChevronRight className="ml-1 h-4 w-4" />
         </Button>
       </div>
@@ -692,13 +1304,25 @@ function NavBar({ onPrev, onNext, onSave, isFirst = false }: { onPrev: () => voi
 }
 
 function Preview({ data }: { data: ResumeData }) {
-  const fullName = [data.profile.firstName, data.profile.middleName, data.profile.lastName].filter(Boolean).join(" ");
+  const fullName = [
+    data.profile.firstName,
+    data.profile.middleName,
+    data.profile.lastName,
+  ]
+    .filter(Boolean)
+    .join(" ");
   return (
     <article className="max-w-none text-sm break-words">
       <header className="flex items-center justify-between gap-4">
         <div>
-          {fullName && <h1 className="name m-0 text-xl font-extrabold">{fullName}</h1>}
-          {data.profile.profession && <div className="m-0 text-sm text-muted-foreground">{data.profile.profession}</div>}
+          {fullName && (
+            <h1 className="name m-0 text-xl font-extrabold">{fullName}</h1>
+          )}
+          {data.profile.profession && (
+            <div className="m-0 text-sm text-muted-foreground">
+              {data.profile.profession}
+            </div>
+          )}
           <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
             {data.profile.email && <span>{data.profile.email}</span>}
             {data.profile.phone && <span>{data.profile.phone}</span>}
@@ -706,28 +1330,64 @@ function Preview({ data }: { data: ResumeData }) {
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
             {data.media.facebook && (
-              <a href={data.media.facebook} target="_blank" rel="noreferrer" className="text-blue-600">Facebook</a>
+              <a
+                href={data.media.facebook}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-600"
+              >
+                Facebook
+              </a>
             )}
             {data.media.twitter && (
-              <a href={data.media.twitter} target="_blank" rel="noreferrer" className="text-sky-600">Twitter</a>
+              <a
+                href={data.media.twitter}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sky-600"
+              >
+                Twitter
+              </a>
             )}
             {data.media.linkedin && (
-              <a href={data.media.linkedin} target="_blank" rel="noreferrer" className="text-blue-700">LinkedIn</a>
+              <a
+                href={data.media.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-700"
+              >
+                LinkedIn
+              </a>
             )}
             {data.media.website && (
-              <a href={data.media.website} target="_blank" rel="noreferrer" className="text-indigo-600">Website</a>
+              <a
+                href={data.media.website}
+                target="_blank"
+                rel="noreferrer"
+                className="text-indigo-600"
+              >
+                Website
+              </a>
             )}
           </div>
         </div>
         {data.media.photoDataUrl && (
-          <img src={data.media.photoDataUrl} alt="Profile" width={96} height={96} className="h-24 w-24 rounded-full object-cover shrink-0" />
+          <img
+            src={data.media.photoDataUrl}
+            alt="Profile"
+            width={96}
+            height={96}
+            className="h-24 w-24 rounded-full object-cover shrink-0"
+          />
         )}
       </header>
 
       {data.summary && (
         <section className="section">
           <h2 className="m-0 text-base font-bold">Summary</h2>
-          <p className="m-0 text-sm text-muted-foreground whitespace-pre-line">{data.summary}</p>
+          <p className="m-0 text-sm text-muted-foreground whitespace-pre-line">
+            {data.summary}
+          </p>
         </section>
       )}
 
@@ -738,18 +1398,31 @@ function Preview({ data }: { data: ResumeData }) {
             {data.experience.map((e) => (
               <div key={e.id}>
                 <div className="row">
-                  {e.jobTitle && <div className="font-semibold">{e.jobTitle}</div>}
-                  {(e.city || e.state) && <div className="muted">{[e.city, e.state].filter(Boolean).join(", ")}</div>}
+                  {e.jobTitle && (
+                    <div className="font-semibold">{e.jobTitle}</div>
+                  )}
+                  {(e.city || e.state) && (
+                    <div className="muted">
+                      {[e.city, e.state].filter(Boolean).join(", ")}
+                    </div>
+                  )}
                 </div>
                 {e.employer && <div className="muted">{e.employer}</div>}
                 {(e.startDate || e.endDate || e.current) && (
-                  <div className="muted text-xs">{e.startDate} {e.startDate && (e.endDate || e.current) ? "—" : ""} {e.current ? "Present" : e.endDate}</div>
+                  <div className="muted text-xs">
+                    {e.startDate}{" "}
+                    {e.startDate && (e.endDate || e.current) ? "—" : ""}{" "}
+                    {e.current ? "Present" : e.endDate}
+                  </div>
                 )}
                 {e.responsibilities && (
                   <ul>
-                    {e.responsibilities.split(/\n+/).filter(Boolean).map((line, idx) => (
-                      <li key={idx}>{line}</li>
-                    ))}
+                    {e.responsibilities
+                      .split(/\n+/)
+                      .filter(Boolean)
+                      .map((line, idx) => (
+                        <li key={idx}>{line}</li>
+                      ))}
                   </ul>
                 )}
               </div>
@@ -766,12 +1439,22 @@ function Preview({ data }: { data: ResumeData }) {
               <div key={e.id}>
                 <div className="row">
                   {e.degree && <div className="font-semibold">{e.degree}</div>}
-                  {e.fieldOfStudy && <div className="muted">{e.fieldOfStudy}</div>}
+                  {e.fieldOfStudy && (
+                    <div className="muted">{e.fieldOfStudy}</div>
+                  )}
                 </div>
                 {e.school && <div className="muted">{e.school}</div>}
-                {(e.city || e.state) && <div className="muted text-xs">{[e.city, e.state].filter(Boolean).join(", ")}</div>}
+                {(e.city || e.state) && (
+                  <div className="muted text-xs">
+                    {[e.city, e.state].filter(Boolean).join(", ")}
+                  </div>
+                )}
                 {(e.startDate || e.endDate || e.current) && (
-                  <div className="muted text-xs">{e.startDate} {e.startDate && (e.endDate || e.current) ? "—" : ""} {e.current ? "Present" : e.endDate}</div>
+                  <div className="muted text-xs">
+                    {e.startDate}{" "}
+                    {e.startDate && (e.endDate || e.current) ? "—" : ""}{" "}
+                    {e.current ? "Present" : e.endDate}
+                  </div>
                 )}
               </div>
             ))}
@@ -783,9 +1466,13 @@ function Preview({ data }: { data: ResumeData }) {
         <section className="section">
           <h2 className="m-0 text-base font-bold">Skills</h2>
           <div className="mt-2">
-            {data.skills.filter((s) => s.name).map((s) => (
-              <span key={s.id} className="chip">{s.name} • {s.level}</span>
-            ))}
+            {data.skills
+              .filter((s) => s.name)
+              .map((s) => (
+                <span key={s.id} className="chip">
+                  {s.name} • {s.level}
+                </span>
+              ))}
           </div>
         </section>
       )}
@@ -795,7 +1482,9 @@ function Preview({ data }: { data: ResumeData }) {
           <h2 className="m-0 text-base font-bold">Interests</h2>
           <div className="mt-1">
             {data.interests.map((i) => (
-              <span key={i} className="chip">{i}</span>
+              <span key={i} className="chip">
+                {i}
+              </span>
             ))}
           </div>
         </section>
