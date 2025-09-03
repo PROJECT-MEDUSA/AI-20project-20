@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 
 export default function Index() {
   return (
-    <div className="w-full relative">
+    <div className="w-full relative bg-slate-950 text-white">
       <AnimatedStyles />
       <CursorTrail />
 
       {/* Hero */}
       <motion.section
-        className="relative overflow-hidden bg-gradient-to-b from-secondary to-white"
+        className="relative overflow-hidden bg-gradient-to-b from-slate-950 to-slate-900"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
@@ -53,7 +53,7 @@ export default function Index() {
             </motion.h1>
 
             <motion.p
-              className="mt-4 text-lg text-muted-foreground md:text-xl"
+              className="mt-4 text-lg text-white/80 md:text-xl"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.75, duration: 0.5 }}
@@ -95,10 +95,10 @@ export default function Index() {
       </motion.section>
 
       {/* Why important */}
-      <motion.section className="bg-secondary/50" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }}>
+      <motion.section className="bg-slate-900/60" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }}>
         <div className="container py-12 md:py-16">
           <h2 className="text-3xl font-extrabold tracking-tight">WHY IS IT IMPORTANT</h2>
-          <p className="mt-3 max-w-3xl text-muted-foreground">Our tools help students present their best selves: save time with AI assistance, communicate clearly with polished pitches, and showcase work beautifully. Everything exports cleanly and is accessible anywhere.</p>
+          <p className="mt-3 max-w-3xl text-white/70">Our tools help students present their best selves: save time with AI assistance, communicate clearly with polished pitches, and showcase work beautifully. Everything exports cleanly and is accessible anywhere.</p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             <BenefitCard icon={<FileText className="h-6 w-6" aria-hidden />} title="Save hours on formatting" description="Generate structured resumes and documents with consistent design and strong content hints." />
             <BenefitCard icon={<Presentation className="h-6 w-6" aria-hidden />} title="Tell a clear story" description="Turn projects into compelling pitches that highlight problem, solution, and impact." />
@@ -150,7 +150,7 @@ function FeatureCard({ icon, title, description }: { icon: React.ReactNode; titl
         </div>
         <h3 className="text-xl font-semibold [text-shadow:0_1px_12px_rgba(99,102,241,0.25)]">{title}</h3>
       </div>
-      <p className="mt-3 text-muted-foreground">{description}</p>
+      <p className="mt-3 text-white/70">{description}</p>
     </motion.article>
   );
 }
@@ -171,7 +171,7 @@ function BenefitCard({ icon, title, description }: { icon: React.ReactNode; titl
         </div>
         <h3 className="text-lg font-semibold [text-shadow:0_1px_12px_rgba(99,102,241,0.25)]">{title}</h3>
       </div>
-      <p className="mt-3 text-sm text-muted-foreground">{description}</p>
+      <p className="mt-3 text-sm text-white/70">{description}</p>
     </motion.article>
   );
 }
@@ -197,9 +197,9 @@ function TypewriterText({ text }: { text: string }) {
 function FloatingOrbs() {
   return (
     <div className="pointer-events-none absolute inset-0">
-      <div className="absolute -left-20 top-10 h-64 w-64 animate-float-slow rounded-full bg-fuchsia-500/20 blur-3xl" />
-      <div className="absolute right-10 top-0 h-80 w-80 animate-float-slower rounded-full bg-indigo-500/20 blur-3xl" />
-      <div className="absolute bottom-10 left-10 h-72 w-72 animate-float-slowest rounded-full bg-cyan-400/20 blur-3xl" />
+      <div className="absolute -left-20 top-10 h-64 w-64 animate-float-slow rounded-full bg-blue-700/20 blur-3xl" />
+      <div className="absolute right-10 top-0 h-80 w-80 animate-float-slower rounded-full bg-indigo-800/20 blur-3xl" />
+      <div className="absolute bottom-10 left-10 h-72 w-72 animate-float-slowest rounded-full bg-sky-600/15 blur-3xl" />
     </div>
   );
 }
@@ -258,7 +258,7 @@ function CursorTrail() {
           style={{
             transform: `translate3d(${p.x}px,${p.y}px,0)`,
             opacity: p.life,
-            background: "radial-gradient(circle, rgba(236,72,153,0.9) 0%, rgba(139,92,246,0.7) 60%, rgba(236,72,153,0) 70%)",
+            background: "radial-gradient(circle, rgba(30,64,175,0.9) 0%, rgba(14,116,144,0.7) 60%, rgba(30,64,175,0) 70%)",
             filter: "blur(1px)",
           }}
         />
