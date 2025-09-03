@@ -694,7 +694,7 @@ function NavBar({ onPrev, onNext, onSave, isFirst = false }: { onPrev: () => voi
 function Preview({ data }: { data: ResumeData }) {
   const fullName = [data.profile.firstName, data.profile.middleName, data.profile.lastName].filter(Boolean).join(" ");
   return (
-    <article className="max-w-none text-sm">
+    <article className="max-w-none text-sm break-words">
       <header className="flex items-center justify-between gap-4">
         <div>
           {fullName && <h1 className="name m-0 text-xl font-extrabold">{fullName}</h1>}
