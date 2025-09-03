@@ -467,7 +467,7 @@ import { Download, Link as LinkIcon, Wand2, Code2, Image as ImageIcon, GripVerti
 <style>
 :root{--fg:#0f172a;--muted:#475569}
 body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;margin:0;padding:24px;color:var(--fg)}
-.header{background:linear-gradient(90deg,var(${theme.accentFrom.replace("from-","--")}, #6366f1),var(${theme.accentTo.replace("to-","--")}, #8b5cf6));color:#fff;border-radius:12px;padding:16px}
+.header{background:linear-gradient(90deg,#6366f1,#8b5cf6);color:#fff;border-radius:12px;padding:16px}
 .row{display:flex;gap:12px;align-items:center}
 .avatar{height:64px;width:64px;border-radius:9999px;overflow:hidden;background:#ffffff22}
 .avatar img{height:100%;width:100%;object-fit:cover}
