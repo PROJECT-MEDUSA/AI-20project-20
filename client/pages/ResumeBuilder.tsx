@@ -303,7 +303,7 @@ export default function ResumeBuilder() {
                     key={id}
                     value={id}
                     className={cn(
-                      "rounded-full bg-muted/60 px-3 py-2 text-xs md:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground",
+                      "rounded-full bg-muted/60 px-3 py-2 text-xs md:text-sm shrink-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground",
                       "transition-colors hover:bg-muted"
                     )}
                   >
@@ -720,7 +720,7 @@ function Preview({ data }: { data: ResumeData }) {
           </div>
         </div>
         {data.media.photoDataUrl && (
-          <img src={data.media.photoDataUrl} alt="Profile" width={96} height={96} />
+          <img src={data.media.photoDataUrl} alt="Profile" width={96} height={96} className="h-24 w-24 rounded-full object-cover shrink-0" />
         )}
       </header>
 
