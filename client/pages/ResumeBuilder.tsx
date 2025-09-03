@@ -294,7 +294,7 @@ export default function ResumeBuilder() {
 
       <div className="grid gap-8 lg:grid-cols-2">
         {/* Left: Inputs */}
-        <div className="space-y-4">
+        <div className="space-y-4 min-w-0">
           <div className="rounded-2xl border bg-white p-4 shadow-sm">
             <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
               <TabsList className="w-full flex-nowrap md:flex-wrap overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden justify-start gap-1 bg-transparent p-0">
@@ -619,7 +619,7 @@ export default function ResumeBuilder() {
         </div>
 
         {/* Right: Live preview */}
-        <div className="rounded-2xl border bg-card p-6 shadow-sm">
+        <div className="rounded-2xl border bg-card p-6 shadow-sm min-w-0">
           <h2 className="text-lg font-semibold">Live Preview</h2>
           <div className="mt-4 rounded-xl border bg-white p-6">
             <div ref={printRef}>
