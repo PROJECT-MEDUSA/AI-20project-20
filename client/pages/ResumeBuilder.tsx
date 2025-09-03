@@ -621,7 +621,7 @@ export default function ResumeBuilder() {
         {/* Right: Live preview */}
         <div className="rounded-2xl border bg-card p-6 shadow-sm min-w-0">
           <h2 className="text-lg font-semibold">Live Preview</h2>
-          <div className="mt-4 rounded-xl border bg-white p-6">
+          <div className="mt-4 rounded-xl border bg-white p-6 overflow-auto">
             <div ref={printRef}>
               <Preview data={data} />
             </div>
