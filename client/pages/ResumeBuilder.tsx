@@ -297,7 +297,7 @@ export default function ResumeBuilder() {
         <div className="space-y-4 min-w-0">
           <div className="rounded-2xl border bg-white p-4 shadow-sm">
             <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
-              <TabsList className="w-full flex-nowrap md:flex-wrap overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden justify-start gap-1 bg-transparent p-0">
+              <TabsList className="w-full h-auto min-h-10 flex-wrap justify-start gap-1 gap-y-2 bg-transparent p-0">
                 {TABS.map(({ id, label, icon: Icon }) => (
                   <TabsTrigger
                     key={id}
