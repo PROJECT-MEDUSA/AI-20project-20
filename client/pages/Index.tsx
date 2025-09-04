@@ -247,27 +247,26 @@ function CursorTrail() {
     let lastTime = 0;
     const onMove = (e: MouseEvent) => {
       const now = performance.now();
-      if (now - lastTime > 12) {
+      if (now - lastTime > 16) {
         pointsRef.current.push({ x: e.clientX, y: e.clientY });
-        if (pointsRef.current.length > 26) pointsRef.current.shift();
+        if (pointsRef.current.length > 20) pointsRef.current.shift();
         lastTime = now;
       }
     };
     window.addEventListener('mousemove', onMove, { passive: true });
 
     const draw = () => {
-      // Slight fade to create smooth trail
-      ctx.fillStyle = 'rgba(2,6,23,0.08)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Clear each frame so trail fades naturally via short history
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const pts = pointsRef.current;
       for (let i = 0; i < pts.length; i++) {
         const p = pts[i];
         const t = i / pts.length;
-        const r = 7 + (1 - t) * 10;
+        const r = 6 + (1 - t) * 8;
         const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
-        grd.addColorStop(0, `rgba(30,64,175,${0.35 + 0.4 * (1 - t)})`); // dark blue
-        grd.addColorStop(0.6, `rgba(14,116,144,${0.25 * (1 - t)})`); // teal tint
+        grd.addColorStop(0, `rgba(30,64,175,${0.28 + 0.25 * (1 - t)})`);
+        grd.addColorStop(0.6, `rgba(14,116,144,${0.15 * (1 - t)})`);
         grd.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = grd;
         ctx.beginPath();
