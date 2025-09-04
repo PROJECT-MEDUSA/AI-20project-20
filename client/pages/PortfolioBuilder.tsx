@@ -227,7 +227,7 @@ export default function PortfolioBuilder() {
       </header>
 
       {/* Template Gallery */}
-      <div className="rounded-2xl border bg-white p-4 shadow-sm">
+      <div className="rounded-2xl border bg-card p-4 shadow-sm">
         <h2 className="mb-3 text-sm font-semibold">Templates</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
           {TEMPLATES.map((t) => (
@@ -247,7 +247,7 @@ export default function PortfolioBuilder() {
                     <div
                       className={`rounded-lg bg-gradient-to-r ${t.accentFrom} ${t.accentTo} p-2`}
                     >
-                      <div className="rounded-md bg-white p-2">
+                      <div className="rounded-md bg-card p-2">
                         <div className="h-2 w-1/2 rounded bg-muted" />
                         <div className="mt-2 grid grid-cols-2 gap-1">
                           <div className="h-8 rounded bg-muted" />
@@ -268,7 +268,7 @@ export default function PortfolioBuilder() {
       <div className="mt-6 grid min-w-0 gap-6 lg:grid-cols-2">
         {/* Editor */}
         <div className="space-y-4 min-w-0">
-          <div className="rounded-2xl border bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border bg-card p-4 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="text-sm font-semibold">Editor</h2>
               <div className="flex items-center gap-2">
@@ -355,7 +355,7 @@ export default function PortfolioBuilder() {
             </div>
           </div>
 
-          <div className="rounded-2xl border bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border bg-card p-4 shadow-sm">
             <h3 className="text-sm font-semibold">Skills</h3>
             <div className="mt-2 flex gap-2">
               <Input
@@ -406,7 +406,7 @@ export default function PortfolioBuilder() {
             </div>
           </div>
 
-          <div className="rounded-2xl border bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border bg-card p-4 shadow-sm">
             <div className="mb-2 flex items-center justify-between">
               <h3 className="text-sm font-semibold">Projects</h3>
               <Button type="button" variant="outline" onClick={addProject}>
@@ -492,7 +492,7 @@ export default function PortfolioBuilder() {
             </div>
           </div>
 
-          <div className="rounded-2xl border bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border bg-card p-4 shadow-sm">
             <div className="flex flex-wrap items-center gap-3">
               <Popover>
                 <PopoverTrigger asChild>
