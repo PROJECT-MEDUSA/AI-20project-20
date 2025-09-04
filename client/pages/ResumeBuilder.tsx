@@ -354,7 +354,7 @@ export default function ResumeBuilder() {
       <div className="grid gap-8 lg:grid-cols-2 min-w-0">
         {/* Left: Inputs */}
         <div className="space-y-4 min-w-0">
-          <div className="rounded-2xl border bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border bg-card p-4 shadow-sm">
             <Tabs
               value={activeTab}
               onValueChange={(v) => setActiveTab(v as any)}
@@ -1176,7 +1176,7 @@ export default function ResumeBuilder() {
         {/* Right: Live preview */}
         <div className="rounded-2xl border bg-card p-6 shadow-sm min-w-0">
           <h2 className="text-lg font-semibold">Live Preview</h2>
-          <div className="mt-4 rounded-xl border bg-white p-6 overflow-auto">
+          <div className="mt-4 rounded-xl border bg-card p-6 overflow-auto">
             <div ref={printRef}>
               <Preview data={data} />
             </div>
@@ -1201,7 +1201,7 @@ function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border bg-card p-5 shadow-sm">
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-sm font-semibold text-foreground">{title}</h3>
       </div>
@@ -1242,13 +1242,10 @@ function Field({
   label: string;
   children: React.ReactNode;
 }) {
-  const id = useMemo(() => Math.random().toString(36).slice(2), []);
   return (
     <div>
-      <Label htmlFor={id} className="mb-1 block text-sm">
-        {label}
-      </Label>
-      <div id={id}>{children}</div>
+      <div className="mb-1 text-sm font-medium">{label}</div>
+      <div>{children}</div>
     </div>
   );
 }
