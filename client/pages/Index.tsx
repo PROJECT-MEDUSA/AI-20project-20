@@ -222,47 +222,70 @@ function AnimatedStyles() {
 }
 
 function CursorTrail() {
-  type Particle = { id: number; x: number; y: number; life: number };
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const idRef = useRef(0);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const pointsRef = useRef<{ x: number; y: number }[]>([]);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
+    const canvas = document.createElement('canvas');
+    canvasRef.current = canvas;
+    canvas.className = 'pointer-events-none fixed inset-0 z-[999]';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d', { alpha: true })!;
+    const dpr = window.devicePixelRatio || 1;
+    const resize = () => {
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    let lastTime = 0;
     const onMove = (e: MouseEvent) => {
-      idRef.current += 1;
-      const rect = document.body.getBoundingClientRect();
-      setParticles((ps) => [
-        ...ps.slice(-60),
-        { id: idRef.current, x: e.clientX - rect.left, y: e.clientY - rect.top, life: 1 },
-      ]);
+      const now = performance.now();
+      if (now - lastTime > 12) {
+        pointsRef.current.push({ x: e.clientX, y: e.clientY });
+        if (pointsRef.current.length > 26) pointsRef.current.shift();
+        lastTime = now;
+      }
     };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
+    window.addEventListener('mousemove', onMove, { passive: true });
+
+    const draw = () => {
+      // Slight fade to create smooth trail
+      ctx.fillStyle = 'rgba(2,6,23,0.08)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const pts = pointsRef.current;
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i];
+        const t = i / pts.length;
+        const r = 7 + (1 - t) * 10;
+        const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
+        grd.addColorStop(0, `rgba(30,64,175,${0.35 + 0.4 * (1 - t)})`); // dark blue
+        grd.addColorStop(0.6, `rgba(14,116,144,${0.25 * (1 - t)})`); // teal tint
+        grd.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      rafRef.current = requestAnimationFrame(draw);
+    };
+    rafRef.current = requestAnimationFrame(draw);
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('resize', resize);
+      canvas.remove();
+    };
   }, []);
 
-  useEffect(() => {
-    const tick = () => {
-      setParticles((ps) => ps.map((p) => ({ ...p, life: p.life - 0.03 })).filter((p) => p.life > 0));
-      rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
-  }, []);
-
-  return (
-    <div className="pointer-events-none fixed inset-0 z-50">
-      {particles.map((p) => (
-        <span
-          key={p.id}
-          className="absolute block h-2 w-2 rounded-full"
-          style={{
-            transform: `translate3d(${p.x}px,${p.y}px,0)`,
-            opacity: p.life,
-            background: "radial-gradient(circle, rgba(30,64,175,0.9) 0%, rgba(14,116,144,0.7) 60%, rgba(30,64,175,0) 70%)",
-            filter: "blur(1px)",
-          }}
-        />
-      ))}
-    </div>
-  );
+  return null;
 }
