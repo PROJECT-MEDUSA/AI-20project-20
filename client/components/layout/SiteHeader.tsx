@@ -17,7 +17,7 @@ export default function SiteHeader() {
           <span className="sr-only">AI Resume & Project Booster</span>
           <span aria-hidden>AI Resume</span>
         </Link>
-        <nav aria-label="Main navigation" className="hidden md:flex items-center gap-6 text-sm font-medium">
+        <nav aria-label="Main navigation" className="hidden md:flex items-center gap-6 text-base font-semibold">
           {nav.map((n) => (
             <NavLink
               key={n.to}
