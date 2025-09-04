@@ -256,9 +256,10 @@ function CursorTrail() {
     const onMove = (e: MouseEvent) => {
       const now = performance.now();
       if (now - lastTime > 16) {
-        pointsRef.current.push({ x: e.clientX, y: e.clientY });
-        if (pointsRef.current.length > 20) pointsRef.current.shift();
+        pointsRef.current.push({ x: e.clientX, y: e.clientY, life: 1 });
+        if (pointsRef.current.length > 28) pointsRef.current.shift();
         lastTime = now;
+        lastMoveRef.current = now;
       }
     };
     window.addEventListener('mousemove', onMove, { passive: true });
