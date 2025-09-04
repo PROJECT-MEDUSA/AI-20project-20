@@ -26,7 +26,8 @@ export default function SiteHeader() {
                 `transition-colors hover:text-foreground/80 ${isActive ? "text-foreground" : "text-foreground/60"}`
               }
             >
-              {n.label}
+              <span className="relative z-10">{n.label}</span>
+              <span className="pointer-events-none absolute -bottom-1 left-0 h-0.5 w-full origin-left scale-x-0 bg-gradient-to-r from-sky-500 to-indigo-500 transition-transform duration-300 group-hover:scale-x-100" />
             </NavLink>
           ))}
         </nav>
