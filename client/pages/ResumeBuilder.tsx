@@ -380,6 +380,7 @@ export default function ResumeBuilder() {
                   <Grid cols={2}>
                     <Field label="First Name">
                       <Input
+                        placeholder="First name"
                         value={data.profile.firstName}
                         onChange={(e) =>
                           setData({
@@ -394,6 +395,7 @@ export default function ResumeBuilder() {
                     </Field>
                     <Field label="Middle Name">
                       <Input
+                        placeholder="Middle name"
                         value={data.profile.middleName}
                         onChange={(e) =>
                           setData({
@@ -408,6 +410,7 @@ export default function ResumeBuilder() {
                     </Field>
                     <Field label="Last Name">
                       <Input
+                        placeholder="Last name"
                         value={data.profile.lastName}
                         onChange={(e) =>
                           setData({
@@ -464,6 +467,7 @@ export default function ResumeBuilder() {
                     </Field>
                     <Field label="Profession">
                       <Input
+                        placeholder="e.g. Software Engineer"
                         value={data.profile.profession}
                         onChange={(e) =>
                           setData({
@@ -478,6 +482,7 @@ export default function ResumeBuilder() {
                     </Field>
                     <Field label="Nationality">
                       <Input
+                        placeholder="e.g. Indian"
                         value={data.profile.nationality}
                         onChange={(e) =>
                           setData({
@@ -492,6 +497,7 @@ export default function ResumeBuilder() {
                     </Field>
                     <Field label="Passport Number">
                       <Input
+                        placeholder="e.g. X1234567"
                         value={data.profile.passportNumber}
                         onChange={(e) =>
                           setData({
@@ -507,6 +513,7 @@ export default function ResumeBuilder() {
                     <Field label="Phone">
                       <Input
                         type="tel"
+                        placeholder="e.g. +1 555 123 4567"
                         value={data.profile.phone}
                         onChange={(e) =>
                           setData({
@@ -519,6 +526,7 @@ export default function ResumeBuilder() {
                     <Field label="Email">
                       <Input
                         type="email"
+                        placeholder="you@example.com"
                         value={data.profile.email}
                         onChange={(e) =>
                           setData({
@@ -531,6 +539,7 @@ export default function ResumeBuilder() {
                   </Grid>
                   <Field label="Address">
                     <Textarea
+                      placeholder="Street, City, Country"
                       value={data.profile.address}
                       onChange={(e) =>
                         setData({
@@ -561,6 +570,7 @@ export default function ResumeBuilder() {
                         <Grid cols={2}>
                           <Field label="Job Title">
                             <Input
+                              placeholder="e.g. Frontend Developer"
                               value={exp.jobTitle}
                               onChange={(e) => {
                                 const v = e.target.value;
@@ -577,6 +587,7 @@ export default function ResumeBuilder() {
                           </Field>
                           <Field label="Employer">
                             <Input
+                              placeholder="e.g. ACME Corp"
                               value={exp.employer}
                               onChange={(e) => {
                                 const v = e.target.value;
@@ -593,6 +604,7 @@ export default function ResumeBuilder() {
                           </Field>
                           <Field label="City">
                             <Input
+                              placeholder="e.g. New York"
                               value={exp.city}
                               onChange={(e) => {
                                 const v = e.target.value;
@@ -607,6 +619,7 @@ export default function ResumeBuilder() {
                           </Field>
                           <Field label="State">
                             <Input
+                              placeholder="e.g. NY"
                               value={exp.state}
                               onChange={(e) => {
                                 const v = e.target.value;
@@ -679,6 +692,7 @@ export default function ResumeBuilder() {
                             Job Duties / Responsibilities
                           </Label>
                           <Textarea
+                            placeholder="List key duties (one per line)"
                             value={exp.responsibilities}
                             onChange={(e) => {
                               const v = e.target.value;
@@ -731,6 +745,7 @@ export default function ResumeBuilder() {
                         <Grid cols={2}>
                           <Field label="School Name">
                             <Input
+                              placeholder="e.g. University of Delhi"
                               value={ed.school}
                               onChange={(e) => {
                                 const v = e.target.value;
@@ -745,6 +760,7 @@ export default function ResumeBuilder() {
                           </Field>
                           <Field label="City">
                             <Input
+                              placeholder="e.g. Delhi"
                               value={ed.city}
                               onChange={(e) => {
                                 const v = e.target.value;
@@ -759,6 +775,7 @@ export default function ResumeBuilder() {
                           </Field>
                           <Field label="State">
                             <Input
+                              placeholder="e.g. DL"
                               value={ed.state}
                               onChange={(e) => {
                                 const v = e.target.value;
@@ -804,6 +821,7 @@ export default function ResumeBuilder() {
                           </Field>
                           <Field label="Field of Study">
                             <Input
+                              placeholder="e.g. Computer Science"
                               value={ed.fieldOfStudy}
                               onChange={(e) => {
                                 const v = e.target.value;
@@ -909,6 +927,7 @@ export default function ResumeBuilder() {
                       >
                         <Field label="Skill Name">
                           <Input
+                            placeholder="e.g. React, Figma"
                             value={s.name}
                             onChange={(e) => {
                               const v = e.target.value;
