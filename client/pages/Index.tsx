@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { FileText, Rocket, Presentation, Layout as LayoutIcon, Sparkles } from "lucide-react";
+import {
+  FileText,
+  Rocket,
+  Presentation,
+  Layout as LayoutIcon,
+  Sparkles,
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Index() {
@@ -53,7 +59,11 @@ export default function Index() {
             >
               <TypewriterText text="Boost your resume" />
               <br className="hidden md:block" />
-              <motion.span initial={{ y: 18, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.6, duration: 0.6 }}>
+              <motion.span
+                initial={{ y: 18, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.6, duration: 0.6 }}
+              >
                 and projects with AI
               </motion.span>
             </motion.h1>
@@ -64,7 +74,8 @@ export default function Index() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.75, duration: 0.5 }}
             >
-              Build standout resumes, generate compelling pitches, and craft beautiful portfolios using student-friendly tools.
+              Build standout resumes, generate compelling pitches, and craft
+              beautiful portfolios using student-friendly tools.
             </motion.p>
 
             <motion.div
@@ -91,30 +102,80 @@ export default function Index() {
       </motion.section>
 
       {/* Features */}
-      <motion.section id="features" className="container py-12 md:py-16" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }}>
+      <motion.section
+        id="features"
+        className="container py-12 md:py-16"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6 }}
+      >
         <h2 className="text-3xl font-bold">Key Features</h2>
         <div className="mt-6 grid gap-6 md:grid-cols-3">
-          <FeatureCard icon={<FileText aria-hidden className="h-6 w-6" />} title="Resume Builder" description="Leverage AI to create professional resumes that highlight your skills and achievements." />
-          <FeatureCard icon={<Presentation aria-hidden className="h-6 w-6" />} title="Pitch Generator" description="Craft compelling pitches that capture attention and convey your ideas effectively." />
-          <FeatureCard icon={<LayoutIcon aria-hidden className="h-6 w-6" />} title="Portfolio Builder" description="Showcase your projects and achievements in a visually appealing portfolio." />
+          <FeatureCard
+            icon={<FileText aria-hidden className="h-6 w-6" />}
+            title="Resume Builder"
+            description="Leverage AI to create professional resumes that highlight your skills and achievements."
+          />
+          <FeatureCard
+            icon={<Presentation aria-hidden className="h-6 w-6" />}
+            title="Pitch Generator"
+            description="Craft compelling pitches that capture attention and convey your ideas effectively."
+          />
+          <FeatureCard
+            icon={<LayoutIcon aria-hidden className="h-6 w-6" />}
+            title="Portfolio Builder"
+            description="Showcase your projects and achievements in a visually appealing portfolio."
+          />
         </div>
       </motion.section>
 
       {/* Why important */}
-      <motion.section className="bg-slate-900/60" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }}>
+      <motion.section
+        className="bg-slate-900/60"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="container py-12 md:py-16">
-          <h2 className="text-3xl font-extrabold tracking-tight">WHY IS IT IMPORTANT</h2>
-          <p className="mt-3 max-w-3xl text-white/70">Our tools help students present their best selves: save time with AI assistance, communicate clearly with polished pitches, and showcase work beautifully. Everything exports cleanly and is accessible anywhere.</p>
+          <h2 className="text-3xl font-extrabold tracking-tight">
+            WHY IS IT IMPORTANT
+          </h2>
+          <p className="mt-3 max-w-3xl text-white/70">
+            Our tools help students present their best selves: save time with AI
+            assistance, communicate clearly with polished pitches, and showcase
+            work beautifully. Everything exports cleanly and is accessible
+            anywhere.
+          </p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
-            <BenefitCard icon={<FileText className="h-6 w-6" aria-hidden />} title="Save hours on formatting" description="Generate structured resumes and documents with consistent design and strong content hints." />
-            <BenefitCard icon={<Presentation className="h-6 w-6" aria-hidden />} title="Tell a clear story" description="Turn projects into compelling pitches that highlight problem, solution, and impact." />
-            <BenefitCard icon={<Rocket className="h-6 w-6" aria-hidden />} title="Stand out & share fast" description="Export to PDF/TXT or share live links so recruiters and peers can view your work instantly." />
+            <BenefitCard
+              icon={<FileText className="h-6 w-6" aria-hidden />}
+              title="Save hours on formatting"
+              description="Generate structured resumes and documents with consistent design and strong content hints."
+            />
+            <BenefitCard
+              icon={<Presentation className="h-6 w-6" aria-hidden />}
+              title="Tell a clear story"
+              description="Turn projects into compelling pitches that highlight problem, solution, and impact."
+            />
+            <BenefitCard
+              icon={<Rocket className="h-6 w-6" aria-hidden />}
+              title="Stand out & share fast"
+              description="Export to PDF/TXT or share live links so recruiters and peers can view your work instantly."
+            />
           </div>
         </div>
       </motion.section>
 
       {/* CTA band */}
-      <motion.section className="py-14" initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.6 }}>
+      <motion.section
+        className="py-14"
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="container">
           <div className="relative overflow-hidden rounded-2xl p-8 text-white shadow-xl md:p-10">
             <div className="absolute inset-0 -z-10 animate-gradient-slow bg-[conic-gradient(at_30%_50%,#8b5cf6_0deg,#ec4899_120deg,#22d3ee_240deg,#8b5cf6_360deg)] opacity-90" />
@@ -123,7 +184,9 @@ export default function Index() {
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
               <div>
                 <h3 className="text-2xl font-bold">Ready to stand out?</h3>
-                <p className="text-white/90">Start building your resume and portfolio in minutes.</p>
+                <p className="text-white/90">
+                  Start building your resume and portfolio in minutes.
+                </p>
               </div>
               <Link
                 to="/resume"
@@ -140,7 +203,15 @@ export default function Index() {
   );
 }
 
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
+function FeatureCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
   return (
     <motion.article
       className="group rounded-2xl border bg-white/40 p-6 shadow-sm backdrop-blur-xl transition hover:shadow-xl hover:[box-shadow:0_10px_40px_rgba(139,92,246,0.25)] hover:border-fuchsia-400/70"
@@ -154,14 +225,24 @@ function FeatureCard({ icon, title, description }: { icon: React.ReactNode; titl
         <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-primary ring-1 ring-primary/20 shadow-[0_0_18px_rgba(99,102,241,0.35)] group-hover:shadow-[0_0_28px_rgba(236,72,153,0.45)] transition">
           {icon}
         </div>
-        <h3 className="text-xl font-semibold [text-shadow:0_1px_12px_rgba(99,102,241,0.25)]">{title}</h3>
+        <h3 className="text-xl font-semibold [text-shadow:0_1px_12px_rgba(99,102,241,0.25)]">
+          {title}
+        </h3>
       </div>
       <p className="mt-3 text-white/70">{description}</p>
     </motion.article>
   );
 }
 
-function BenefitCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
+function BenefitCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
   return (
     <motion.article
       className="group rounded-2xl border bg-white/40 p-6 shadow-sm backdrop-blur-xl transition hover:shadow-xl hover:[box-shadow:0_10px_40px_rgba(139,92,246,0.25)] hover:border-fuchsia-400/70"
@@ -175,7 +256,9 @@ function BenefitCard({ icon, title, description }: { icon: React.ReactNode; titl
         <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-primary ring-1 ring-primary/20 shadow-[0_0_18px_rgba(99,102,241,0.35)] group-hover:shadow-[0_0_28px_rgba(236,72,153,0.45)] transition">
           {icon}
         </div>
-        <h3 className="text-lg font-semibold [text-shadow:0_1px_12px_rgba(99,102,241,0.25)]">{title}</h3>
+        <h3 className="text-lg font-semibold [text-shadow:0_1px_12px_rgba(99,102,241,0.25)]">
+          {title}
+        </h3>
       </div>
       <p className="mt-3 text-sm text-white/70">{description}</p>
     </motion.article>
@@ -235,12 +318,12 @@ function CursorTrail() {
   const lastFrameRef = useRef<number>(performance.now());
 
   useEffect(() => {
-    const canvas = document.createElement('canvas');
+    const canvas = document.createElement("canvas");
     canvasRef.current = canvas;
-    canvas.className = 'pointer-events-none fixed inset-0 z-[999]';
+    canvas.className = "pointer-events-none fixed inset-0 z-[999]";
     document.body.appendChild(canvas);
 
-    const ctx = canvas.getContext('2d', { alpha: true })!;
+    const ctx = canvas.getContext("2d", { alpha: true })!;
     const dpr = window.devicePixelRatio || 1;
     const resize = () => {
       canvas.width = Math.floor(window.innerWidth * dpr);
@@ -250,7 +333,7 @@ function CursorTrail() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
-    window.addEventListener('resize', resize);
+    window.addEventListener("resize", resize);
 
     let lastTime = 0;
     const onMove = (e: MouseEvent) => {
@@ -262,7 +345,7 @@ function CursorTrail() {
         lastMoveRef.current = now;
       }
     };
-    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener("mousemove", onMove, { passive: true });
 
     const draw = () => {
       const now = performance.now();
@@ -280,7 +363,7 @@ function CursorTrail() {
         const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius);
         grd.addColorStop(0, `rgba(30,64,175,${alpha})`);
         grd.addColorStop(0.6, `rgba(14,116,144,${0.2 * p.life})`);
-        grd.addColorStop(1, 'rgba(0,0,0,0)');
+        grd.addColorStop(1, "rgba(0,0,0,0)");
         ctx.fillStyle = grd;
         ctx.beginPath();
         ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
@@ -301,8 +384,8 @@ function CursorTrail() {
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('resize', resize);
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("resize", resize);
       canvas.remove();
     };
   }, []);

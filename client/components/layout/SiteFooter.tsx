@@ -5,7 +5,9 @@ export default function SiteFooter() {
         <div className="grid gap-8 md:grid-cols-4">
           <div className="space-y-2">
             <div className="flex items-center gap-2 font-extrabold text-lg">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-white">⚡</span>
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-white">
+                ⚡
+              </span>
               <span>AI Resume</span>
             </div>
             <p className="font-semibold">Empowering students since 2023</p>
@@ -35,7 +37,10 @@ export default function SiteFooter() {
             </ul>
           </div>
         </div>
-        <p className="mt-8 text-xs font-semibold text-white/70">© {new Date().getFullYear()} AI Resume & Project Booster. All rights reserved.</p>
+        <p className="mt-8 text-xs font-semibold text-white/70">
+          © {new Date().getFullYear()} AI Resume & Project Booster. All rights
+          reserved.
+        </p>
       </div>
     </footer>
   );

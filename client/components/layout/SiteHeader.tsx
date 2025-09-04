@@ -12,12 +12,20 @@ export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-900/70 backdrop-blur supports-[backdrop-filter]:bg-slate-900/60">
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 font-extrabold tracking-tight text-xl">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-white">⚡</span>
+        <Link
+          to="/"
+          className="flex items-center gap-2 font-extrabold tracking-tight text-xl"
+        >
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-white">
+            ⚡
+          </span>
           <span className="sr-only">AI Resume & Project Booster</span>
           <span aria-hidden>AI Resume</span>
         </Link>
-        <nav aria-label="Main navigation" className="hidden md:flex items-center gap-6 text-base font-semibold">
+        <nav
+          aria-label="Main navigation"
+          className="hidden md:flex items-center gap-6 text-base font-semibold"
+        >
           {nav.map((n) => (
             <NavLink
               key={n.to}

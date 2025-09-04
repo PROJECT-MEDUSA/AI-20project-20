@@ -1398,14 +1398,24 @@ function Preview({ data }: { data: ResumeData }) {
         )}
       </header>
 
-      {(data.profile.gender || data.profile.maritalStatus || data.profile.nationality || data.profile.passportNumber || data.profile.dob) && (
+      {(data.profile.gender ||
+        data.profile.maritalStatus ||
+        data.profile.nationality ||
+        data.profile.passportNumber ||
+        data.profile.dob) && (
         <section className="section">
           <h2 className="m-0 text-base font-bold">Personal Details</h2>
           <ul className="m-0 mt-1 grid list-disc gap-x-6 gap-y-1 pl-5 text-sm text-muted-foreground md:grid-cols-2">
             {data.profile.gender && <li>Gender: {data.profile.gender}</li>}
-            {data.profile.maritalStatus && <li>Marital Status: {data.profile.maritalStatus}</li>}
-            {data.profile.nationality && <li>Nationality: {data.profile.nationality}</li>}
-            {data.profile.passportNumber && <li>Passport: {data.profile.passportNumber}</li>}
+            {data.profile.maritalStatus && (
+              <li>Marital Status: {data.profile.maritalStatus}</li>
+            )}
+            {data.profile.nationality && (
+              <li>Nationality: {data.profile.nationality}</li>
+            )}
+            {data.profile.passportNumber && (
+              <li>Passport: {data.profile.passportNumber}</li>
+            )}
             {data.profile.dob && <li>Date of Birth: {data.profile.dob}</li>}
           </ul>
         </section>
