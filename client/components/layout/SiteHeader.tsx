@@ -23,7 +23,7 @@ export default function SiteHeader() {
               key={n.to}
               to={n.to}
               className={({ isActive }) =>
-                `transition-colors hover:text-foreground/80 ${isActive ? "text-foreground" : "text-foreground/60"}`
+                `relative group inline-block transition-all duration-200 ${isActive ? "text-white" : "text-white/80"} hover:text-white hover:drop-shadow-[0_0_10px_rgba(59,130,246,0.6)] hover:-translate-y-0.5`
               }
             >
               <span className="relative z-10">{n.label}</span>
