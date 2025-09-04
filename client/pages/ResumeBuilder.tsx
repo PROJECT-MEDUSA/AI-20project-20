@@ -1244,7 +1244,7 @@ function Field({
 }) {
   return (
     <div>
-      <div className="mb-1 text-sm font-medium">{label}</div>
+      <div className="mb-1 text-sm font-medium text-foreground/80">{label}</div>
       <div>{children}</div>
     </div>
   );
