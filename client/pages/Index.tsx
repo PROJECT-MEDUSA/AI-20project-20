@@ -229,8 +229,10 @@ function AnimatedStyles() {
 
 function CursorTrail() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const pointsRef = useRef<{ x: number; y: number }[]>([]);
+  const pointsRef = useRef<{ x: number; y: number; life: number }[]>([]);
   const rafRef = useRef<number | null>(null);
+  const lastMoveRef = useRef<number>(performance.now());
+  const lastFrameRef = useRef<number>(performance.now());
 
   useEffect(() => {
     const canvas = document.createElement('canvas');
