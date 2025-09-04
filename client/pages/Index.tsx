@@ -265,23 +265,35 @@ function CursorTrail() {
     window.addEventListener('mousemove', onMove, { passive: true });
 
     const draw = () => {
-      // Clear each frame so trail fades naturally via short history
+      const now = performance.now();
+      const dt = Math.min(64, now - lastFrameRef.current);
+      lastFrameRef.current = now;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const pts = pointsRef.current;
       for (let i = 0; i < pts.length; i++) {
         const p = pts[i];
-        const t = i / pts.length;
-        const r = 6 + (1 - t) * 8;
-        const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
-        grd.addColorStop(0, `rgba(30,64,175,${0.28 + 0.25 * (1 - t)})`);
-        grd.addColorStop(0.6, `rgba(14,116,144,${0.15 * (1 - t)})`);
+        const t = i / Math.max(1, pts.length - 1);
+        const radius = 6 + (1 - t) * 8;
+        const alpha = (0.35 + 0.35 * (1 - t)) * p.life;
+        const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius);
+        grd.addColorStop(0, `rgba(30,64,175,${alpha})`);
+        grd.addColorStop(0.6, `rgba(14,116,144,${0.2 * p.life})`);
         grd.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = grd;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
         ctx.fill();
       }
+
+      // Fade out points over time, faster when idle
+      const idleMs = now - lastMoveRef.current;
+      const fadePerMs = idleMs > 80 ? 0.008 : 0.004;
+      for (let i = 0; i < pts.length; i++) {
+        pts[i].life -= fadePerMs * dt;
+      }
+      pointsRef.current = pts.filter((p) => p.life > 0.02);
 
       rafRef.current = requestAnimationFrame(draw);
     };
