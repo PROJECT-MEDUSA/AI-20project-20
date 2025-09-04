@@ -288,6 +288,7 @@ export default function PortfolioBuilder() {
               <div>
                 <Label className="mb-1 block text-sm">Name</Label>
                 <Input
+                  placeholder="Your Name"
                   value={state.name}
                   onChange={(e) => setState({ ...state, name: e.target.value })}
                 />
@@ -304,6 +305,7 @@ export default function PortfolioBuilder() {
                 <Label className="mb-1 block text-sm">About</Label>
                 <Textarea
                   rows={4}
+                  placeholder="Write a short and friendly bio"
                   value={state.about}
                   onChange={(e) =>
                     setState({ ...state, about: e.target.value })
@@ -314,6 +316,7 @@ export default function PortfolioBuilder() {
                 <Label className="mb-1 block text-sm">Email</Label>
                 <Input
                   type="email"
+                  placeholder="you@example.com"
                   value={state.email}
                   onChange={(e) =>
                     setState({ ...state, email: e.target.value })
@@ -456,6 +459,7 @@ export default function PortfolioBuilder() {
                     <div>
                       <Label className="mb-1 block text-sm">Title</Label>
                       <Input
+                        placeholder="Project title"
                         value={p.title}
                         onChange={(e) =>
                           updateProject(p.id, "title", e.target.value)
@@ -466,6 +470,7 @@ export default function PortfolioBuilder() {
                       <Label className="mb-1 block text-sm">Description</Label>
                       <Textarea
                         rows={3}
+                        placeholder="Short description"
                         value={p.description}
                         onChange={(e) =>
                           updateProject(p.id, "description", e.target.value)
