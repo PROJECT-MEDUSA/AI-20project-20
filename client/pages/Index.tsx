@@ -171,6 +171,7 @@ export default function Index() {
 
       {/* About Us */}
       <motion.section
+        id="about"
         className="relative py-12 md:py-16"
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
