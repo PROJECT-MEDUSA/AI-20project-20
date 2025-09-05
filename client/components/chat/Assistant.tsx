@@ -85,7 +85,9 @@ export default function Assistant() {
   }, []);
 
   useEffect(() => {
-    try { localStorage.setItem(POS_KEY, JSON.stringify(pos)); } catch {}
+    try {
+      localStorage.setItem(POS_KEY, JSON.stringify(pos));
+    } catch {}
   }, [pos]);
 
   useEffect(() => {
@@ -99,8 +101,8 @@ export default function Assistant() {
         y: clamp(p.y, 8, window.innerHeight - h - 8),
       }));
     };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   useEffect(() => {
@@ -130,23 +132,28 @@ export default function Assistant() {
       const ny = ev.clientY - offsetRef.current.dy;
       const cx = clamp(nx, 8, window.innerWidth - w - 8);
       const cy = clamp(ny, 8, window.innerHeight - h - 8);
-      if (Math.abs(cx - pos.x) > 1 || Math.abs(cy - pos.y) > 1) draggingRef.current = true;
+      if (Math.abs(cx - pos.x) > 1 || Math.abs(cy - pos.y) > 1)
+        draggingRef.current = true;
       setPos({ x: cx, y: cy });
     };
     const onUp = () => {
-      window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
       setTimeout(() => (draggingRef.current = false), 0);
     };
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', onUp);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
   };
 
   const send = async () => {
     const text = input.trim();
     if (!text) return;
     setInput("");
-    const userMsg: ChatMessage = { id: crypto.randomUUID(), role: "user", content: text };
+    const userMsg: ChatMessage = {
+      id: crypto.randomUUID(),
+      role: "user",
+      content: text,
+    };
     setMessages((m) => [...m, userMsg]);
 
     const response = await getSmartReply(text, navigate);
@@ -154,7 +161,11 @@ export default function Assistant() {
   };
 
   return (
-    <div ref={wrapperRef} className="fixed left-0 top-0 z-[70] print:hidden touch-none" style={{ left: pos.x, top: pos.y }}>
+    <div
+      ref={wrapperRef}
+      className="fixed left-0 top-0 z-[70] print:hidden touch-none"
+      style={{ left: pos.x, top: pos.y }}
+    >
       <AnimatePresence>
         {open && (
           <motion.div
@@ -183,13 +194,20 @@ export default function Assistant() {
               initial={false}
               className="w-[92vw] max-w-[420px] overflow-hidden rounded-2xl border border-white/10 bg-slate-900/90 text-white shadow-2xl backdrop-blur"
             >
-              <header onPointerDown={startDrag} className="relative flex items-center gap-2 border-b border-white/10 bg-gradient-to-r from-indigo-600/30 to-fuchsia-600/30 px-4 py-3 cursor-grab active:cursor-grabbing select-none">
+              <header
+                onPointerDown={startDrag}
+                className="relative flex items-center gap-2 border-b border-white/10 bg-gradient-to-r from-indigo-600/30 to-fuchsia-600/30 px-4 py-3 cursor-grab active:cursor-grabbing select-none"
+              >
                 <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white shadow">
                   <Bot className="h-4 w-4" aria-hidden />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold leading-tight">AI Assistant</p>
-                  <p className="text-xs text-white/70">Ask about features, where to start, or how to export.</p>
+                  <p className="text-sm font-semibold leading-tight">
+                    AI Assistant
+                  </p>
+                  <p className="text-xs text-white/70">
+                    Ask about features, where to start, or how to export.
+                  </p>
                 </div>
                 <button
                   type="button"
@@ -218,7 +236,9 @@ export default function Assistant() {
                     >
                       <div
                         className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed shadow ${
-                          m.role === "assistant" ? "bg-white/10" : "bg-primary text-primary-foreground"
+                          m.role === "assistant"
+                            ? "bg-white/10"
+                            : "bg-primary text-primary-foreground"
                         }`}
                       >
                         <p>{m.content}</p>
@@ -271,15 +291,26 @@ export default function Assistant() {
       </AnimatePresence>
 
       <div className="relative" onPointerDown={startDrag}>
-        <span aria-hidden className="absolute -inset-1 rounded-full bg-primary opacity-30 blur-lg animate-pulse" />
+        <span
+          aria-hidden
+          className="absolute -inset-1 rounded-full bg-primary opacity-30 blur-lg animate-pulse"
+        />
         <motion.button
           type="button"
-          onClick={() => { if (draggingRef.current) return; setOpen((v) => !v); }}
+          onClick={() => {
+            if (draggingRef.current) return;
+            setOpen((v) => !v);
+          }}
           aria-expanded={open}
           aria-label={open ? "Close AI Assistant" : "Open AI Assistant"}
           initial={{ opacity: 0, y: 12, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ type: "spring", stiffness: 240, damping: 18, delay: 0.1 }}
+          transition={{
+            type: "spring",
+            stiffness: 240,
+            damping: 18,
+            delay: 0.1,
+          }}
           whileHover={{ scale: 1.05, rotate: -1 }}
           whileTap={{ scale: 0.95 }}
           className="relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-4 py-2 font-semibold text-white shadow-lg transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -295,7 +326,8 @@ function welcomeMessage(navigate: ReturnType<typeof useNavigate>): ChatMessage {
   return {
     id: crypto.randomUUID(),
     role: "assistant",
-    content: "Hi! I can guide you around: build a resume, create a portfolio, generate a pitch, or export your work.",
+    content:
+      "Hi! I can guide you around: build a resume, create a portfolio, generate a pitch, or export your work.",
     suggested: [
       { label: "Start Resume", action: () => navigate("/resume") },
       { label: "Create Portfolio", action: () => navigate("/portfolio") },
@@ -306,7 +338,10 @@ function welcomeMessage(navigate: ReturnType<typeof useNavigate>): ChatMessage {
   };
 }
 
-async function getSmartReply(text: string, navigate: ReturnType<typeof useNavigate>): Promise<ChatMessage> {
+async function getSmartReply(
+  text: string,
+  navigate: ReturnType<typeof useNavigate>,
+): Promise<ChatMessage> {
   const q = text.toLowerCase();
 
   // Navigation intents
@@ -330,7 +365,10 @@ async function getSmartReply(text: string, navigate: ReturnType<typeof useNaviga
         "Portfolio Creator organizes projects into clean, visual sections. Add highlights, images, and outcomes for a polished showcase.",
       suggested: [
         { label: "Open Portfolio", action: () => navigate("/portfolio") },
-        { label: "How to structure a project", action: () => openHint("portfolio") },
+        {
+          label: "How to structure a project",
+          action: () => openHint("portfolio"),
+        },
       ],
     };
   }
@@ -363,15 +401,20 @@ async function getSmartReply(text: string, navigate: ReturnType<typeof useNaviga
       role: "assistant",
       content:
         "We’re focused on helping students present their best work. Read about our mission, features, and vision on the Learn More page.",
-      suggested: [{ label: "Open Learn More", action: () => navigate("/about") }],
+      suggested: [
+        { label: "Open Learn More", action: () => navigate("/about") },
+      ],
     };
   }
   if (/login|sign\s?in|sign\s?up|account|auth/.test(q)) {
     return {
       id: crypto.randomUUID(),
       role: "assistant",
-      content: "Create an account or sign in to save your progress and export easily.",
-      suggested: [{ label: "Go to Get Started", action: () => navigate("/auth") }],
+      content:
+        "Create an account or sign in to save your progress and export easily.",
+      suggested: [
+        { label: "Go to Get Started", action: () => navigate("/auth") },
+      ],
     };
   }
 
