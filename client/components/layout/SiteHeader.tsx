@@ -45,9 +45,18 @@ export default function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Toggle navigation"
+            aria-expanded={open}
+            className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-md border border-white/10 text-white/90 hover:bg-white/10"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
           <Link
             to="/auth"
-            className="rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-4 py-2 text-white shadow-sm transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="hidden sm:inline-flex rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-4 py-2 text-white shadow-sm transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             Get Started
           </Link>
