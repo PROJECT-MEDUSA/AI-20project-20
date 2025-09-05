@@ -34,7 +34,7 @@ export default function Index() {
           <FloatingOrbs />
         </div>
 
-        <div className="container py-20 md:py-28 text-center relative">
+        <div className="container py-20 md:py-28 text-center relative z-10">
           {/* Localized decorative background behind hero copy */}
           <img
             aria-hidden
@@ -200,7 +200,7 @@ export default function Index() {
             </p>
             <p className="mt-3 text-white/80">
               This is only the first step of our bigger mission: to empower
-              students to express their potential without limits. Whether it���s
+              students to express their potential without limits. Whether it’s
               applying for an internship, presenting at a hackathon, or simply
               showcasing creativity, our platform makes sure every student has
               the tools to stand out. Together, we’re building more than just a
