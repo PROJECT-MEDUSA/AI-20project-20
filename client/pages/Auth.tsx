@@ -63,8 +63,10 @@ export default function Auth() {
               </TabsList>
 
               <AnimatePresence mode="wait">
-                <TabsContent key={mode} value={mode} className="mt-4">
+                {/* Login */}
+                <TabsContent value="login" className="mt-4">
                   <motion.form
+                    key="login"
                     layout
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -80,7 +82,6 @@ export default function Auth() {
                         <div id="email-err" className="mt-1 text-xs text-red-400">{errors.email}</div>
                       ) : null}
                     </div>
-
                     <div>
                       <Label htmlFor="password" className="mb-1 block">Password</Label>
                       <Input id="password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} aria-invalid={Boolean(errors.password)} aria-describedby={errors.password ? "pass-err" : undefined} />
@@ -88,38 +89,58 @@ export default function Auth() {
                         <div id="pass-err" className="mt-1 text-xs text-red-400">{errors.password}</div>
                       ) : null}
                     </div>
-
-                    {mode === "signup" ? (
-                      <div>
-                        <Label htmlFor="confirm" className="mb-1 block">Confirm Password</Label>
-                        <Input id="confirm" type="password" placeholder="••••••••" value={confirm} onChange={(e) => setConfirm(e.target.value)} aria-invalid={Boolean(errors.confirm)} aria-describedby={errors.confirm ? "confirm-err" : undefined} />
-                        {errors.confirm ? (
-                          <div id="confirm-err" className="mt-1 text-xs text-red-400">{errors.confirm}</div>
-                        ) : null}
-                      </div>
-                    ) : null}
-
-                    {mode === "login" ? (
-                      <div className="text-right text-sm">
-                        <a className="text-primary hover:underline" href="#">Forgot Password?</a>
-                      </div>
-                    ) : null}
-
-                    <Button type="submit" className="w-full rounded-full bg-gradient-to-r from-primary to-fuchsia-500 text-white transition hover:brightness-110">{mode === "login" ? "Login" : "Create Account"}</Button>
-
-                    <div className="relative py-2 text-center text-xs text-muted-foreground">
-                      <span className="bg-card px-2">or</span>
-                      <div className="absolute left-0 top-1/2 h-[1px] w-full -translate-y-1/2 bg-border" />
+                    <div className="text-right text-sm">
+                      <a className="text-primary hover:underline" href="#">Forgot Password?</a>
                     </div>
-
+                    <Button type="submit" className="w-full rounded-full bg-gradient-to-r from-primary to-fuchsia-500 text-white transition hover:brightness-110">Login</Button>
+                    <Divider />
                     <div className="grid gap-3 sm:grid-cols-2">
                       <SocialButton provider="Google" icon={<GoogleIcon />} />
                       <SocialButton provider="GitHub" icon={<Github className="h-4 w-4" />} />
                     </div>
-
-                    <div className="text-center text-xs text-muted-foreground">
-                      By continuing, you agree to our Terms and Privacy Policy.
+                    <SmallNote />
+                  </motion.form>
+                </TabsContent>
+                {/* Signup */}
+                <TabsContent value="signup" className="mt-4">
+                  <motion.form
+                    key="signup"
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.25 }}
+                    className="space-y-4"
+                    onSubmit={onSubmit}
+                  >
+                    <div>
+                      <Label htmlFor="email" className="mb-1 block">Email</Label>
+                      <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? "email-err" : undefined} />
+                      {errors.email ? (
+                        <div id="email-err" className="mt-1 text-xs text-red-400">{errors.email}</div>
+                      ) : null}
                     </div>
+                    <div>
+                      <Label htmlFor="password" className="mb-1 block">Password</Label>
+                      <Input id="password" type="password" placeholder="Create a strong password" value={password} onChange={(e) => setPassword(e.target.value)} aria-invalid={Boolean(errors.password)} aria-describedby={errors.password ? "pass-err" : undefined} />
+                      {errors.password ? (
+                        <div id="pass-err" className="mt-1 text-xs text-red-400">{errors.password}</div>
+                      ) : null}
+                    </div>
+                    <div>
+                      <Label htmlFor="confirm" className="mb-1 block">Confirm Password</Label>
+                      <Input id="confirm" type="password" placeholder="Re-enter password" value={confirm} onChange={(e) => setConfirm(e.target.value)} aria-invalid={Boolean(errors.confirm)} aria-describedby={errors.confirm ? "confirm-err" : undefined} />
+                      {errors.confirm ? (
+                        <div id="confirm-err" className="mt-1 text-xs text-red-400">{errors.confirm}</div>
+                      ) : null}
+                    </div>
+                    <Button type="submit" className="w-full rounded-full bg-gradient-to-r from-primary to-fuchsia-500 text-white transition hover:brightness-110">Create Account</Button>
+                    <Divider />
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <SocialButton provider="Google" icon={<GoogleIcon />} />
+                      <SocialButton provider="GitHub" icon={<Github className="h-4 w-4" />} />
+                    </div>
+                    <SmallNote />
                   </motion.form>
                 </TabsContent>
               </AnimatePresence>
