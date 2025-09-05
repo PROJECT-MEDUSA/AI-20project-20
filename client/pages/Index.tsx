@@ -298,7 +298,7 @@ export default function Index() {
             <div className="absolute inset-0 z-0 animate-gradient-slow bg-[conic-gradient(at_30%_50%,#8b5cf6_0deg,#ec4899_120deg,#22d3ee_240deg,#8b5cf6_360deg)] opacity-90" />
             <div className="absolute inset-0 z-0 backdrop-blur-[2px]" />
 
-            <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div className="relative z-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
               <div>
                 <h3 className="text-2xl font-bold">Ready to stand out?</h3>
                 <p className="text-white/90">
