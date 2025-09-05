@@ -152,11 +152,26 @@ export default function Auth() {
   );
 }
 
+function Divider() {
+  return (
+    <div className="relative py-2 text-center text-xs text-muted-foreground">
+      <span className="bg-card px-2">or</span>
+      <div className="absolute left-0 top-1/2 h-[1px] w-full -translate-y-1/2 bg-border" />
+    </div>
+  );
+}
+
+function SmallNote() {
+  return (
+    <div className="text-center text-xs text-muted-foreground">By continuing, you agree to our Terms and Privacy Policy.</div>
+  );
+}
+
 function SocialButton({ provider, icon }: { provider: string; icon: React.ReactNode }) {
   return (
     <button
       type="button"
-      className="inline-flex w-full items-center justify-center gap-2 rounded-full border bg-white/70 px-4 py-2 font-medium text-foreground/80 backdrop-blur transition hover:bg-white hover:shadow-[0_8px_28px_rgba(99,102,241,0.25)] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="inline-flex w-full items-center justify-center gap-2 rounded-full border bg-white/70 px-4 py-2 font-medium text-foreground/80 backdrop-blur transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_8px_28px_rgba(99,102,241,0.25)] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       {icon}
       Continue with {provider}
