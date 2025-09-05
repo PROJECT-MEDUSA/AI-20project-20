@@ -469,7 +469,11 @@ function CursorTrail() {
       const dt = Math.min(64, now - lastFrameRef.current);
       lastFrameRef.current = now;
 
+      // Clear in device-pixel space so no transform leaves artifacts
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.restore();
 
       const pts = pointsRef.current;
       for (let i = 0; i < pts.length; i++) {
