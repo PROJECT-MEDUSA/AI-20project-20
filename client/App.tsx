@@ -14,6 +14,7 @@ import Placeholder from "@/pages/Placeholder";
 import PitchGenerator from "@/pages/PitchGenerator";
 import PortfolioBuilder from "@/pages/PortfolioBuilder";
 import ExportHub from "@/pages/ExportHub";
+import Auth from "@/pages/Auth";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="pitch" element={<PitchGenerator />} />
             <Route path="portfolio" element={<PortfolioBuilder />} />
             <Route path="export" element={<ExportHub />} />
+            <Route path="auth" element={<Auth />} />
             <Route path="about" element={<Placeholder title="About" />} />
             <Route path="profile" element={<Placeholder title="Profile" />} />
             <Route path="*" element={<NotFound />} />
