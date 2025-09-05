@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function SiteFooter() {
   return (
     <footer className="border-t border-white/10 bg-slate-900/60">
@@ -13,11 +15,9 @@ export default function SiteFooter() {
             <p className="font-semibold">Empowering students since 2023</p>
           </div>
           <div>
-            <h3 className="font-semibold mb-2">Learn More</h3>
+            <h3 className="font-semibold mb-2"><Link to="/about" className="hover:underline">Learn More</Link></h3>
             <ul className="space-y-2 font-semibold">
-              <li>About Us</li>
-              <li>Join Our Team</li>
-              <li>Get in Touch</li>
+              <li><Link to="/#about" className="hover:underline">About Us</Link></li>
               <li>News & Updates</li>
             </ul>
           </div>
