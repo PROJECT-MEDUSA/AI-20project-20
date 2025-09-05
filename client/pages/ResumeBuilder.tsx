@@ -383,10 +383,29 @@ export default function ResumeBuilder() {
             Create a professional resume with a clean, modern layout.
           </p>
         </div>
-        <div className="w-full max-w-md">
-          <Progress value={sectionCompletion} />
-          <div className="mt-1 text-right text-xs text-muted-foreground">
-            Completion {sectionCompletion}%
+        <div className="w-full max-w-2xl">
+          <div className="flex items-center gap-3">
+            <div className="flex-1">
+              <Progress value={sectionCompletion} />
+              <div className="mt-1 text-xs text-muted-foreground">
+                {sectionCompletion}% complete — {sectionCompletion > 80 ? "Almost there!" : sectionCompletion > 40 ? "Keep going!" : "Let's start strong!"}
+              </div>
+            </div>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" onClick={() => setAts((v) => !v)} aria-pressed={ats}>{ats ? "ATS" : "Rich"}</Button>
+              </TooltipTrigger>
+              <TooltipContent>Toggle ATS‑friendly preview</TooltipContent>
+            </Tooltip>
+            <Select value={template} onValueChange={(v) => setTemplate(v as any)}>
+              <SelectTrigger className="w-[140px]"><SelectValue placeholder="Template" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="classic">Classic</SelectItem>
+                <SelectItem value="modern">Modern</SelectItem>
+                <SelectItem value="minimal">Minimal</SelectItem>
+              </SelectContent>
+            </Select>
+            <input aria-label="Accent color" title="Accent color" type="color" value={accent} onChange={(e) => setAccent(e.target.value)} className="h-9 w-9 cursor-pointer rounded-md border bg-transparent p-0"/>
           </div>
         </div>
       </div>
