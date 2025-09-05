@@ -41,7 +41,7 @@ export default function SiteHeader() {
         </nav>
         <div className="flex items-center gap-2">
           <Link
-            to="/resume"
+            to="/auth"
             className="rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-4 py-2 text-white shadow-sm transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             Get Started
