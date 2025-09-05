@@ -5,6 +5,7 @@ import { FileText, Layout as LayoutIcon, Presentation, Target, Sparkles } from "
 export default function About() {
   return (
     <div className="relative w-full bg-slate-950 text-white">
+      <AnimatedStyles />
       <BackgroundDecor />
 
       {/* Hero */}
