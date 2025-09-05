@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import SiteHeader from "@/components/layout/SiteHeader";
 import SiteFooter from "@/components/layout/SiteFooter";
+import ChatAssistant from "@/components/chat/Assistant";
 
 export default function Layout() {
   return (
