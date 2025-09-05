@@ -86,7 +86,7 @@ export default function Index() {
               transition={{ delay: 0.9, duration: 0.5 }}
             >
               <Link
-                to="/resume"
+                to="/auth"
                 className="group rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-6 py-3 font-semibold text-white shadow-[0_10px_30px_rgba(236,72,153,0.4)] transition will-change-transform hover:scale-105 hover:shadow-[0_0_30px_rgba(236,72,153,0.65)] hover:[transform:perspective(700px)_rotateX(6deg)_rotateY(-6deg)] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Get Started
