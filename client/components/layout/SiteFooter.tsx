@@ -25,7 +25,7 @@ export default function SiteFooter() {
           <div>
             <h3 className="font-semibold mb-2"><Link to="/about" className="hover:underline">Learn More</Link></h3>
             <ul className="space-y-2 font-semibold">
-              <li><Link to="/#about" className="hover:underline">About Us</Link></li>
+              <li><Link to={isHome ? "#about" : "/#about"} onClick={scrollToAbout} className="hover:underline">About Us</Link></li>
               <li>News & Updates</li>
             </ul>
           </div>
