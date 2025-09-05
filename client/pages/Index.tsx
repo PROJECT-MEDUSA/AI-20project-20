@@ -24,7 +24,7 @@ export default function Index() {
         transition={{ duration: 0.7, ease: "easeOut" }}
       >
         {/* Animated gradient + particles background */}
-        <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="pointer-events-none absolute inset-0 z-0">
           <div className="absolute inset-0 animate-gradient-move bg-[radial-gradient(1200px_600px_at_20%_-10%,rgba(168,85,247,0.25),transparent),radial-gradient(1000px_600px_at_80%_0%,rgba(99,102,241,0.25),transparent)]" />
           <img
             src="https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F5cfe91acdcc04de5a0a1bedc460a66b5?format=webp&width=1600"
@@ -200,7 +200,7 @@ export default function Index() {
             </p>
             <p className="mt-3 text-white/80">
               This is only the first step of our bigger mission: to empower
-              students to express their potential without limits. Whether it’s
+              students to express their potential without limits. Whether it���s
               applying for an internship, presenting at a hackathon, or simply
               showcasing creativity, our platform makes sure every student has
               the tools to stand out. Together, we’re building more than just a
