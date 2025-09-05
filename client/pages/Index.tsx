@@ -169,6 +169,86 @@ export default function Index() {
         </div>
       </motion.section>
 
+      {/* About Us */}
+      <motion.section
+        className="relative py-12 md:py-16"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-indigo-600/10 via-fuchsia-500/10 to-sky-500/10" />
+        <div className="container grid items-center gap-10 md:grid-cols-2">
+          <div>
+            <h2 className="text-3xl font-extrabold tracking-tight">About Us</h2>
+            <p className="mt-4 text-white/80">
+              We are a team of three driven individuals united by a simple dream — to make student life easier, smarter, and more impactful. Throughout our own journey, we noticed how many students struggle when it comes to presenting themselves professionally. Great ideas often fail to shine because they are hidden behind weak resumes, confusing portfolios, or poorly structured pitches.
+            </p>
+            <p className="mt-3 text-white/80">
+              That’s why we decided to take action. Our website is designed as a one-stop solution where students can build resumes that look professional, design portfolios that truly reflect their skills, and generate clear, structured pitches for their projects. We believe that technology should remove barriers, not create them — so we’ve built everything to be simple, intuitive, and beginner-friendly.
+            </p>
+            <p className="mt-3 text-white/80">
+              This is only the first step of our bigger mission: to empower students to express their potential without limits. Whether it’s applying for an internship, presenting at a hackathon, or simply showcasing creativity, our platform makes sure every student has the tools to stand out. Together, we’re building more than just a website — we’re building a bridge between ideas and opportunities.
+            </p>
+          </div>
+          <div>
+            <div className="relative overflow-hidden rounded-2xl border bg-white/5 p-10 backdrop-blur-sm">
+              <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(600px_300px_at_20%_20%,rgba(99,102,241,0.35),transparent),radial-gradient(600px_300px_at_80%_80%,rgba(236,72,153,0.35),transparent)]" />
+              <div className="mx-auto flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white shadow-[0_0_60px_rgba(99,102,241,0.45)]">
+                <Users className="h-16 w-16" aria-hidden />
+              </div>
+              <p className="mt-6 text-center text-sm text-white/80">
+                Teamwork, dreams, and student success
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Divider */}
+      <div aria-hidden className="h-12 bg-gradient-to-r from-indigo-500/20 via-fuchsia-500/20 to-sky-500/20" />
+
+      {/* Our Scope */}
+      <motion.section
+        className="container py-12 md:py-16"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="mb-6 md:flex md:items-end md:justify-between">
+          <div>
+            <h2 className="text-3xl font-extrabold tracking-tight">Our Scope</h2>
+            <p className="mt-2 max-w-3xl text-white/80">
+              Our vision goes beyond just building tools — we aim to empower students with the right resources to showcase their talent and ideas with confidence. From crafting polished resumes to creating personalized portfolios and transforming rough concepts into compelling pitches, our platform serves as a complete launchpad for student success. We believe that every idea deserves to be presented at its best, and with our website, students can focus on their creativity while we handle the presentation.
+            </p>
+          </div>
+        </div>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="group relative overflow-hidden rounded-2xl border bg-white/5 p-6 backdrop-blur transition hover:-translate-y-1 hover:shadow-[0_14px_40px_rgba(99,102,241,0.25)]">
+            <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-fuchsia-500 text-white shadow-md">
+              <FileText className="h-5 w-5" aria-hidden />
+            </div>
+            <h3 className="mt-3 text-xl font-semibold">Resume Builder</h3>
+            <p className="mt-2 text-white/70">Build professional, ATS-friendly resumes with clean layouts and smart hints.</p>
+          </div>
+          <div className="group relative overflow-hidden rounded-2xl border bg-white/5 p-6 backdrop-blur transition hover:-translate-y-1 hover:shadow-[0_14px_40px_rgba(99,102,241,0.25)]">
+            <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-indigo-600 text-white shadow-md">
+              <LayoutIcon className="h-5 w-5" aria-hidden />
+            </div>
+            <h3 className="mt-3 text-xl font-semibold">Portfolio Creator</h3>
+            <p className="mt-2 text-white/70">Design elegant portfolios that truly reflect your projects and skills.</p>
+          </div>
+          <div className="group relative overflow-hidden rounded-2xl border bg-white/5 p-6 backdrop-blur transition hover:-translate-y-1 hover:shadow-[0_14px_40px_rgba(99,102,241,0.25)]">
+            <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-fuchsia-500 to-pink-500 text-white shadow-md">
+              <Presentation className="h-5 w-5" aria-hidden />
+            </div>
+            <h3 className="mt-3 text-xl font-semibold">Pitch Generator</h3>
+            <p className="mt-2 text-white/70">Turn rough ideas into clear, structured pitches ready to present.</p>
+          </div>
+        </div>
+      </motion.section>
+
       {/* CTA band */}
       <motion.section
         className="py-14"
