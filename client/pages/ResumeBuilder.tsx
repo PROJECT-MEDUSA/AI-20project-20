@@ -342,6 +342,10 @@ export default function ResumeBuilder() {
     reader.readAsDataURL(file);
   };
 
+  useEffect(() => {
+    if (sectionCompletion === 100) fireConfetti();
+  }, [sectionCompletion]);
+
   const printResume = () => {
     const content = printRef.current?.innerHTML ?? "";
     const win = window.open("", "_blank");
