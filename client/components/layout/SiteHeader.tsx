@@ -1,4 +1,6 @@
-import { Link, NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
