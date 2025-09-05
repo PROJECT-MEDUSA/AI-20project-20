@@ -19,6 +19,12 @@ export default function Assistant() {
   const loc = useLocation();
   const navigate = useNavigate();
   const listRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const draggingRef = useRef(false);
+  const offsetRef = useRef({ dx: 0, dy: 0 });
+  const [pos, setPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const posInitRef = useRef(false);
+  const POS_KEY = "assistant-pos-v1";
 
   useEffect(() => {
     try {
@@ -46,6 +52,96 @@ export default function Assistant() {
     setOpen(false);
   }, [loc.pathname]);
 
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(POS_KEY);
+      if (saved) {
+        const p = JSON.parse(saved);
+        setTimeout(() => {
+          const el = wrapperRef.current;
+          const rect = el?.getBoundingClientRect();
+          const w = rect?.width ?? 360;
+          const h = rect?.height ?? 56;
+          setPos({
+            x: clamp(p.x ?? 16, 8, window.innerWidth - w - 8),
+            y: clamp(p.y ?? 16, 8, window.innerHeight - h - 8),
+          });
+          posInitRef.current = true;
+        }, 0);
+        return;
+      }
+    } catch {}
+    setTimeout(() => {
+      const el = wrapperRef.current;
+      const rect = el?.getBoundingClientRect();
+      const w = rect?.width ?? 360;
+      const h = rect?.height ?? 56;
+      setPos({
+        x: Math.max(8, window.innerWidth - w - 16),
+        y: Math.max(8, window.innerHeight - h - 16),
+      });
+      posInitRef.current = true;
+    }, 0);
+  }, []);
+
+  useEffect(() => {
+    try { localStorage.setItem(POS_KEY, JSON.stringify(pos)); } catch {}
+  }, [pos]);
+
+  useEffect(() => {
+    const onResize = () => {
+      const el = wrapperRef.current;
+      const rect = el?.getBoundingClientRect();
+      const w = rect?.width ?? 380;
+      const h = rect?.height ?? 56;
+      setPos((p) => ({
+        x: clamp(p.x, 8, window.innerWidth - w - 8),
+        y: clamp(p.y, 8, window.innerHeight - h - 8),
+      }));
+    };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    setPos((p) => ({
+      x: clamp(p.x, 8, window.innerWidth - rect.width - 8),
+      y: clamp(p.y, 8, window.innerHeight - rect.height - 8),
+    }));
+  }, [open]);
+
+  function clamp(n: number, min: number, max: number) {
+    return Math.max(min, Math.min(n, max));
+  }
+
+  const startDrag = (e: React.PointerEvent) => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    offsetRef.current = { dx: e.clientX - rect.left, dy: e.clientY - rect.top };
+    draggingRef.current = false;
+    const onMove = (ev: PointerEvent) => {
+      const w = el.getBoundingClientRect().width;
+      const h = el.getBoundingClientRect().height;
+      const nx = ev.clientX - offsetRef.current.dx;
+      const ny = ev.clientY - offsetRef.current.dy;
+      const cx = clamp(nx, 8, window.innerWidth - w - 8);
+      const cy = clamp(ny, 8, window.innerHeight - h - 8);
+      if (Math.abs(cx - pos.x) > 1 || Math.abs(cy - pos.y) > 1) draggingRef.current = true;
+      setPos({ x: cx, y: cy });
+    };
+    const onUp = () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      setTimeout(() => (draggingRef.current = false), 0);
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+  };
+
   const send = async () => {
     const text = input.trim();
     if (!text) return;
@@ -58,7 +154,7 @@ export default function Assistant() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-[70] print:hidden">
+    <div ref={wrapperRef} className="fixed left-0 top-0 z-[70] print:hidden touch-none" style={{ left: pos.x, top: pos.y }}>
       <AnimatePresence>
         {open && (
           <motion.div
@@ -87,7 +183,7 @@ export default function Assistant() {
               initial={false}
               className="w-[92vw] max-w-[420px] overflow-hidden rounded-2xl border border-white/10 bg-slate-900/90 text-white shadow-2xl backdrop-blur"
             >
-              <header className="relative flex items-center gap-2 border-b border-white/10 bg-gradient-to-r from-indigo-600/30 to-fuchsia-600/30 px-4 py-3">
+              <header onPointerDown={startDrag} className="relative flex items-center gap-2 border-b border-white/10 bg-gradient-to-r from-indigo-600/30 to-fuchsia-600/30 px-4 py-3 cursor-grab active:cursor-grabbing select-none">
                 <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white shadow">
                   <Bot className="h-4 w-4" aria-hidden />
                 </div>
@@ -174,11 +270,11 @@ export default function Assistant() {
         )}
       </AnimatePresence>
 
-      <div className="relative">
+      <div className="relative" onPointerDown={startDrag}>
         <span aria-hidden className="absolute -inset-1 rounded-full bg-primary opacity-30 blur-lg animate-pulse" />
         <motion.button
           type="button"
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => { if (draggingRef.current) return; setOpen((v) => !v); }}
           aria-expanded={open}
           aria-label={open ? "Close AI Assistant" : "Open AI Assistant"}
           initial={{ opacity: 0, y: 12, scale: 0.95 }}
