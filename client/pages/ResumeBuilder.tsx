@@ -411,6 +411,19 @@ export default function ResumeBuilder() {
       </div>
 
       <div className="grid gap-8 xl:grid-cols-[1fr_minmax(420px,520px)_320px] lg:grid-cols-[1fr_minmax(420px,520px)] min-w-0">
+        {/* Tools row */}
+        <div className="grid grid-cols-2 gap-3">
+          <GithubImport onMerge={(partial) => setData((d) => ({ ...d, ...partial, skills: mergeSkills(d.skills, partial.skills || []) }))} />
+          <div className="rounded-2xl border bg-card p-4">
+            <div className="mb-2 text-sm font-semibold">Export & Share</div>
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" onClick={printResume} variant="secondary"><Download className="mr-1 h-4 w-4"/>PDF</Button>
+              <Button type="button" onClick={() => exportDocx(data as any)} variant="secondary"><Download className="mr-1 h-4 w-4"/>DOCX</Button>
+              <Button type="button" onClick={() => { const url = makeShareUrl(data as any); navigator.clipboard.writeText(url); alert("Share link copied to clipboard"); }}>Share Link</Button>
+            </div>
+          </div>
+        </div>
+
         {/* Left: Inputs */}
         <div className="space-y-4 min-w-0">
           <div className="rounded-2xl border bg-card p-4 shadow-sm">
