@@ -1,6 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
 
 export default function SiteHeader() {
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  useEffect(() => setOpen(false), [location.pathname]);
   const nav = [
     { to: "/", label: "Home" },
     { to: "/resume", label: "Resume Builder" },
