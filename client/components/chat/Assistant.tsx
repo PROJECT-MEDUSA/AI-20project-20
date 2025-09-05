@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bot, MessageCircle, Send, X, Sparkles, FileText, Presentation, Layout as LayoutIcon, Rocket, Info } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Bot, MessageCircle, Send, X } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface ChatMessage {
   id: string;
