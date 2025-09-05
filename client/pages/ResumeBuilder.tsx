@@ -177,6 +177,17 @@ export default function ResumeBuilder() {
     localStorage.setItem("resumeBuilder.data", JSON.stringify(data));
   };
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        saveData();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [data]);
+
   const onAddExperience = () => {
     setData((prev) => ({
       ...prev,
