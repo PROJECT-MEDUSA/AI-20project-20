@@ -62,6 +62,36 @@ export default function SiteHeader() {
           </Link>
         </div>
       </div>
+      {open && (
+        <div className="md:hidden fixed left-0 right-0 top-16 z-[60] border-b border-white/10 bg-slate-900/95 backdrop-blur">
+          <nav aria-label="Mobile navigation" className="container py-3">
+            <ul className="flex flex-col gap-1 text-base font-semibold">
+              {nav.map((n) => (
+                <li key={n.to}>
+                  <NavLink
+                    to={n.to}
+                    className={({ isActive }) =>
+                      `block rounded-md px-3 py-2 transition ${isActive ? "bg-white/10 text-white" : "text-white/90 hover:bg-white/10"}`
+                    }
+                    onClick={() => setOpen(false)}
+                  >
+                    {n.label}
+                  </NavLink>
+                </li>
+              ))}
+              <li>
+                <Link
+                  to="/auth"
+                  className="mt-1 block rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-3 py-2 text-center font-semibold text-white"
+                  onClick={() => setOpen(false)}
+                >
+                  Get Started
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
