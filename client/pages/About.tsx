@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FileText, Layout as LayoutIcon, Presentation, Target, Sparkles } from "lucide-react";
+import {
+  FileText,
+  Layout as LayoutIcon,
+  Presentation,
+  Target,
+  Sparkles,
+} from "lucide-react";
 
 export default function About() {
   return (
@@ -41,7 +47,9 @@ export default function About() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              We empower students to turn potential into opportunity — with tools that make resumes, portfolios, and project pitches effortless and exceptional.
+              We empower students to turn potential into opportunity — with
+              tools that make resumes, portfolios, and project pitches
+              effortless and exceptional.
             </motion.p>
           </div>
         </div>
@@ -60,12 +68,20 @@ export default function About() {
             <Target className="h-3.5 w-3.5 text-primary" aria-hidden />
             Mission
           </div>
-          <h2 className="mt-3 text-3xl font-extrabold tracking-tight">Helping students present their best selves</h2>
+          <h2 className="mt-3 text-3xl font-extrabold tracking-tight">
+            Helping students present their best selves
+          </h2>
           <p className="mt-4 text-white/80">
-            Our mission is simple: make it remarkably easy for students to create professional resumes, polished portfolios, and compelling project pitches — without stress or confusion. We combine thoughtful design with AI assistance to help you communicate your strengths clearly and confidently.
+            Our mission is simple: make it remarkably easy for students to
+            create professional resumes, polished portfolios, and compelling
+            project pitches — without stress or confusion. We combine thoughtful
+            design with AI assistance to help you communicate your strengths
+            clearly and confidently.
           </p>
           <p className="mt-3 text-white/80">
-            Whether you’re applying for internships, sharing work with recruiters, or presenting at events, our platform provides a guided, beginner‑friendly experience that produces impressive results.
+            Whether you’re applying for internships, sharing work with
+            recruiters, or presenting at events, our platform provides a guided,
+            beginner‑friendly experience that produces impressive results.
           </p>
         </div>
         <div>
@@ -90,9 +106,12 @@ export default function About() {
         transition={{ duration: 0.6 }}
       >
         <div className="container py-12 md:py-16">
-          <h2 className="text-3xl font-extrabold tracking-tight">What you can build</h2>
+          <h2 className="text-3xl font-extrabold tracking-tight">
+            What you can build
+          </h2>
           <p className="mt-2 max-w-3xl text-white/75">
-            Three focused tools — each designed for clarity, speed, and standout results.
+            Three focused tools — each designed for clarity, speed, and standout
+            results.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             <FeatureCard
@@ -128,19 +147,26 @@ export default function About() {
         <div>
           <h2 className="text-3xl font-extrabold tracking-tight">Our Vision</h2>
           <p className="mt-4 text-white/80">
-            We believe every student deserves the chance to be seen. Our vision is a world where talent speaks louder than templates — where your ideas, effort, and creativity shine without limits.
+            We believe every student deserves the chance to be seen. Our vision
+            is a world where talent speaks louder than templates — where your
+            ideas, effort, and creativity shine without limits.
           </p>
           <p className="mt-3 text-white/80">
-            By blending smart defaults with flexible customization, we help you tell a memorable story. You bring the work; we’ll help it resonate.
+            By blending smart defaults with flexible customization, we help you
+            tell a memorable story. You bring the work; we’ll help it resonate.
           </p>
         </div>
         <div>
           <div className="relative overflow-hidden rounded-2xl border bg-white/5 p-10 text-center backdrop-blur-md">
             <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(520px_260px_at_30%_30%,rgba(99,102,241,0.3),transparent),radial-gradient(520px_260px_at_70%_70%,rgba(236,72,153,0.3),transparent)]" />
             <blockquote className="mx-auto max-w-md text-xl font-semibold text-white/90">
-              "Power belongs to those who share their work. We make that first step simple, beautiful, and brave."
+              "Power belongs to those who share their work. We make that first
+              step simple, beautiful, and brave."
             </blockquote>
-            <div aria-hidden className="mt-6 h-px w-full bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            <div
+              aria-hidden
+              className="mt-6 h-px w-full bg-gradient-to-r from-transparent via-white/30 to-transparent"
+            />
             <p className="mt-2 text-sm text-white/70">— The Team</p>
           </div>
         </div>
@@ -161,8 +187,13 @@ export default function About() {
 
             <div className="relative z-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
               <div>
-                <h3 className="text-2xl font-bold">Start building your future today</h3>
-                <p className="text-white/90">Create your first resume, portfolio, or pitch in minutes — free to start.</p>
+                <h3 className="text-2xl font-bold">
+                  Start building your future today
+                </h3>
+                <p className="text-white/90">
+                  Create your first resume, portfolio, or pitch in minutes —
+                  free to start.
+                </p>
               </div>
               <Link
                 to="/auth"
@@ -198,7 +229,9 @@ function FeatureCard({
       transition={{ duration: 0.5 }}
       whileHover={{ y: -4, scale: 1.02 }}
     >
-      <div className={`inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br ${gradient} text-white shadow-md`}>
+      <div
+        className={`inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br ${gradient} text-white shadow-md`}
+      >
         {icon}
       </div>
       <h3 className="mt-3 text-xl font-semibold">{title}</h3>
@@ -211,7 +244,9 @@ function Stat({ number, label }: { number: string; label: string }) {
   return (
     <div className="rounded-xl border bg-white/10 p-4 text-center shadow-sm backdrop-blur">
       <div className="text-2xl font-extrabold tracking-tight">{number}</div>
-      <div className="mt-1 text-xs font-semibold uppercase text-white/70">{label}</div>
+      <div className="mt-1 text-xs font-semibold uppercase text-white/70">
+        {label}
+      </div>
     </div>
   );
 }

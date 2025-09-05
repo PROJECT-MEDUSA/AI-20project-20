@@ -6,7 +6,9 @@ export default function SiteFooter() {
   const scrollToAbout: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
     if (isHome) {
       e.preventDefault();
-      document.getElementById("about")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document
+        .getElementById("about")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
   return (
@@ -23,9 +25,21 @@ export default function SiteFooter() {
             <p className="font-semibold">Empowering students since 2023</p>
           </div>
           <div>
-            <h3 className="font-semibold mb-2"><Link to="/about" className="hover:underline">Learn More</Link></h3>
+            <h3 className="font-semibold mb-2">
+              <Link to="/about" className="hover:underline">
+                Learn More
+              </Link>
+            </h3>
             <ul className="space-y-2 font-semibold">
-              <li><Link to={isHome ? "#about" : "/#about"} onClick={scrollToAbout} className="hover:underline">About Us</Link></li>
+              <li>
+                <Link
+                  to={isHome ? "#about" : "/#about"}
+                  onClick={scrollToAbout}
+                  className="hover:underline"
+                >
+                  About Us
+                </Link>
+              </li>
               <li>News & Updates</li>
             </ul>
           </div>
