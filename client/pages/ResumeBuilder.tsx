@@ -140,6 +140,11 @@ export default function ResumeBuilder() {
   const [activeTab, setActiveTab] =
     useState<(typeof TABS)[number]["id"]>("profile");
   const [data, setData] = useState<ResumeData>(emptyResume);
+  const [template, setTemplate] = useState<"classic" | "modern" | "minimal">("modern");
+  const [accent, setAccent] = useState<string>("#6366f1");
+  const [ats, setAts] = useState(false);
+  const [order, setOrder] = useState<string[]>(["summary","experience","education","skills","interests","contact"]);
+  const [focus, setFocus] = useState<string>("");
   const printRef = useRef<HTMLDivElement | null>(null);
 
   // Load/save
