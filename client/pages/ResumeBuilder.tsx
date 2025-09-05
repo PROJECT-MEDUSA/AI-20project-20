@@ -30,6 +30,11 @@ import {
   Wrench,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ResumePreview } from "@/pages/resume/Preview";
+import { StrengthMeter } from "@/pages/resume/StrengthMeter";
+import { exportDocx, makeShareUrl } from "@/pages/resume/exporters";
+import { GithubImport } from "@/pages/resume/GithubImport";
+import { AssistantPanel } from "@/pages/resume/AssistantPanel";
 
 // Types
 type ExperienceItem = {
