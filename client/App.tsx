@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import Layout from "@/components/layout/Layout";
 import ResumeBuilder from "@/pages/ResumeBuilder";
 import Placeholder from "@/pages/Placeholder";
+import About from "@/pages/About";
 import PitchGenerator from "@/pages/PitchGenerator";
 import PortfolioBuilder from "@/pages/PortfolioBuilder";
 import ExportHub from "@/pages/ExportHub";
@@ -32,7 +33,7 @@ const App = () => (
             <Route path="portfolio" element={<PortfolioBuilder />} />
             <Route path="export" element={<ExportHub />} />
             <Route path="auth" element={<Auth />} />
-            <Route path="about" element={<Placeholder title="About" />} />
+            <Route path="about" element={<About />} />
             <Route path="profile" element={<Placeholder title="Profile" />} />
             <Route path="*" element={<NotFound />} />
           </Route>
