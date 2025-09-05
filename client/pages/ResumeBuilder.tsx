@@ -147,6 +147,19 @@ export default function ResumeBuilder() {
   const [focus, setFocus] = useState<string>("");
   const printRef = useRef<HTMLDivElement | null>(null);
 
+  // Load from share link
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const r = url.searchParams.get("r");
+    if (r) {
+      try {
+        const json = decodeURIComponent(escape(atob(r)));
+        const parsed = JSON.parse(json) as ResumeData;
+        setData(parsed);
+      } catch {}
+    }
+  }, []);
+
   // Load/save
   useEffect(() => {
     const raw = localStorage.getItem("resumeBuilder.data");
