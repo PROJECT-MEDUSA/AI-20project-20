@@ -53,7 +53,7 @@ export default function Index() {
             </motion.span>
 
             <motion.h1
-              className="mt-5 text-4xl/tight font-extrabold md:text-6xl/tight [text-shadow:0_2px_24px_rgba(168,85,247,0.35)]"
+              className="mt-5 text-4xl/tight font-extrabold text-white/90 md:text-6xl/tight drop-shadow-sm [text-shadow:0_1px_18px_rgba(168,85,247,0.25)]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
@@ -70,7 +70,7 @@ export default function Index() {
             </motion.h1>
 
             <motion.p
-              className="mt-4 text-lg text-white/80 md:text-xl"
+              className="mt-4 text-lg text-white/85 md:text-xl"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.75, duration: 0.5 }}
