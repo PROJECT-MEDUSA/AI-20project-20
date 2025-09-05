@@ -225,3 +225,18 @@ function BackgroundDecor() {
     </div>
   );
 }
+
+function AnimatedStyles() {
+  return (
+    <style>
+      {`
+      @keyframes float-slow { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-12px) } }
+      .animate-float-slow{ animation: float-slow 8s ease-in-out infinite; }
+      .animate-float-slower{ animation: float-slow 10s ease-in-out infinite; }
+      .animate-float-slowest{ animation: float-slow 12s ease-in-out infinite; }
+      @keyframes gradient-slow { 0%{filter:hue-rotate(0deg)} 100%{filter:hue-rotate(360deg)} }
+      .animate-gradient-slow{ animation: gradient-slow 18s linear infinite; }
+    `}
+    </style>
+  );
+}
