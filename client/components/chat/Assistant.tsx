@@ -61,95 +61,136 @@ export default function Assistant() {
     <div className="fixed bottom-4 right-4 z-[70] print:hidden">
       <AnimatePresence>
         {open && (
-          <motion.section
-            role="dialog"
-            aria-label="AI Assistant"
-            initial={{ opacity: 0, y: 16, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-            className="mb-3 w-[92vw] max-w-[420px] overflow-hidden rounded-2xl border border-white/10 bg-slate-900/90 text-white shadow-2xl backdrop-blur"
+          <motion.div
+            key="assistant-wrap"
+            initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: 16, scale: 0.96, filter: "blur(6px)" }}
+            transition={{ type: "spring", stiffness: 260, damping: 22 }}
+            className="relative mb-3"
           >
-            <header className="relative flex items-center gap-2 border-b border-white/10 bg-gradient-to-r from-indigo-600/30 to-fuchsia-600/30 px-4 py-3">
-              <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white shadow">
-                <Bot className="h-4 w-4" aria-hidden />
-              </div>
-              <div>
-                <p className="text-sm font-semibold leading-tight">AI Assistant</p>
-                <p className="text-xs text-white/70">Ask about features, where to start, or how to export.</p>
-              </div>
-              <button
-                type="button"
-                aria-label="Close assistant"
-                onClick={() => setOpen(false)}
-                className="ml-auto inline-flex h-8 w-8 items-center justify-center rounded-md text-white/80 hover:bg-white/10"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </header>
-
-            <div ref={listRef} className="max-h-[50vh] overflow-y-auto px-3 py-3 space-y-3">
-              {messages.map((m) => (
-                <div key={m.id} className={`flex ${m.role === "assistant" ? "justify-start" : "justify-end"}`}>
-                  <div
-                    className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed shadow ${
-                      m.role === "assistant" ? "bg-white/10" : "bg-primary text-primary-foreground"
-                    }`}
-                  >
-                    <p>{m.content}</p>
-                    {m.suggested && m.suggested.length > 0 && (
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {m.suggested.map((s, i) => (
-                          <button
-                            key={i}
-                            onClick={s.action}
-                            className="rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-xs font-semibold text-white/90 transition hover:bg-white/20"
-                          >
-                            {s.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <form
-              className="flex items-end gap-2 border-t border-white/10 bg-slate-900/60 px-3 py-2"
-              onSubmit={(e) => {
-                e.preventDefault();
-                void send();
-              }}
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute -inset-3 -z-10 rounded-3xl opacity-70"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.35 }}
+              style={{ filter: "blur(18px)" }}
             >
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                rows={1}
-                placeholder="Ask me anything about using the site..."
-                className="min-h-[40px] max-h-28 flex-1 resize-y rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none placeholder:text-white/50 focus:border-primary"
-              />
-              <button
-                type="submit"
-                aria-label="Send message"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              <div className="h-full w-full rounded-3xl bg-[conic-gradient(at_30%_50%,#8b5cf6_0deg,#ec4899_120deg,#22d3ee_240deg,#8b5cf6_360deg)]" />
+            </motion.div>
+
+            <motion.section
+              role="dialog"
+              aria-label="AI Assistant"
+              initial={false}
+              className="w-[92vw] max-w-[420px] overflow-hidden rounded-2xl border border-white/10 bg-slate-900/90 text-white shadow-2xl backdrop-blur"
+            >
+              <header className="relative flex items-center gap-2 border-b border-white/10 bg-gradient-to-r from-indigo-600/30 to-fuchsia-600/30 px-4 py-3">
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary text-white shadow">
+                  <Bot className="h-4 w-4" aria-hidden />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold leading-tight">AI Assistant</p>
+                  <p className="text-xs text-white/70">Ask about features, where to start, or how to export.</p>
+                </div>
+                <button
+                  type="button"
+                  aria-label="Close assistant"
+                  onClick={() => setOpen(false)}
+                  className="ml-auto inline-flex h-8 w-8 items-center justify-center rounded-md text-white/80 transition hover:bg-white/10 active:scale-95"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </header>
+
+              <motion.div
+                ref={listRef}
+                initial={false}
+                className="max-h-[50vh] overflow-y-auto px-3 py-3 space-y-3"
               >
-                <Send className="h-4 w-4" />
-              </button>
-            </form>
-          </motion.section>
+                <AnimatePresence initial={false}>
+                  {messages.map((m) => (
+                    <motion.div
+                      key={m.id}
+                      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                      transition={{ duration: 0.18 }}
+                      className={`flex ${m.role === "assistant" ? "justify-start" : "justify-end"}`}
+                    >
+                      <div
+                        className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm leading-relaxed shadow ${
+                          m.role === "assistant" ? "bg-white/10" : "bg-primary text-primary-foreground"
+                        }`}
+                      >
+                        <p>{m.content}</p>
+                        {m.suggested && m.suggested.length > 0 && (
+                          <div className="mt-2 flex flex-wrap gap-2">
+                            {m.suggested.map((s, i) => (
+                              <button
+                                key={i}
+                                onClick={s.action}
+                                className="rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-xs font-semibold text-white/90 transition hover:bg-white/20 active:scale-95"
+                              >
+                                {s.label}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+
+              <form
+                className="flex items-end gap-2 border-t border-white/10 bg-slate-900/60 px-3 py-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  void send();
+                }}
+              >
+                <textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  rows={1}
+                  placeholder="Ask me anything about using the site..."
+                  className="min-h-[40px] max-h-28 flex-1 resize-y rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none placeholder:text-white/50 focus:border-primary"
+                />
+                <motion.button
+                  type="submit"
+                  aria-label="Send message"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <Send className="h-4 w-4" />
+                </motion.button>
+              </form>
+            </motion.section>
+          </motion.div>
         )}
       </AnimatePresence>
 
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        aria-label={open ? "Close AI Assistant" : "Open AI Assistant"}
-        className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-4 py-2 font-semibold text-white shadow-lg transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      >
-        <MessageCircle className="h-4 w-4" /> Chat
-      </button>
+      <div className="relative">
+        <span aria-hidden className="absolute -inset-1 rounded-full bg-primary opacity-30 blur-lg animate-pulse" />
+        <motion.button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-label={open ? "Close AI Assistant" : "Open AI Assistant"}
+          initial={{ opacity: 0, y: 12, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ type: "spring", stiffness: 240, damping: 18, delay: 0.1 }}
+          whileHover={{ scale: 1.05, rotate: -1 }}
+          whileTap={{ scale: 0.95 }}
+          className="relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-4 py-2 font-semibold text-white shadow-lg transition hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <MessageCircle className="h-4 w-4" /> Chat
+        </motion.button>
+      </div>
     </div>
   );
 }
