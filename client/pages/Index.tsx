@@ -6,6 +6,7 @@ import {
   Presentation,
   Layout as LayoutIcon,
   Sparkles,
+  Users,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
