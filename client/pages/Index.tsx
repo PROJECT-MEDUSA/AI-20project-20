@@ -39,7 +39,7 @@ export default function Index() {
           <img
             aria-hidden
             src="https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F5cfe91acdcc04de5a0a1bedc460a66b5?format=webp&width=1600"
-            className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover opacity-20 blur-[2px] [mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]"
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover opacity-20 blur-[2px] [mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]"
           />
           <div className="mx-auto max-w-4xl">
             <motion.span
