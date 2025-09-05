@@ -1,6 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function SiteFooter() {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+  const scrollToAbout: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+    if (isHome) {
+      e.preventDefault();
+      document.getElementById("about")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
   return (
     <footer className="border-t border-white/10 bg-slate-900/60">
       <div className="container py-10 text-sm text-white/80">
