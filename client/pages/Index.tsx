@@ -487,7 +487,7 @@ function CursorTrail() {
       ctx.restore();
 
       const pts = pointsRef.current;
-      for (let i = 0; i &lt; pts.length; i++) {
+      for (let i = 0; i < pts.length; i++) {
         const p = pts[i];
         const t = i / Math.max(1, pts.length - 1);
         const radius = 6 + (1 - t) * 8;
