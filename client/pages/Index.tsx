@@ -508,7 +508,7 @@ function CursorTrail() {
       for (let i = 0; i < pts.length; i++) {
         pts[i].life -= fadePerMs * dt;
       }
-      pointsRef.current = pts.filter((p) =&gt; p.life &gt; 0.02);
+      pointsRef.current = pts.filter((p) => p.life > 0.02);
 
       rafRef.current = requestAnimationFrame(draw);
     };
