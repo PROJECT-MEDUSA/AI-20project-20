@@ -169,7 +169,7 @@ export default function Index() {
               />
               <BenefitCard
                 icon={<Rocket className="h-6 w-6" aria-hidden />}
-                title="Stand out &amp; share fast"
+                title="Stand out & share fast"
                 description="Export to PDF/TXT or share live links so recruiters and peers can view your work instantly."
               />
             </div>
