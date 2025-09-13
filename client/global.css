@@ -124,3 +124,32 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Page enter animation classes for react-transition-group */
+.pagefade-appear,
+.pagefade-enter {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.pagefade-appear-active,
+.pagefade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 800ms ease-in-out, transform 800ms ease-in-out;
+  will-change: opacity, transform;
+}
+.pagefade-appear-done,
+.pagefade-enter-done {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Optional exit (not currently used) */
+.pagefade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.pagefade-exit-active {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
