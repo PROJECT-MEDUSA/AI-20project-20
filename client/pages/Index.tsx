@@ -56,7 +56,7 @@ export default function Index() {
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
                 <Sparkles className="h-3.5 w-3.5 text-primary" aria-hidden />
-                AI Resume &amp; Project Booster
+                AI Resume & Project Booster
               </motion.span>
 
               <motion.h1
