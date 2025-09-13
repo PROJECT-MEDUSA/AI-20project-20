@@ -504,7 +504,7 @@ function CursorTrail() {
 
       // Fade out points over time, faster when idle
       const idleMs = now - lastMoveRef.current;
-      const fadePerMs = idleMs &gt; 80 ? 0.008 : 0.004;
+      const fadePerMs = idleMs > 80 ? 0.008 : 0.004;
       for (let i = 0; i < pts.length; i++) {
         pts[i].life -= fadePerMs * dt;
       }
