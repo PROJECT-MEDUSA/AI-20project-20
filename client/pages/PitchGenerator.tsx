@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Image as ImageIcon, Sparkles, Presentation, ChevronDown, ChevronRight } from "lucide-react";
+import { Image as ImageIcon, Sparkles, Presentation, ChevronRight } from "lucide-react";
 
 function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
