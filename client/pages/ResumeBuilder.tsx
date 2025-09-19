@@ -16,7 +16,11 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Camera,
@@ -142,10 +146,19 @@ export default function ResumeBuilder() {
   const [activeTab, setActiveTab] =
     useState<(typeof TABS)[number]["id"]>("profile");
   const [data, setData] = useState<ResumeData>(emptyResume);
-  const [template, setTemplate] = useState<"classic" | "modern" | "minimal">("modern");
+  const [template, setTemplate] = useState<"classic" | "modern" | "minimal">(
+    "modern",
+  );
   const [accent, setAccent] = useState<string>("#6366f1");
   const [ats, setAts] = useState(false);
-  const [order, setOrder] = useState<string[]>(["summary","experience","education","skills","interests","contact"]);
+  const [order, setOrder] = useState<string[]>([
+    "summary",
+    "experience",
+    "education",
+    "skills",
+    "interests",
+    "contact",
+  ]);
   const [focus, setFocus] = useState<string>("");
   const printRef = useRef<HTMLDivElement | null>(null);
 
@@ -386,894 +399,979 @@ export default function ResumeBuilder() {
         </Canvas>
       </div>
       <section className="container relative z-10 py-8 md:py-12">
-      <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight md:text-3xl">
-            Resume Builder
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Create a professional resume with a clean, modern layout.
-          </p>
+        <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-2xl font-extrabold tracking-tight md:text-3xl">
+              Resume Builder
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Create a professional resume with a clean, modern layout.
+            </p>
+          </div>
+          <div className="w-full max-w-2xl">
+            <div className="flex items-center gap-3">
+              <div className="flex-1">
+                <Progress value={sectionCompletion} />
+                <div className="mt-1 text-xs text-muted-foreground">
+                  {sectionCompletion}% complete —{" "}
+                  {sectionCompletion > 80
+                    ? "Almost there!"
+                    : sectionCompletion > 40
+                      ? "Keep going!"
+                      : "Let's start strong!"}
+                </div>
+              </div>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    onClick={() => setAts((v) => !v)}
+                    aria-pressed={ats}
+                  >
+                    {ats ? "ATS" : "Rich"}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Toggle ATS‑friendly preview</TooltipContent>
+              </Tooltip>
+              <Select
+                value={template}
+                onValueChange={(v) => setTemplate(v as any)}
+              >
+                <SelectTrigger className="w-[140px]">
+                  <SelectValue placeholder="Template" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="classic">Classic</SelectItem>
+                  <SelectItem value="modern">Modern</SelectItem>
+                  <SelectItem value="minimal">Minimal</SelectItem>
+                </SelectContent>
+              </Select>
+              <input
+                aria-label="Accent color"
+                title="Accent color"
+                type="color"
+                value={accent}
+                onChange={(e) => setAccent(e.target.value)}
+                className="h-9 w-9 cursor-pointer rounded-md border bg-transparent p-0"
+              />
+            </div>
+          </div>
         </div>
-        <div className="w-full max-w-2xl">
-          <div className="flex items-center gap-3">
-            <div className="flex-1">
-              <Progress value={sectionCompletion} />
-              <div className="mt-1 text-xs text-muted-foreground">
-                {sectionCompletion}% complete — {sectionCompletion > 80 ? "Almost there!" : sectionCompletion > 40 ? "Keep going!" : "Let's start strong!"}
+
+        <div className="grid gap-8 xl:grid-cols-[1fr_minmax(420px,520px)_320px] lg:grid-cols-[1fr_minmax(420px,520px)] min-w-0">
+          {/* Tools row */}
+          <div className="grid grid-cols-2 gap-3">
+            <GithubImport
+              onMerge={(partial) =>
+                setData((d) => ({
+                  ...d,
+                  ...partial,
+                  skills: mergeSkills(d.skills, partial.skills || []),
+                }))
+              }
+            />
+            <div className="rounded-2xl border bg-card p-4">
+              <div className="mb-2 text-sm font-semibold">Export & Share</div>
+              <div className="flex flex-wrap gap-2">
+                <Button type="button" onClick={printResume} variant="secondary">
+                  <Download className="mr-1 h-4 w-4" />
+                  PDF
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => exportDocx(data as any)}
+                  variant="secondary"
+                >
+                  <Download className="mr-1 h-4 w-4" />
+                  DOCX
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    const url = makeShareUrl(data as any);
+                    navigator.clipboard.writeText(url);
+                    alert("Share link copied to clipboard");
+                  }}
+                >
+                  Share Link
+                </Button>
               </div>
             </div>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" onClick={() => setAts((v) => !v)} aria-pressed={ats}>{ats ? "ATS" : "Rich"}</Button>
-              </TooltipTrigger>
-              <TooltipContent>Toggle ATS‑friendly preview</TooltipContent>
-            </Tooltip>
-            <Select value={template} onValueChange={(v) => setTemplate(v as any)}>
-              <SelectTrigger className="w-[140px]"><SelectValue placeholder="Template" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="classic">Classic</SelectItem>
-                <SelectItem value="modern">Modern</SelectItem>
-                <SelectItem value="minimal">Minimal</SelectItem>
-              </SelectContent>
-            </Select>
-            <input aria-label="Accent color" title="Accent color" type="color" value={accent} onChange={(e) => setAccent(e.target.value)} className="h-9 w-9 cursor-pointer rounded-md border bg-transparent p-0"/>
           </div>
-        </div>
-      </div>
 
-      <div className="grid gap-8 xl:grid-cols-[1fr_minmax(420px,520px)_320px] lg:grid-cols-[1fr_minmax(420px,520px)] min-w-0">
-        {/* Tools row */}
-        <div className="grid grid-cols-2 gap-3">
-          <GithubImport onMerge={(partial) => setData((d) => ({ ...d, ...partial, skills: mergeSkills(d.skills, partial.skills || []) }))} />
-          <div className="rounded-2xl border bg-card p-4">
-            <div className="mb-2 text-sm font-semibold">Export & Share</div>
-            <div className="flex flex-wrap gap-2">
-              <Button type="button" onClick={printResume} variant="secondary"><Download className="mr-1 h-4 w-4"/>PDF</Button>
-              <Button type="button" onClick={() => exportDocx(data as any)} variant="secondary"><Download className="mr-1 h-4 w-4"/>DOCX</Button>
-              <Button type="button" onClick={() => { const url = makeShareUrl(data as any); navigator.clipboard.writeText(url); alert("Share link copied to clipboard"); }}>Share Link</Button>
-            </div>
-          </div>
-        </div>
+          {/* Left: Inputs */}
+          <div className="space-y-4 min-w-0">
+            <div className="rounded-2xl border bg-card p-4 shadow-sm">
+              <Tabs
+                value={activeTab}
+                onValueChange={(v) => setActiveTab(v as any)}
+              >
+                <TabsList className="w-full h-auto min-h-10 flex-wrap justify-start gap-1 gap-y-2 bg-transparent p-0">
+                  {TABS.map(({ id, label, icon: Icon }) => (
+                    <TabsTrigger
+                      key={id}
+                      value={id}
+                      className={cn(
+                        "rounded-full bg-muted/60 px-3 py-2 text-xs md:text-sm shrink-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground",
+                        "transition-colors hover:bg-muted",
+                      )}
+                    >
+                      <Icon className="mr-1.5 h-4 w-4" /> {label}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
 
-        {/* Left: Inputs */}
-        <div className="space-y-4 min-w-0">
-          <div className="rounded-2xl border bg-card p-4 shadow-sm">
-            <Tabs
-              value={activeTab}
-              onValueChange={(v) => setActiveTab(v as any)}
-            >
-              <TabsList className="w-full h-auto min-h-10 flex-wrap justify-start gap-1 gap-y-2 bg-transparent p-0">
-                {TABS.map(({ id, label, icon: Icon }) => (
-                  <TabsTrigger
-                    key={id}
-                    value={id}
-                    className={cn(
-                      "rounded-full bg-muted/60 px-3 py-2 text-xs md:text-sm shrink-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground",
-                      "transition-colors hover:bg-muted",
-                    )}
-                  >
-                    <Icon className="mr-1.5 h-4 w-4" /> {label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+                {/* Profile */}
+                <TabsContent value="profile" className="mt-4">
+                  <Panel title="Personal Information">
+                    <Grid cols={2}>
+                      <Field label="First Name">
+                        <Input
+                          placeholder="First name"
+                          value={data.profile.firstName}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              profile: {
+                                ...data.profile,
+                                firstName: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </Field>
+                      <Field label="Middle Name">
+                        <Input
+                          placeholder="Middle name"
+                          value={data.profile.middleName}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              profile: {
+                                ...data.profile,
+                                middleName: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </Field>
+                      <Field label="Last Name">
+                        <Input
+                          placeholder="Last name"
+                          value={data.profile.lastName}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              profile: {
+                                ...data.profile,
+                                lastName: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </Field>
+                      <Field label="Gender">
+                        <Input
+                          value={data.profile.gender}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              profile: {
+                                ...data.profile,
+                                gender: e.target.value,
+                              },
+                            })
+                          }
+                          placeholder="Male / Female / Other"
+                        />
+                      </Field>
+                      <Field label="Date of Birth">
+                        <Input
+                          type="date"
+                          value={data.profile.dob}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              profile: { ...data.profile, dob: e.target.value },
+                            })
+                          }
+                        />
+                      </Field>
+                      <Field label="Marital Status">
+                        <Input
+                          value={data.profile.maritalStatus}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              profile: {
+                                ...data.profile,
+                                maritalStatus: e.target.value,
+                              },
+                            })
+                          }
+                          placeholder="Single / Married"
+                        />
+                      </Field>
+                      <Field label="Profession">
+                        <Input
+                          placeholder="e.g. Software Engineer"
+                          value={data.profile.profession}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              profile: {
+                                ...data.profile,
+                                profession: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </Field>
+                      <Field label="Nationality">
+                        <Input
+                          placeholder="e.g. Indian"
+                          value={data.profile.nationality}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              profile: {
+                                ...data.profile,
+                                nationality: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </Field>
+                      <Field label="Passport Number">
+                        <Input
+                          placeholder="e.g. X1234567"
+                          value={data.profile.passportNumber}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              profile: {
+                                ...data.profile,
+                                passportNumber: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </Field>
+                      <Field label="Phone">
+                        <Input
+                          type="tel"
+                          placeholder="e.g. +1 555 123 4567"
+                          value={data.profile.phone}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              profile: {
+                                ...data.profile,
+                                phone: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </Field>
+                      <Field label="Email">
+                        <Input
+                          type="email"
+                          placeholder="you@example.com"
+                          value={data.profile.email}
+                          onChange={(e) =>
+                            setData({
+                              ...data,
+                              profile: {
+                                ...data.profile,
+                                email: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </Field>
+                    </Grid>
+                    <Field label="Address">
+                      <Textarea
+                        placeholder="Street, City, Country"
+                        value={data.profile.address}
+                        onChange={(e) =>
+                          setData({
+                            ...data,
+                            profile: {
+                              ...data.profile,
+                              address: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </Field>
+                  </Panel>
+                  <NavBar
+                    onPrev={goPrev}
+                    onNext={goNext}
+                    onSave={saveData}
+                    isFirst
+                  />
+                </TabsContent>
 
-              {/* Profile */}
-              <TabsContent value="profile" className="mt-4">
-                <Panel title="Personal Information">
-                  <Grid cols={2}>
-                    <Field label="First Name">
-                      <Input
-                        placeholder="First name"
-                        value={data.profile.firstName}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            profile: {
-                              ...data.profile,
-                              firstName: e.target.value,
-                            },
-                          })
-                        }
-                      />
-                    </Field>
-                    <Field label="Middle Name">
-                      <Input
-                        placeholder="Middle name"
-                        value={data.profile.middleName}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            profile: {
-                              ...data.profile,
-                              middleName: e.target.value,
-                            },
-                          })
-                        }
-                      />
-                    </Field>
-                    <Field label="Last Name">
-                      <Input
-                        placeholder="Last name"
-                        value={data.profile.lastName}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            profile: {
-                              ...data.profile,
-                              lastName: e.target.value,
-                            },
-                          })
-                        }
-                      />
-                    </Field>
-                    <Field label="Gender">
-                      <Input
-                        value={data.profile.gender}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            profile: {
-                              ...data.profile,
-                              gender: e.target.value,
-                            },
-                          })
-                        }
-                        placeholder="Male / Female / Other"
-                      />
-                    </Field>
-                    <Field label="Date of Birth">
-                      <Input
-                        type="date"
-                        value={data.profile.dob}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            profile: { ...data.profile, dob: e.target.value },
-                          })
-                        }
-                      />
-                    </Field>
-                    <Field label="Marital Status">
-                      <Input
-                        value={data.profile.maritalStatus}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            profile: {
-                              ...data.profile,
-                              maritalStatus: e.target.value,
-                            },
-                          })
-                        }
-                        placeholder="Single / Married"
-                      />
-                    </Field>
-                    <Field label="Profession">
-                      <Input
-                        placeholder="e.g. Software Engineer"
-                        value={data.profile.profession}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            profile: {
-                              ...data.profile,
-                              profession: e.target.value,
-                            },
-                          })
-                        }
-                      />
-                    </Field>
-                    <Field label="Nationality">
-                      <Input
-                        placeholder="e.g. Indian"
-                        value={data.profile.nationality}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            profile: {
-                              ...data.profile,
-                              nationality: e.target.value,
-                            },
-                          })
-                        }
-                      />
-                    </Field>
-                    <Field label="Passport Number">
-                      <Input
-                        placeholder="e.g. X1234567"
-                        value={data.profile.passportNumber}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            profile: {
-                              ...data.profile,
-                              passportNumber: e.target.value,
-                            },
-                          })
-                        }
-                      />
-                    </Field>
-                    <Field label="Phone">
-                      <Input
-                        type="tel"
-                        placeholder="e.g. +1 555 123 4567"
-                        value={data.profile.phone}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            profile: { ...data.profile, phone: e.target.value },
-                          })
-                        }
-                      />
-                    </Field>
-                    <Field label="Email">
-                      <Input
-                        type="email"
-                        placeholder="you@example.com"
-                        value={data.profile.email}
-                        onChange={(e) =>
-                          setData({
-                            ...data,
-                            profile: { ...data.profile, email: e.target.value },
-                          })
-                        }
-                      />
-                    </Field>
-                  </Grid>
-                  <Field label="Address">
-                    <Textarea
-                      placeholder="Street, City, Country"
-                      value={data.profile.address}
-                      onChange={(e) =>
-                        setData({
-                          ...data,
-                          profile: { ...data.profile, address: e.target.value },
-                        })
-                      }
-                    />
-                  </Field>
-                </Panel>
-                <NavBar
-                  onPrev={goPrev}
-                  onNext={goNext}
-                  onSave={saveData}
-                  isFirst
-                />
-              </TabsContent>
-
-              {/* Experience */}
-              <TabsContent value="experience" className="mt-4">
-                <Panel title="Experience">
-                  <div className="space-y-4">
-                    {data.experience.map((exp, idx) => (
-                      <div key={exp.id} className="rounded-xl border p-4">
-                        <div className="mb-2 text-sm font-medium">
-                          Role {idx + 1}
-                        </div>
-                        <Grid cols={2}>
-                          <Field label="Job Title">
-                            <Input
-                              placeholder="e.g. Frontend Developer"
-                              value={exp.jobTitle}
+                {/* Experience */}
+                <TabsContent value="experience" className="mt-4">
+                  <Panel title="Experience">
+                    <div className="space-y-4">
+                      {data.experience.map((exp, idx) => (
+                        <div key={exp.id} className="rounded-xl border p-4">
+                          <div className="mb-2 text-sm font-medium">
+                            Role {idx + 1}
+                          </div>
+                          <Grid cols={2}>
+                            <Field label="Job Title">
+                              <Input
+                                placeholder="e.g. Frontend Developer"
+                                value={exp.jobTitle}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    experience: p.experience.map((it) =>
+                                      it.id === exp.id
+                                        ? { ...it, jobTitle: v }
+                                        : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                            <Field label="Employer">
+                              <Input
+                                placeholder="e.g. ACME Corp"
+                                value={exp.employer}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    experience: p.experience.map((it) =>
+                                      it.id === exp.id
+                                        ? { ...it, employer: v }
+                                        : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                            <Field label="City">
+                              <Input
+                                placeholder="e.g. New York"
+                                value={exp.city}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    experience: p.experience.map((it) =>
+                                      it.id === exp.id
+                                        ? { ...it, city: v }
+                                        : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                            <Field label="State">
+                              <Input
+                                placeholder="e.g. NY"
+                                value={exp.state}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    experience: p.experience.map((it) =>
+                                      it.id === exp.id
+                                        ? { ...it, state: v }
+                                        : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                            <Field label="Start Date">
+                              <Input
+                                type="date"
+                                value={exp.startDate}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    experience: p.experience.map((it) =>
+                                      it.id === exp.id
+                                        ? { ...it, startDate: v }
+                                        : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                            <Field label="End Date">
+                              <Input
+                                type="date"
+                                disabled={exp.current}
+                                value={exp.endDate}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    experience: p.experience.map((it) =>
+                                      it.id === exp.id
+                                        ? { ...it, endDate: v }
+                                        : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                          </Grid>
+                          <div className="mt-2 flex items-center gap-2">
+                            <Checkbox
+                              id={`exp-current-${exp.id}`}
+                              checked={exp.current}
+                              onCheckedChange={(c) =>
+                                setData((p) => ({
+                                  ...p,
+                                  experience: p.experience.map((it) =>
+                                    it.id === exp.id
+                                      ? { ...it, current: Boolean(c) }
+                                      : it,
+                                  ),
+                                }))
+                              }
+                            />
+                            <Label htmlFor={`exp-current-${exp.id}`}>
+                              I currently work here
+                            </Label>
+                          </div>
+                          <div className="mt-3">
+                            <Label className="mb-1 block text-sm">
+                              Job Duties / Responsibilities
+                            </Label>
+                            <Textarea
+                              placeholder="List key duties (one per line)"
+                              value={exp.responsibilities}
                               onChange={(e) => {
                                 const v = e.target.value;
                                 setData((p) => ({
                                   ...p,
                                   experience: p.experience.map((it) =>
                                     it.id === exp.id
-                                      ? { ...it, jobTitle: v }
+                                      ? { ...it, responsibilities: v }
                                       : it,
                                   ),
                                 }));
                               }}
+                              rows={4}
                             />
-                          </Field>
-                          <Field label="Employer">
-                            <Input
-                              placeholder="e.g. ACME Corp"
-                              value={exp.employer}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                setData((p) => ({
-                                  ...p,
-                                  experience: p.experience.map((it) =>
-                                    it.id === exp.id
-                                      ? { ...it, employer: v }
-                                      : it,
-                                  ),
-                                }));
-                              }}
-                            />
-                          </Field>
-                          <Field label="City">
-                            <Input
-                              placeholder="e.g. New York"
-                              value={exp.city}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                setData((p) => ({
-                                  ...p,
-                                  experience: p.experience.map((it) =>
-                                    it.id === exp.id ? { ...it, city: v } : it,
-                                  ),
-                                }));
-                              }}
-                            />
-                          </Field>
-                          <Field label="State">
-                            <Input
-                              placeholder="e.g. NY"
-                              value={exp.state}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                setData((p) => ({
-                                  ...p,
-                                  experience: p.experience.map((it) =>
-                                    it.id === exp.id ? { ...it, state: v } : it,
-                                  ),
-                                }));
-                              }}
-                            />
-                          </Field>
-                          <Field label="Start Date">
-                            <Input
-                              type="date"
-                              value={exp.startDate}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                setData((p) => ({
-                                  ...p,
-                                  experience: p.experience.map((it) =>
-                                    it.id === exp.id
-                                      ? { ...it, startDate: v }
-                                      : it,
-                                  ),
-                                }));
-                              }}
-                            />
-                          </Field>
-                          <Field label="End Date">
-                            <Input
-                              type="date"
-                              disabled={exp.current}
-                              value={exp.endDate}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                setData((p) => ({
-                                  ...p,
-                                  experience: p.experience.map((it) =>
-                                    it.id === exp.id
-                                      ? { ...it, endDate: v }
-                                      : it,
-                                  ),
-                                }));
-                              }}
-                            />
-                          </Field>
-                        </Grid>
-                        <div className="mt-2 flex items-center gap-2">
-                          <Checkbox
-                            id={`exp-current-${exp.id}`}
-                            checked={exp.current}
-                            onCheckedChange={(c) =>
-                              setData((p) => ({
-                                ...p,
-                                experience: p.experience.map((it) =>
-                                  it.id === exp.id
-                                    ? { ...it, current: Boolean(c) }
-                                    : it,
-                                ),
-                              }))
-                            }
-                          />
-                          <Label htmlFor={`exp-current-${exp.id}`}>
-                            I currently work here
-                          </Label>
+                          </div>
+                          <div className="mt-3 text-right">
+                            <Button
+                              type="button"
+                              variant="secondary"
+                              onClick={() => onRemoveExperience(exp.id)}
+                            >
+                              Remove
+                            </Button>
+                          </div>
                         </div>
-                        <div className="mt-3">
-                          <Label className="mb-1 block text-sm">
-                            Job Duties / Responsibilities
-                          </Label>
-                          <Textarea
-                            placeholder="List key duties (one per line)"
-                            value={exp.responsibilities}
-                            onChange={(e) => {
-                              const v = e.target.value;
-                              setData((p) => ({
-                                ...p,
-                                experience: p.experience.map((it) =>
-                                  it.id === exp.id
-                                    ? { ...it, responsibilities: v }
-                                    : it,
-                                ),
-                              }));
-                            }}
-                            rows={4}
-                          />
-                        </div>
-                        <div className="mt-3 text-right">
-                          <Button
-                            type="button"
-                            variant="secondary"
-                            onClick={() => onRemoveExperience(exp.id)}
-                          >
-                            Remove
-                          </Button>
-                        </div>
+                      ))}
+                      <div className="flex justify-between">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={onAddExperience}
+                        >
+                          Add Experience
+                        </Button>
                       </div>
-                    ))}
-                    <div className="flex justify-between">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={onAddExperience}
-                      >
-                        Add Experience
-                      </Button>
                     </div>
-                  </div>
-                </Panel>
-                <NavBar onPrev={goPrev} onNext={goNext} onSave={saveData} />
-              </TabsContent>
+                  </Panel>
+                  <NavBar onPrev={goPrev} onNext={goNext} onSave={saveData} />
+                </TabsContent>
 
-              {/* Education */}
-              <TabsContent value="education" className="mt-4">
-                <Panel title="Education">
-                  <div className="space-y-4">
-                    {data.education.map((ed, idx) => (
-                      <div key={ed.id} className="rounded-xl border p-4">
-                        <div className="mb-2 text-sm font-medium">
-                          Entry {idx + 1}
+                {/* Education */}
+                <TabsContent value="education" className="mt-4">
+                  <Panel title="Education">
+                    <div className="space-y-4">
+                      {data.education.map((ed, idx) => (
+                        <div key={ed.id} className="rounded-xl border p-4">
+                          <div className="mb-2 text-sm font-medium">
+                            Entry {idx + 1}
+                          </div>
+                          <Grid cols={2}>
+                            <Field label="School Name">
+                              <Input
+                                placeholder="e.g. University of Delhi"
+                                value={ed.school}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    education: p.education.map((it) =>
+                                      it.id === ed.id
+                                        ? { ...it, school: v }
+                                        : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                            <Field label="City">
+                              <Input
+                                placeholder="e.g. Delhi"
+                                value={ed.city}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    education: p.education.map((it) =>
+                                      it.id === ed.id ? { ...it, city: v } : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                            <Field label="State">
+                              <Input
+                                placeholder="e.g. DL"
+                                value={ed.state}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    education: p.education.map((it) =>
+                                      it.id === ed.id
+                                        ? { ...it, state: v }
+                                        : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                            <Field label="Degree">
+                              <Select
+                                value={ed.degree}
+                                onValueChange={(v) =>
+                                  setData((p) => ({
+                                    ...p,
+                                    education: p.education.map((it) =>
+                                      it.id === ed.id
+                                        ? { ...it, degree: v }
+                                        : it,
+                                    ),
+                                  }))
+                                }
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select degree" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="High School">
+                                    High School
+                                  </SelectItem>
+                                  <SelectItem value="Associate">
+                                    Associate
+                                  </SelectItem>
+                                  <SelectItem value="Bachelor">
+                                    Bachelor
+                                  </SelectItem>
+                                  <SelectItem value="Master">Master</SelectItem>
+                                  <SelectItem value="PhD">PhD</SelectItem>
+                                  <SelectItem value="Other">Other</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </Field>
+                            <Field label="Field of Study">
+                              <Input
+                                placeholder="e.g. Computer Science"
+                                value={ed.fieldOfStudy}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    education: p.education.map((it) =>
+                                      it.id === ed.id
+                                        ? { ...it, fieldOfStudy: v }
+                                        : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                            <Field label="Start Date">
+                              <Input
+                                type="date"
+                                value={ed.startDate}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    education: p.education.map((it) =>
+                                      it.id === ed.id
+                                        ? { ...it, startDate: v }
+                                        : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                            <Field label="End Date">
+                              <Input
+                                type="date"
+                                disabled={ed.current}
+                                value={ed.endDate}
+                                onChange={(e) => {
+                                  const v = e.target.value;
+                                  setData((p) => ({
+                                    ...p,
+                                    education: p.education.map((it) =>
+                                      it.id === ed.id
+                                        ? { ...it, endDate: v }
+                                        : it,
+                                    ),
+                                  }));
+                                }}
+                              />
+                            </Field>
+                          </Grid>
+                          <div className="mt-2 flex items-center gap-2">
+                            <Checkbox
+                              id={`ed-current-${ed.id}`}
+                              checked={ed.current}
+                              onCheckedChange={(c) =>
+                                setData((p) => ({
+                                  ...p,
+                                  education: p.education.map((it) =>
+                                    it.id === ed.id
+                                      ? { ...it, current: Boolean(c) }
+                                      : it,
+                                  ),
+                                }))
+                              }
+                            />
+                            <Label htmlFor={`ed-current-${ed.id}`}>
+                              I currently study here
+                            </Label>
+                          </div>
+                          <div className="mt-3 text-right">
+                            <Button
+                              type="button"
+                              variant="secondary"
+                              onClick={() => onRemoveEducation(ed.id)}
+                            >
+                              Remove
+                            </Button>
+                          </div>
                         </div>
-                        <Grid cols={2}>
-                          <Field label="School Name">
+                      ))}
+                      <div>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={onAddEducation}
+                        >
+                          Add Education
+                        </Button>
+                      </div>
+                    </div>
+                  </Panel>
+                  <NavBar onPrev={goPrev} onNext={goNext} onSave={saveData} />
+                </TabsContent>
+
+                {/* Skills */}
+                <TabsContent value="skills" className="mt-4">
+                  <Panel title="Skills">
+                    <div className="space-y-4">
+                      {data.skills.map((s) => (
+                        <div
+                          key={s.id}
+                          className="grid gap-3 rounded-xl border p-4 md:grid-cols-2"
+                        >
+                          <Field label="Skill Name">
                             <Input
-                              placeholder="e.g. University of Delhi"
-                              value={ed.school}
+                              placeholder="e.g. React, Figma"
+                              value={s.name}
                               onChange={(e) => {
                                 const v = e.target.value;
                                 setData((p) => ({
                                   ...p,
-                                  education: p.education.map((it) =>
-                                    it.id === ed.id ? { ...it, school: v } : it,
+                                  skills: p.skills.map((it) =>
+                                    it.id === s.id ? { ...it, name: v } : it,
                                   ),
                                 }));
                               }}
                             />
                           </Field>
-                          <Field label="City">
-                            <Input
-                              placeholder="e.g. Delhi"
-                              value={ed.city}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                setData((p) => ({
-                                  ...p,
-                                  education: p.education.map((it) =>
-                                    it.id === ed.id ? { ...it, city: v } : it,
-                                  ),
-                                }));
-                              }}
-                            />
-                          </Field>
-                          <Field label="State">
-                            <Input
-                              placeholder="e.g. DL"
-                              value={ed.state}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                setData((p) => ({
-                                  ...p,
-                                  education: p.education.map((it) =>
-                                    it.id === ed.id ? { ...it, state: v } : it,
-                                  ),
-                                }));
-                              }}
-                            />
-                          </Field>
-                          <Field label="Degree">
+                          <Field label="Proficiency">
                             <Select
-                              value={ed.degree}
-                              onValueChange={(v) =>
+                              value={s.level}
+                              onValueChange={(v: SkillItem["level"]) =>
                                 setData((p) => ({
                                   ...p,
-                                  education: p.education.map((it) =>
-                                    it.id === ed.id ? { ...it, degree: v } : it,
+                                  skills: p.skills.map((it) =>
+                                    it.id === s.id ? { ...it, level: v } : it,
                                   ),
                                 }))
                               }
                             >
                               <SelectTrigger>
-                                <SelectValue placeholder="Select degree" />
+                                <SelectValue placeholder="Select level" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="High School">
-                                  High School
+                                <SelectItem value="Beginner">
+                                  Beginner
                                 </SelectItem>
-                                <SelectItem value="Associate">
-                                  Associate
+                                <SelectItem value="Intermediate">
+                                  Intermediate
                                 </SelectItem>
-                                <SelectItem value="Bachelor">
-                                  Bachelor
+                                <SelectItem value="Advanced">
+                                  Advanced
                                 </SelectItem>
-                                <SelectItem value="Master">Master</SelectItem>
-                                <SelectItem value="PhD">PhD</SelectItem>
-                                <SelectItem value="Other">Other</SelectItem>
+                                <SelectItem value="Expert">Expert</SelectItem>
                               </SelectContent>
                             </Select>
                           </Field>
-                          <Field label="Field of Study">
-                            <Input
-                              placeholder="e.g. Computer Science"
-                              value={ed.fieldOfStudy}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                setData((p) => ({
-                                  ...p,
-                                  education: p.education.map((it) =>
-                                    it.id === ed.id
-                                      ? { ...it, fieldOfStudy: v }
-                                      : it,
-                                  ),
-                                }));
-                              }}
-                            />
-                          </Field>
-                          <Field label="Start Date">
-                            <Input
-                              type="date"
-                              value={ed.startDate}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                setData((p) => ({
-                                  ...p,
-                                  education: p.education.map((it) =>
-                                    it.id === ed.id
-                                      ? { ...it, startDate: v }
-                                      : it,
-                                  ),
-                                }));
-                              }}
-                            />
-                          </Field>
-                          <Field label="End Date">
-                            <Input
-                              type="date"
-                              disabled={ed.current}
-                              value={ed.endDate}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                setData((p) => ({
-                                  ...p,
-                                  education: p.education.map((it) =>
-                                    it.id === ed.id
-                                      ? { ...it, endDate: v }
-                                      : it,
-                                  ),
-                                }));
-                              }}
-                            />
-                          </Field>
-                        </Grid>
-                        <div className="mt-2 flex items-center gap-2">
-                          <Checkbox
-                            id={`ed-current-${ed.id}`}
-                            checked={ed.current}
-                            onCheckedChange={(c) =>
-                              setData((p) => ({
-                                ...p,
-                                education: p.education.map((it) =>
-                                  it.id === ed.id
-                                    ? { ...it, current: Boolean(c) }
-                                    : it,
-                                ),
-                              }))
-                            }
-                          />
-                          <Label htmlFor={`ed-current-${ed.id}`}>
-                            I currently study here
-                          </Label>
+                          <div className="md:col-span-2 text-right">
+                            <Button
+                              type="button"
+                              variant="secondary"
+                              onClick={() => onRemoveSkill(s.id)}
+                            >
+                              Remove
+                            </Button>
+                          </div>
                         </div>
-                        <div className="mt-3 text-right">
-                          <Button
-                            type="button"
-                            variant="secondary"
-                            onClick={() => onRemoveEducation(ed.id)}
-                          >
-                            Remove
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                    <div>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={onAddEducation}
-                      >
-                        Add Education
-                      </Button>
-                    </div>
-                  </div>
-                </Panel>
-                <NavBar onPrev={goPrev} onNext={goNext} onSave={saveData} />
-              </TabsContent>
-
-              {/* Skills */}
-              <TabsContent value="skills" className="mt-4">
-                <Panel title="Skills">
-                  <div className="space-y-4">
-                    {data.skills.map((s) => (
-                      <div
-                        key={s.id}
-                        className="grid gap-3 rounded-xl border p-4 md:grid-cols-2"
-                      >
-                        <Field label="Skill Name">
-                          <Input
-                            placeholder="e.g. React, Figma"
-                            value={s.name}
-                            onChange={(e) => {
-                              const v = e.target.value;
-                              setData((p) => ({
-                                ...p,
-                                skills: p.skills.map((it) =>
-                                  it.id === s.id ? { ...it, name: v } : it,
-                                ),
-                              }));
-                            }}
-                          />
-                        </Field>
-                        <Field label="Proficiency">
-                          <Select
-                            value={s.level}
-                            onValueChange={(v: SkillItem["level"]) =>
-                              setData((p) => ({
-                                ...p,
-                                skills: p.skills.map((it) =>
-                                  it.id === s.id ? { ...it, level: v } : it,
-                                ),
-                              }))
-                            }
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select level" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="Beginner">Beginner</SelectItem>
-                              <SelectItem value="Intermediate">
-                                Intermediate
-                              </SelectItem>
-                              <SelectItem value="Advanced">Advanced</SelectItem>
-                              <SelectItem value="Expert">Expert</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </Field>
-                        <div className="md:col-span-2 text-right">
-                          <Button
-                            type="button"
-                            variant="secondary"
-                            onClick={() => onRemoveSkill(s.id)}
-                          >
-                            Remove
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                    <div>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={onAddSkill}
-                      >
-                        Add Skill
-                      </Button>
-                    </div>
-                  </div>
-                </Panel>
-                <NavBar onPrev={goPrev} onNext={goNext} onSave={saveData} />
-              </TabsContent>
-
-              {/* Summary */}
-              <TabsContent value="summary" className="mt-4">
-                <Panel title="Professional Summary">
-                  <div className="grid gap-6 md:grid-cols-3">
-                    <div className="md:col-span-2">
-                      <Label className="mb-1 block text-sm">Summary</Label>
-                      <Textarea
-                        rows={10}
-                        value={data.summary}
-                        onChange={(e) =>
-                          setData({ ...data, summary: e.target.value })
-                        }
-                        placeholder="Write a concise, impactful summary highlighting your experience and strengths."
-                      />
-                    </div>
-                    <div className="rounded-xl border bg-muted/20 p-4 text-sm">
-                      <div className="mb-2 font-semibold">Suggestions</div>
-                      <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
-                        <li>Start with your role and years of experience.</li>
-                        <li>Highlight 2–3 core skills aligned with the job.</li>
-                        <li>Mention a measurable achievement.</li>
-                        <li>Keep it under 4–5 sentences.</li>
-                      </ul>
-                      <div className="mt-3 font-semibold">Example</div>
-                      <p className="mt-1 text-muted-foreground">
-                        Frontend developer with 5+ years building performant
-                        React apps. Led migration to a component library,
-                        reducing defects by 30%. Strong in TypeScript,
-                        accessibility, and cross-functional collaboration.
-                      </p>
-                    </div>
-                  </div>
-                </Panel>
-                <NavBar onPrev={goPrev} onNext={goNext} onSave={saveData} />
-              </TabsContent>
-
-              {/* Interests */}
-              <TabsContent value="interests" className="mt-4">
-                <Panel title="Interests & Hobbies">
-                  <div className="flex flex-wrap items-center gap-2">
-                    {data.interests.map((i) => (
-                      <span
-                        key={i}
-                        className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm"
-                      >
-                        {i}
-                        <button
-                          onClick={() => onRemoveInterest(i)}
-                          className="text-muted-foreground hover:text-foreground"
-                          aria-label={`Remove ${i}`}
-                        >
-                          ×
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                  <AddInterest onAdd={onAddInterest} />
-                </Panel>
-                <NavBar onPrev={goPrev} onNext={goNext} onSave={saveData} />
-              </TabsContent>
-
-              {/* Media & Social */}
-              <TabsContent value="media" className="mt-4">
-                <Panel title="Photo & Social Links">
-                  <div className="grid gap-6 md:grid-cols-3">
-                    <div className="flex flex-col items-center justify-start gap-3">
-                      <Avatar className="h-28 w-28">
-                        <AvatarImage
-                          src={data.media.photoDataUrl}
-                          alt="Profile"
-                        />
-                        <AvatarFallback>
-                          {data.profile.firstName || data.profile.lastName
-                            ? `${data.profile.firstName?.[0] ?? ""}${data.profile.lastName?.[0] ?? ""}`.toUpperCase()
-                            : "?"}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="text-xs text-muted-foreground">
-                        Recommended: square image, up to 2MB
-                      </div>
+                      ))}
                       <div>
                         <Button
                           type="button"
                           variant="outline"
-                          className="rounded-full"
-                          onClick={() =>
-                            document.getElementById("photo-input")?.click()
-                          }
+                          onClick={onAddSkill}
                         >
-                          <Camera className="mr-2 h-4 w-4" /> Upload Photo
+                          Add Skill
                         </Button>
-                        <input
-                          id="photo-input"
-                          className="hidden"
-                          type="file"
-                          accept="image/*"
-                          onChange={handlePhotoUpload}
-                        />
                       </div>
                     </div>
-                    <div className="md:col-span-2 grid gap-4">
-                      <Field label="Facebook">
-                        <Input
-                          placeholder="https://facebook.com/username"
-                          value={data.media.facebook}
+                  </Panel>
+                  <NavBar onPrev={goPrev} onNext={goNext} onSave={saveData} />
+                </TabsContent>
+
+                {/* Summary */}
+                <TabsContent value="summary" className="mt-4">
+                  <Panel title="Professional Summary">
+                    <div className="grid gap-6 md:grid-cols-3">
+                      <div className="md:col-span-2">
+                        <Label className="mb-1 block text-sm">Summary</Label>
+                        <Textarea
+                          rows={10}
+                          value={data.summary}
                           onChange={(e) =>
-                            setData({
-                              ...data,
-                              media: {
-                                ...data.media,
-                                facebook: e.target.value,
-                              },
-                            })
+                            setData({ ...data, summary: e.target.value })
                           }
+                          placeholder="Write a concise, impactful summary highlighting your experience and strengths."
                         />
-                      </Field>
-                      <Field label="Twitter">
-                        <Input
-                          placeholder="https://twitter.com/username"
-                          value={data.media.twitter}
-                          onChange={(e) =>
-                            setData({
-                              ...data,
-                              media: { ...data.media, twitter: e.target.value },
-                            })
-                          }
-                        />
-                      </Field>
-                      <Field label="LinkedIn">
-                        <Input
-                          placeholder="https://linkedin.com/in/username"
-                          value={data.media.linkedin}
-                          onChange={(e) =>
-                            setData({
-                              ...data,
-                              media: {
-                                ...data.media,
-                                linkedin: e.target.value,
-                              },
-                            })
-                          }
-                        />
-                      </Field>
-                      <Field label="Website">
-                        <Input
-                          placeholder="https://yourwebsite.com"
-                          value={data.media.website}
-                          onChange={(e) =>
-                            setData({
-                              ...data,
-                              media: { ...data.media, website: e.target.value },
-                            })
-                          }
-                        />
-                      </Field>
+                      </div>
+                      <div className="rounded-xl border bg-muted/20 p-4 text-sm">
+                        <div className="mb-2 font-semibold">Suggestions</div>
+                        <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
+                          <li>Start with your role and years of experience.</li>
+                          <li>
+                            Highlight 2–3 core skills aligned with the job.
+                          </li>
+                          <li>Mention a measurable achievement.</li>
+                          <li>Keep it under 4–5 sentences.</li>
+                        </ul>
+                        <div className="mt-3 font-semibold">Example</div>
+                        <p className="mt-1 text-muted-foreground">
+                          Frontend developer with 5+ years building performant
+                          React apps. Led migration to a component library,
+                          reducing defects by 30%. Strong in TypeScript,
+                          accessibility, and cross-functional collaboration.
+                        </p>
+                      </div>
+                    </div>
+                  </Panel>
+                  <NavBar onPrev={goPrev} onNext={goNext} onSave={saveData} />
+                </TabsContent>
+
+                {/* Interests */}
+                <TabsContent value="interests" className="mt-4">
+                  <Panel title="Interests & Hobbies">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {data.interests.map((i) => (
+                        <span
+                          key={i}
+                          className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm"
+                        >
+                          {i}
+                          <button
+                            onClick={() => onRemoveInterest(i)}
+                            className="text-muted-foreground hover:text-foreground"
+                            aria-label={`Remove ${i}`}
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                    <AddInterest onAdd={onAddInterest} />
+                  </Panel>
+                  <NavBar onPrev={goPrev} onNext={goNext} onSave={saveData} />
+                </TabsContent>
+
+                {/* Media & Social */}
+                <TabsContent value="media" className="mt-4">
+                  <Panel title="Photo & Social Links">
+                    <div className="grid gap-6 md:grid-cols-3">
+                      <div className="flex flex-col items-center justify-start gap-3">
+                        <Avatar className="h-28 w-28">
+                          <AvatarImage
+                            src={data.media.photoDataUrl}
+                            alt="Profile"
+                          />
+                          <AvatarFallback>
+                            {data.profile.firstName || data.profile.lastName
+                              ? `${data.profile.firstName?.[0] ?? ""}${data.profile.lastName?.[0] ?? ""}`.toUpperCase()
+                              : "?"}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="text-xs text-muted-foreground">
+                          Recommended: square image, up to 2MB
+                        </div>
+                        <div>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            className="rounded-full"
+                            onClick={() =>
+                              document.getElementById("photo-input")?.click()
+                            }
+                          >
+                            <Camera className="mr-2 h-4 w-4" /> Upload Photo
+                          </Button>
+                          <input
+                            id="photo-input"
+                            className="hidden"
+                            type="file"
+                            accept="image/*"
+                            onChange={handlePhotoUpload}
+                          />
+                        </div>
+                      </div>
+                      <div className="md:col-span-2 grid gap-4">
+                        <Field label="Facebook">
+                          <Input
+                            placeholder="https://facebook.com/username"
+                            value={data.media.facebook}
+                            onChange={(e) =>
+                              setData({
+                                ...data,
+                                media: {
+                                  ...data.media,
+                                  facebook: e.target.value,
+                                },
+                              })
+                            }
+                          />
+                        </Field>
+                        <Field label="Twitter">
+                          <Input
+                            placeholder="https://twitter.com/username"
+                            value={data.media.twitter}
+                            onChange={(e) =>
+                              setData({
+                                ...data,
+                                media: {
+                                  ...data.media,
+                                  twitter: e.target.value,
+                                },
+                              })
+                            }
+                          />
+                        </Field>
+                        <Field label="LinkedIn">
+                          <Input
+                            placeholder="https://linkedin.com/in/username"
+                            value={data.media.linkedin}
+                            onChange={(e) =>
+                              setData({
+                                ...data,
+                                media: {
+                                  ...data.media,
+                                  linkedin: e.target.value,
+                                },
+                              })
+                            }
+                          />
+                        </Field>
+                        <Field label="Website">
+                          <Input
+                            placeholder="https://yourwebsite.com"
+                            value={data.media.website}
+                            onChange={(e) =>
+                              setData({
+                                ...data,
+                                media: {
+                                  ...data.media,
+                                  website: e.target.value,
+                                },
+                              })
+                            }
+                          />
+                        </Field>
+                      </div>
+                    </div>
+                  </Panel>
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <Button type="button" variant="ghost" onClick={goPrev}>
+                        <ChevronLeft className="mr-1 h-4 w-4" /> Previous
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={saveData}
+                      >
+                        <Save className="mr-2 h-4 w-4" /> Save
+                      </Button>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        type="button"
+                        className="rounded-full bg-green-600 hover:bg-green-700"
+                        onClick={printResume}
+                      >
+                        <Download className="mr-2 h-4 w-4" /> Finish / Download
+                        PDF
+                      </Button>
                     </div>
                   </div>
-                </Panel>
-                <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <Button type="button" variant="ghost" onClick={goPrev}>
-                      <ChevronLeft className="mr-1 h-4 w-4" /> Previous
-                    </Button>
-                    <Button type="button" variant="outline" onClick={saveData}>
-                      <Save className="mr-2 h-4 w-4" /> Save
-                    </Button>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      type="button"
-                      className="rounded-full bg-green-600 hover:bg-green-700"
-                      onClick={printResume}
-                    >
-                      <Download className="mr-2 h-4 w-4" /> Finish / Download
-                      PDF
-                    </Button>
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
+                </TabsContent>
+              </Tabs>
+            </div>
           </div>
-        </div>
 
-        {/* Right: Live preview */}
-        <div className="rounded-2xl border bg-card p-6 shadow-sm min-w-0">
-          <h2 className="text-lg font-semibold">Live Preview</h2>
-          <div className="mt-4 rounded-xl border bg-card p-6 overflow-auto">
-            <div ref={printRef}>
-              <Preview data={data} />
+          {/* Right: Live preview */}
+          <div className="rounded-2xl border bg-card p-6 shadow-sm min-w-0">
+            <h2 className="text-lg font-semibold">Live Preview</h2>
+            <div className="mt-4 rounded-xl border bg-card p-6 overflow-auto">
+              <div ref={printRef}>
+                <Preview data={data} />
+              </div>
             </div>
-          </div>
-          <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
-            <div>Step progress: {stepProgress}%</div>
-            <div className="w-40">
-              <Progress value={stepProgress} />
+            <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
+              <div>Step progress: {stepProgress}%</div>
+              <div className="w-40">
+                <Progress value={stepProgress} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
     </div>
   );
 }
@@ -1296,7 +1394,13 @@ function ResumeForge() {
     <group position={[0, 0, -2]}>
       <mesh ref={core}>
         <torusKnotGeometry args={[1.0, 0.24, 120, 24]} />
-        <meshStandardMaterial color="#8b5cf6" emissive="#22d3ee" emissiveIntensity={1.0} metalness={0.45} roughness={0.25} />
+        <meshStandardMaterial
+          color="#8b5cf6"
+          emissive="#22d3ee"
+          emissiveIntensity={1.0}
+          metalness={0.45}
+          roughness={0.25}
+        />
       </mesh>
       <mesh ref={ring}>
         <torusGeometry args={[2.0, 0.035, 32, 256]} />

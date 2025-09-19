@@ -32,13 +32,38 @@ export default function Index() {
             <color attach="background" args={["#0a0612"]} />
             <ambientLight intensity={0.6} />
             <pointLight position={[6, 6, 6]} intensity={1.2} color="#22d3ee" />
-            <pointLight position={[-6, -4, -8]} intensity={0.9} color="#f472b6" />
+            <pointLight
+              position={[-6, -4, -8]}
+              intensity={0.9}
+              color="#f472b6"
+            />
             <StarsField />
             <CoreBrain />
             <group>
-              <OrbitFeature radius={3.8} speed={0.5} angle={0} label="Resume" color="#22d3ee" href="/resume" />
-              <OrbitFeature radius={3.8} speed={0.5} angle={2.09} label="Pitch" color="#a78bfa" href="/pitch" />
-              <OrbitFeature radius={3.8} speed={0.5} angle={4.18} label="Portfolio" color="#f472b6" href="/portfolio" />
+              <OrbitFeature
+                radius={3.8}
+                speed={0.5}
+                angle={0}
+                label="Resume"
+                color="#22d3ee"
+                href="/resume"
+              />
+              <OrbitFeature
+                radius={3.8}
+                speed={0.5}
+                angle={2.09}
+                label="Pitch"
+                color="#a78bfa"
+                href="/pitch"
+              />
+              <OrbitFeature
+                radius={3.8}
+                speed={0.5}
+                angle={4.18}
+                label="Portfolio"
+                color="#f472b6"
+                href="/portfolio"
+              />
             </group>
           </Canvas>
         </div>
@@ -78,7 +103,8 @@ export default function Index() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.75, duration: 0.5 }}
             >
-              Zoom into a holographic environment to build resumes, generate pitches, and craft portfolios.
+              Zoom into a holographic environment to build resumes, generate
+              pitches, and craft portfolios.
             </motion.p>
 
             <motion.div
@@ -457,9 +483,21 @@ function StarsField({ count = 600 }: { count?: number }) {
       {/* @ts-ignore */}
       <bufferGeometry>
         {/* @ts-ignore */}
-        <bufferAttribute attach="attributes-position" count={positions.length / 3} array={positions} itemSize={3} />
+        <bufferAttribute
+          attach="attributes-position"
+          count={positions.length / 3}
+          array={positions}
+          itemSize={3}
+        />
       </bufferGeometry>
-      <pointsMaterial size={0.06} color="#7dd3fc" sizeAttenuation depthWrite={false} transparent opacity={0.7} />
+      <pointsMaterial
+        size={0.06}
+        color="#7dd3fc"
+        sizeAttenuation
+        depthWrite={false}
+        transparent
+        opacity={0.7}
+      />
     </points>
   );
 }
@@ -497,7 +535,21 @@ function CoreBrain() {
   );
 }
 
-function OrbitFeature({ radius, speed, angle, label, color, href }: { radius: number; speed: number; angle: number; label: string; color: string; href: string; }) {
+function OrbitFeature({
+  radius,
+  speed,
+  angle,
+  label,
+  color,
+  href,
+}: {
+  radius: number;
+  speed: number;
+  angle: number;
+  label: string;
+  color: string;
+  href: string;
+}) {
   const ref = React.useRef<THREE.Mesh>(null!);
   const [hovered, setHovered] = React.useState(false);
   useFrame(({ clock }) => {
@@ -517,9 +569,15 @@ function OrbitFeature({ radius, speed, angle, label, color, href }: { radius: nu
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
       scale={hovered ? 1.15 : 1}
-   >
+    >
       <icosahedronGeometry args={[0.35, 0]} />
-      <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.6} metalness={0.3} roughness={0.4} />
+      <meshStandardMaterial
+        color={color}
+        emissive={color}
+        emissiveIntensity={1.6}
+        metalness={0.3}
+        roughness={0.4}
+      />
       <Html center distanceFactor={10} style={{ pointerEvents: "none" }}>
         <div className="rounded-full bg-black/40 px-2 py-1 text-xs text-white/90 ring-1 ring-white/20 backdrop-blur">
           {label}
