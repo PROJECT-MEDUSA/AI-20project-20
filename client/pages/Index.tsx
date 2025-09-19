@@ -11,6 +11,7 @@ import {
 import { motion } from "framer-motion";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
+import * as THREE from "three";
 
 export default function Index() {
   return (
