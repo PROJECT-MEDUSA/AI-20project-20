@@ -429,6 +429,105 @@ function AnimatedStyles() {
   );
 }
 
+function StarsField({ count = 600 }: { count?: number }) {
+  const positions = React.useMemo(() => {
+    const arr: number[] = [];
+    for (let i = 0; i < count; i++) {
+      const r = 18 * Math.random() + 6;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      const x = r * Math.sin(phi) * Math.cos(theta);
+      const y = r * Math.sin(phi) * Math.sin(theta);
+      const z = r * Math.cos(phi);
+      arr.push(x, y, z);
+    }
+    return new Float32Array(arr);
+  }, [count]);
+
+  const ref = React.useRef<THREE.Points>(null!);
+  useFrame((_, delta) => {
+    if (ref.current) {
+      ref.current.rotation.y += delta * 0.02;
+    }
+  });
+
+  return (
+    <points ref={ref} position={[0, 0, -6]}>
+      {/* @ts-ignore */}
+      <bufferGeometry>
+        {/* @ts-ignore */}
+        <bufferAttribute attach="attributes-position" count={positions.length / 3} array={positions} itemSize={3} />
+      </bufferGeometry>
+      <pointsMaterial size={0.06} color="#7dd3fc" sizeAttenuation depthWrite={false} transparent opacity={0.7} />
+    </points>
+  );
+}
+
+function CoreBrain() {
+  const mesh = React.useRef<THREE.Mesh>(null!);
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    const s = 1 + Math.sin(t * 2.0) * 0.05;
+    if (mesh.current) {
+      mesh.current.scale.setScalar(s);
+      mesh.current.rotation.y += 0.004;
+      mesh.current.rotation.x += 0.002;
+    }
+  });
+  return (
+    <group>
+      <mesh ref={mesh}>
+        <icosahedronGeometry args={[1.4, 2]} />
+        {/* holographic glowing core */}
+        <meshStandardMaterial
+          color="#8b5cf6"
+          emissive="#22d3ee"
+          emissiveIntensity={1.2}
+          metalness={0.4}
+          roughness={0.2}
+        />
+      </mesh>
+      {/* halo */}
+      <mesh>
+        <torusGeometry args={[2.2, 0.02, 32, 256]} />
+        <meshBasicMaterial color="#a78bfa" transparent opacity={0.5} />
+      </mesh>
+    </group>
+  );
+}
+
+function OrbitFeature({ radius, speed, angle, label, color, href }: { radius: number; speed: number; angle: number; label: string; color: string; href: string; }) {
+  const ref = React.useRef<THREE.Mesh>(null!);
+  const [hovered, setHovered] = React.useState(false);
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime() * speed + angle;
+    const x = Math.cos(t) * radius;
+    const y = Math.sin(t * 1.2) * 0.6;
+    const z = Math.sin(t) * radius;
+    if (ref.current) {
+      ref.current.position.set(x, y, z);
+      ref.current.rotation.y += 0.02;
+    }
+  });
+  return (
+    <mesh
+      ref={ref}
+      onClick={() => (window.location.href = href)}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+      scale={hovered ? 1.15 : 1}
+   >
+      <icosahedronGeometry args={[0.35, 0]} />
+      <meshStandardMaterial color={color} emissive={color} emissiveIntensity={1.6} metalness={0.3} roughness={0.4} />
+      <Html center distanceFactor={10} style={{ pointerEvents: "none" }}>
+        <div className="rounded-full bg-black/40 px-2 py-1 text-xs text-white/90 ring-1 ring-white/20 backdrop-blur">
+          {label}
+        </div>
+      </Html>
+    </mesh>
+  );
+}
+
 function CursorTrail() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const pointsRef = useRef<{ x: number; y: number; life: number }[]>([]);
