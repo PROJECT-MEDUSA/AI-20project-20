@@ -1,4 +1,3 @@
-import { useEffect, useMemo, useRef, useState } from "react";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Canvas, useFrame } from "@react-three/fiber";
