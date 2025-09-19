@@ -376,7 +376,7 @@ export default function ResumeBuilder() {
 
   return (
     <div className="relative">
-      <div className="pointer-events-none absolute inset-0 -z-10">
+      <div className="pointer-events-none absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 0, 9], fov: 52 }}>
           <color attach="background" args={["#0a0612"]} />
           <ambientLight intensity={0.5} />
@@ -385,7 +385,7 @@ export default function ResumeBuilder() {
           <ResumeForge />
         </Canvas>
       </div>
-      <section className="container py-8 md:py-12">
+      <section className="container relative z-10 py-8 md:py-12">
       <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight md:text-3xl">
