@@ -490,7 +490,46 @@ function PitchGeneratorContent() {
 export default function PitchGenerator() {
   return (
     <ErrorBoundary>
-      <PitchGeneratorContent />
+      <div className="relative">
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <Canvas camera={{ position: [0, 0, 9], fov: 52 }}>
+            <color attach="background" args={["#0a0612"]} />
+            <ambientLight intensity={0.5} />
+            <pointLight position={[6, 6, 6]} intensity={1.1} color="#22d3ee" />
+            <pointLight position={[-6, -6, -8]} intensity={0.8} color="#f472b6" />
+            <Forge />
+          </Canvas>
+        </div>
+        <PitchGeneratorContent />
+      </div>
     </ErrorBoundary>
+  );
+}
+
+function Forge() {
+  const core = useRef<THREE.Mesh>(null!);
+  const ring = useRef<THREE.Mesh>(null!);
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    if (core.current) {
+      const s = 1 + Math.sin(t * 2) * 0.05;
+      core.current.scale.setScalar(s);
+      core.current.rotation.y += 0.01;
+    }
+    if (ring.current) {
+      ring.current.rotation.z -= 0.004;
+    }
+  });
+  return (
+    <group position={[0, 0, -2]}>
+      <mesh ref={core}>
+        <torusKnotGeometry args={[1.2, 0.28, 128, 32]} />
+        <meshStandardMaterial color="#8b5cf6" emissive="#22d3ee" emissiveIntensity={1.2} metalness={0.5} roughness={0.2} />
+      </mesh>
+      <mesh ref={ring}>
+        <torusGeometry args={[2.2, 0.04, 32, 256]} />
+        <meshBasicMaterial color="#f472b6" transparent opacity={0.6} />
+      </mesh>
+    </group>
   );
 }
