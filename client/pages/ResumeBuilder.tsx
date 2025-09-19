@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { Canvas, useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -373,7 +376,17 @@ export default function ResumeBuilder() {
   };
 
   return (
-    <section className="container py-8 md:py-12">
+    <div className="relative">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <Canvas camera={{ position: [0, 0, 9], fov: 52 }}>
+          <color attach="background" args={["#0a0612"]} />
+          <ambientLight intensity={0.5} />
+          <pointLight position={[6, 6, 6]} intensity={1.1} color="#22d3ee" />
+          <pointLight position={[-6, -6, -8]} intensity={0.8} color="#f472b6" />
+          <ResumeForge />
+        </Canvas>
+      </div>
+      <section className="container py-8 md:py-12">
       <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl font-extrabold tracking-tight md:text-3xl">
@@ -1262,6 +1275,35 @@ export default function ResumeBuilder() {
         </div>
       </div>
     </section>
+    </div>
+  );
+}
+
+function ResumeForge() {
+  const core = useRef<THREE.Mesh>(null!);
+  const ring = useRef<THREE.Mesh>(null!);
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    if (core.current) {
+      const s = 1 + Math.sin(t * 1.8) * 0.04;
+      core.current.scale.setScalar(s);
+      core.current.rotation.y += 0.008;
+    }
+    if (ring.current) {
+      ring.current.rotation.z -= 0.003;
+    }
+  });
+  return (
+    <group position={[0, 0, -2]}>
+      <mesh ref={core}>
+        <torusKnotGeometry args={[1.0, 0.24, 120, 24]} />
+        <meshStandardMaterial color="#8b5cf6" emissive="#22d3ee" emissiveIntensity={1.0} metalness={0.45} roughness={0.25} />
+      </mesh>
+      <mesh ref={ring}>
+        <torusGeometry args={[2.0, 0.035, 32, 256]} />
+        <meshBasicMaterial color="#f472b6" transparent opacity={0.5} />
+      </mesh>
+    </group>
   );
 }
 
