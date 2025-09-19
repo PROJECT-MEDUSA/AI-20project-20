@@ -124,3 +124,63 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Route transition (applies to all pages via Layout) */
+.routefade-appear,
+.routefade-enter {
+  opacity: 0;
+  transform: translateY(var(--routefade-distance, 12px));
+}
+.routefade-appear-active,
+.routefade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--routefade-enter-duration, 800ms) ease-in-out,
+    transform var(--routefade-enter-duration, 800ms) ease-in-out;
+  will-change: opacity, transform;
+}
+.routefade-appear-done,
+.routefade-enter-done {
+  opacity: 1;
+  transform: translateY(0);
+}
+.routefade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.routefade-exit-active {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity var(--routefade-exit-duration, 400ms) ease-in-out,
+    transform var(--routefade-exit-duration, 400ms) ease-in-out;
+}
+
+/* Page enter animation classes for react-transition-group (legacy, home-only) */
+.pagefade-appear,
+.pagefade-enter {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.pagefade-appear-active,
+.pagefade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 800ms ease-in-out, transform 800ms ease-in-out;
+  will-change: opacity, transform;
+}
+.pagefade-appear-done,
+.pagefade-enter-done {
+  opacity: 1;
+  transform: translateY(0);
+}
+.pagefade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.pagefade-exit-active {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}

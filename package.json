@@ -25,6 +25,7 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "file-saver": "^2.0.5",
+    "react-transition-group": "^4.4.5",
     "zod": "^3.25.76"
   },
   "devDependencies": {

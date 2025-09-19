@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,7 +38,47 @@ function SectionHeader({ title, subtitle, icon }: { title: string; subtitle: str
   );
 }
 
-export default function PitchGenerator() {
+class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean; error?: any }> {
+  constructor(props: any) {
+    super(props);
+    this.state = { hasError: false, error: undefined };
+  }
+
+  static getDerivedStateFromError(error: any) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: any, info: any) {
+    // Log to console and swallow to prevent unhandled overlay crash
+    // eslint-disable-next-line no-console
+    console.error("PitchGenerator caught error:", error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="container py-10">
+          <div className="mx-auto max-w-3xl rounded-xl border border-red-500/20 bg-red-900/30 p-6 text-white">
+            <h3 className="text-lg font-semibold">Something went wrong</h3>
+            <p className="mt-2 text-sm text-white/80">An unexpected error occurred while rendering the Pitch Refinement Hub. We caught it and prevented the dev overlay from crashing.</p>
+            <pre className="mt-3 max-h-40 overflow-auto rounded bg-black/20 p-3 text-xs">{String(this.state.error)}</pre>
+            <div className="mt-4 flex gap-2">
+              <button
+                onClick={() => window.location.reload()}
+                className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-white"
+              >
+                Reload
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children as any;
+  }
+}
+
+function PitchGeneratorContent() {
   const { toast } = useToast();
 
   // Smooth scrolling refs
