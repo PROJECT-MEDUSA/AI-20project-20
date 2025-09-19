@@ -9,63 +9,65 @@ import {
   Users,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Html } from "@react-three/drei";
 
 export default function Index() {
   return (
-    <div className="w-full relative bg-slate-950 text-white">
+    <div className="w-full relative bg-[#0a0612] text-white">
       <AnimatedStyles />
       <CursorTrail />
 
       {/* Hero */}
       <motion.section
-        className="relative overflow-hidden bg-gradient-to-b from-slate-950 to-slate-900"
+        className="relative overflow-hidden bg-[radial-gradient(1200px_600px_at_50%_-20%,rgba(88,28,135,0.45),transparent),radial-gradient(1000px_600px_at_80%_0%,rgba(20,184,166,0.15),transparent)]"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
       >
-        {/* Animated gradient + particles background */}
-        <div className="pointer-events-none absolute inset-0 z-0">
-          <div className="absolute inset-0 animate-gradient-move bg-[radial-gradient(1200px_600px_at_20%_-10%,rgba(168,85,247,0.25),transparent),radial-gradient(1000px_600px_at_80%_0%,rgba(99,102,241,0.25),transparent)]" />
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F5cfe91acdcc04de5a0a1bedc460a66b5?format=webp&width=1600"
-            alt="Colorful abstract background from landing design"
-            className="absolute inset-0 h-full w-full object-cover opacity-30"
-          />
-          <FloatingOrbs />
+        {/* 3D Scene */}
+        <div className="absolute inset-0 z-0">
+          <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
+            <color attach="background" args={["#0a0612"]} />
+            <ambientLight intensity={0.6} />
+            <pointLight position={[6, 6, 6]} intensity={1.2} color="#22d3ee" />
+            <pointLight position={[-6, -4, -8]} intensity={0.9} color="#f472b6" />
+            <StarsField />
+            <CoreBrain />
+            <group>
+              <OrbitFeature radius={3.8} speed={0.5} angle={0} label="Resume" color="#22d3ee" href="/resume" />
+              <OrbitFeature radius={3.8} speed={0.5} angle={2.09} label="Pitch" color="#a78bfa" href="/pitch" />
+              <OrbitFeature radius={3.8} speed={0.5} angle={4.18} label="Portfolio" color="#f472b6" href="/portfolio" />
+            </group>
+          </Canvas>
         </div>
 
-        <div className="container py-20 md:py-28 text-center relative z-10">
-          {/* Localized decorative background behind hero copy */}
-          <img
-            aria-hidden
-            src="https://cdn.builder.io/api/v1/image/assets%2F5c1e1858d3914c64b045e31e9b4fd580%2F5cfe91acdcc04de5a0a1bedc460a66b5?format=webp&width=1600"
-            className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover opacity-20 blur-[2px] [mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)]"
-          />
+        <div className="container py-24 md:py-32 text-center relative z-10">
           <div className="mx-auto max-w-4xl">
             <motion.span
-              className="inline-flex items-center gap-2 rounded-full bg-white/50 px-3 py-1 text-xs font-medium text-foreground/70 shadow-sm backdrop-blur"
+              className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80 shadow-sm ring-1 ring-white/15 backdrop-blur"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <Sparkles className="h-3.5 w-3.5 text-primary" aria-hidden />
-              AI Resume & Project Booster
+              <Sparkles className="h-3.5 w-3.5 text-cyan-300" aria-hidden />
+              Enter the AI Core
             </motion.span>
 
             <motion.h1
-              className="mt-5 text-4xl/tight font-extrabold text-white/90 md:text-6xl/tight drop-shadow-sm [text-shadow:0_1px_18px_rgba(168,85,247,0.25)]"
+              className="mt-5 text-4xl/tight font-extrabold text-white md:text-6xl/tight drop-shadow-sm [text-shadow:0_1px_18px_rgba(139,92,246,0.35)]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.2 }}
             >
-              <TypewriterText text="Boost your resume" />
+              <TypewriterText text="AI Resume" />
               <br className="hidden md:block" />
               <motion.span
                 initial={{ y: 18, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.6 }}
               >
-                and projects with AI
+                Futuristic tools in a 3D space
               </motion.span>
             </motion.h1>
 
@@ -75,8 +77,7 @@ export default function Index() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.75, duration: 0.5 }}
             >
-              Build standout resumes, generate compelling pitches, and craft
-              beautiful portfolios using student-friendly tools.
+              Zoom into a holographic environment to build resumes, generate pitches, and craft portfolios.
             </motion.p>
 
             <motion.div
@@ -87,13 +88,13 @@ export default function Index() {
             >
               <Link
                 to="/auth"
-                className="group rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-6 py-3 font-semibold text-white shadow-[0_10px_30px_rgba(236,72,153,0.4)] transition will-change-transform hover:scale-105 hover:shadow-[0_0_30px_rgba(236,72,153,0.65)] hover:[transform:perspective(700px)_rotateX(6deg)_rotateY(-6deg)] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="group rounded-full border border-white/20 bg-white/10 px-6 py-3 font-semibold text-white shadow-[0_10px_30px_rgba(34,211,238,0.25)] backdrop-blur transition will-change-transform hover:scale-105 hover:shadow-[0_0_30px_rgba(167,139,250,0.55)] hover:[transform:perspective(700px)_rotateX(6deg)_rotateY(-6deg)] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
               >
                 Get Started
               </Link>
               <a
                 href="#features"
-                className="group rounded-full border bg-white/70 px-6 py-3 font-semibold text-foreground/80 backdrop-blur transition hover:bg-white hover:shadow-[0_0_24px_rgba(99,102,241,0.35)] hover:[transform:perspective(700px)_rotateX(6deg)_rotateY(6deg)]"
+                className="group rounded-full border border-white/20 bg-white/10 px-6 py-3 font-semibold text-white/90 backdrop-blur transition hover:bg-white/15 hover:shadow-[0_0_24px_rgba(244,114,182,0.35)] hover:[transform:perspective(700px)_rotateX(6deg)_rotateY(6deg)]"
               >
                 Explore Features
               </a>
