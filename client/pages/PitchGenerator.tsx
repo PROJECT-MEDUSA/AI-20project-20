@@ -5,9 +5,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { CardContent, CardHeader } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Image as ImageIcon, Sparkles, Presentation, ChevronRight } from "lucide-react";
+import {
+  Image as ImageIcon,
+  Sparkles,
+  Presentation,
+  ChevronRight,
+} from "lucide-react";
 
-function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function GlassCard({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -23,21 +34,34 @@ function GlassCard({ children, className = "" }: { children: React.ReactNode; cl
   );
 }
 
-function SectionHeader({ title, subtitle, icon }: { title: string; subtitle: string; icon: React.ReactNode }) {
+function SectionHeader({
+  title,
+  subtitle,
+  icon,
+}: {
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+}) {
   return (
     <div className="flex items-start gap-3">
       <div className="mt-1 rounded-md bg-gradient-to-br from-violet-500/20 to-blue-500/20 p-2 text-violet-300 ring-1 ring-violet-400/20">
         {icon}
       </div>
       <div>
-        <h2 className="text-xl font-semibold tracking-tight text-white">{title}</h2>
+        <h2 className="text-xl font-semibold tracking-tight text-white">
+          {title}
+        </h2>
         <p className="mt-1 text-sm text-white/70">{subtitle}</p>
       </div>
     </div>
   );
 }
 
-class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean; error?: any }> {
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean; error?: any }
+> {
   constructor(props: any) {
     super(props);
     this.state = { hasError: false, error: undefined };
@@ -59,8 +83,13 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
         <div className="container py-10">
           <div className="mx-auto max-w-3xl rounded-xl border border-red-500/20 bg-red-900/30 p-6 text-white">
             <h3 className="text-lg font-semibold">Something went wrong</h3>
-            <p className="mt-2 text-sm text-white/80">An unexpected error occurred while rendering the Pitch Refinement Hub. We caught it and prevented the dev overlay from crashing.</p>
-            <pre className="mt-3 max-h-40 overflow-auto rounded bg-black/20 p-3 text-xs">{String(this.state.error)}</pre>
+            <p className="mt-2 text-sm text-white/80">
+              An unexpected error occurred while rendering the Pitch Refinement
+              Hub. We caught it and prevented the dev overlay from crashing.
+            </p>
+            <pre className="mt-3 max-h-40 overflow-auto rounded bg-black/20 p-3 text-xs">
+              {String(this.state.error)}
+            </pre>
             <div className="mt-4 flex gap-2">
               <button
                 onClick={() => window.location.reload()}
@@ -107,7 +136,7 @@ function PitchGeneratorContent() {
       setRefined(
         idea.trim()
           ? `API response here — refined professional description for: "${idea.trim()}"`
-          : "API response here — refined professional description will appear once you paste an idea."
+          : "API response here — refined professional description will appear once you paste an idea.",
       );
       toast({ title: "Gemini", description: "API response here" });
     }, 900);
@@ -162,18 +191,27 @@ function PitchGeneratorContent() {
             transition={{ duration: 0.6, delay: 0.05 }}
             className="mx-auto mt-3 max-w-2xl text-white/70"
           >
-            A single, streamlined tab to refine ideas, visualize concepts, and compile a professional pitch — with sleek animations and a high-end SaaS feel.
+            A single, streamlined tab to refine ideas, visualize concepts, and
+            compile a professional pitch — with sleek animations and a high-end
+            SaaS feel.
           </motion.p>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
             {steps.map((s, i) => (
               <Button
                 key={s.id}
-                onClick={() => s.ref.current?.scrollIntoView({ behavior: "smooth", block: "start" })}
+                onClick={() =>
+                  s.ref.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  })
+                }
                 variant="secondary"
                 className="group rounded-full border border-white/10 bg-white/5 text-white hover:bg-white/10"
               >
-                <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-violet-500/80 to-blue-500/80 text-[11px] font-semibold text-white shadow-md">{i + 1}</span>
+                <span className="mr-2 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-violet-500/80 to-blue-500/80 text-[11px] font-semibold text-white shadow-md">
+                  {i + 1}
+                </span>
                 {s.label}
                 <ChevronRight className="ml-1 h-4 w-4 opacity-60 transition group-hover:translate-x-0.5" />
               </Button>
@@ -198,7 +236,10 @@ function PitchGeneratorContent() {
               <CardContent className="px-6 pb-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-3">
-                    <label htmlFor="idea" className="text-sm font-medium text-white">
+                    <label
+                      htmlFor="idea"
+                      className="text-sm font-medium text-white"
+                    >
                       Your rough idea
                     </label>
                     <Textarea
@@ -219,7 +260,9 @@ function PitchGeneratorContent() {
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <label className="text-sm font-medium text-white">Refined idea</label>
+                    <label className="text-sm font-medium text-white">
+                      Refined idea
+                    </label>
                     <div className="relative min-h-[160px] rounded-xl border border-white/10 bg-white/5 p-4 text-white">
                       <AnimatePresence initial={false}>
                         {loadingRefine ? (
@@ -271,7 +314,10 @@ function PitchGeneratorContent() {
               <CardContent className="px-6 pb-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-3">
-                    <label htmlFor="visual" className="text-sm font-medium text-white">
+                    <label
+                      htmlFor="visual"
+                      className="text-sm font-medium text-white"
+                    >
                       Visual prompt
                     </label>
                     <Textarea
@@ -292,7 +338,9 @@ function PitchGeneratorContent() {
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <label className="text-sm font-medium text-white">Generated visual</label>
+                    <label className="text-sm font-medium text-white">
+                      Generated visual
+                    </label>
                     <div className="relative flex min-h-[200px] items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-white/5">
                       <AnimatePresence initial={false}>
                         {loadingVisual ? (
@@ -345,7 +393,10 @@ function PitchGeneratorContent() {
               <CardContent className="px-6 pb-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-3">
-                    <label htmlFor="note" className="text-sm font-medium text-white">
+                    <label
+                      htmlFor="note"
+                      className="text-sm font-medium text-white"
+                    >
                       Optional note or summary
                     </label>
                     <Input
@@ -366,7 +417,9 @@ function PitchGeneratorContent() {
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <label className="text-sm font-medium text-white">Pitch deck preview</label>
+                    <label className="text-sm font-medium text-white">
+                      Pitch deck preview
+                    </label>
                     <div className="relative min-h-[220px] rounded-xl border border-white/10 bg-white/5 p-4">
                       <AnimatePresence initial={false}>
                         {loadingDeck ? (
@@ -385,16 +438,28 @@ function PitchGeneratorContent() {
                             className="grid gap-3 md:grid-cols-3"
                           >
                             <div className="rounded-lg border border-white/10 bg-gradient-to-br from-blue-500/10 to-violet-500/10 p-3 text-white/90">
-                              <p className="text-sm font-semibold">Title Slide</p>
-                              <p className="mt-1 text-xs text-white/70">Problem • Solution • Impact</p>
+                              <p className="text-sm font-semibold">
+                                Title Slide
+                              </p>
+                              <p className="mt-1 text-xs text-white/70">
+                                Problem • Solution • Impact
+                              </p>
                             </div>
                             <div className="rounded-lg border border-white/10 bg-gradient-to-br from-blue-500/10 to-violet-500/10 p-3 text-white/90">
                               <p className="text-sm font-semibold">Overview</p>
-                              <p className="mt-1 text-xs text-white/70">{refined ? "Refined summary included" : "Summary placeholder"}</p>
+                              <p className="mt-1 text-xs text-white/70">
+                                {refined
+                                  ? "Refined summary included"
+                                  : "Summary placeholder"}
+                              </p>
                             </div>
                             <div className="rounded-lg border border-white/10 bg-gradient-to-br from-blue-500/10 to-violet-500/10 p-3 text-white/90">
                               <p className="text-sm font-semibold">Visual</p>
-                              <p className="mt-1 text-xs text-white/70">{visualUrl ? "Visual embedded" : "Visual placeholder"}</p>
+                              <p className="mt-1 text-xs text-white/70">
+                                {visualUrl
+                                  ? "Visual embedded"
+                                  : "Visual placeholder"}
+                              </p>
                             </div>
                           </motion.div>
                         ) : (
