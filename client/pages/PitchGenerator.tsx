@@ -420,3 +420,11 @@ function PitchGeneratorContent() {
     </section>
   );
 }
+
+export default function PitchGenerator() {
+  return (
+    <ErrorBoundary>
+      <PitchGeneratorContent />
+    </ErrorBoundary>
+  );
+}
