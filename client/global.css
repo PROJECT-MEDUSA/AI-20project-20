@@ -129,32 +129,39 @@
 .routefade-appear,
 .routefade-enter {
   opacity: 0;
-  transform: translateY(var(--routefade-distance, 12px));
+  transform: perspective(1000px) translateZ(-80px) translateY(var(--routefade-distance, 18px)) scale(0.98);
+  filter: blur(6px);
 }
 .routefade-appear-active,
 .routefade-enter-active {
   opacity: 1;
-  transform: translateY(0);
+  transform: perspective(1000px) translateZ(0) translateY(0) scale(1);
+  filter: blur(0px);
   transition:
-    opacity var(--routefade-enter-duration, 800ms) ease-in-out,
-    transform var(--routefade-enter-duration, 800ms) ease-in-out;
-  will-change: opacity, transform;
+    opacity var(--routefade-enter-duration, 800ms) cubic-bezier(.2,.8,.2,1),
+    transform var(--routefade-enter-duration, 800ms) cubic-bezier(.2,.8,.2,1),
+    filter var(--routefade-enter-duration, 800ms) linear;
+  will-change: opacity, transform, filter;
 }
 .routefade-appear-done,
 .routefade-enter-done {
   opacity: 1;
-  transform: translateY(0);
+  transform: perspective(1000px) translateZ(0) translateY(0) scale(1);
+  filter: blur(0px);
 }
 .routefade-exit {
   opacity: 1;
-  transform: translateY(0);
+  transform: perspective(1000px) translateZ(0) translateY(0) scale(1);
+  filter: blur(0px);
 }
 .routefade-exit-active {
   opacity: 0;
-  transform: translateY(8px);
+  transform: perspective(1000px) translateZ(-60px) translateY(8px) scale(0.98);
+  filter: blur(4px);
   transition:
-    opacity var(--routefade-exit-duration, 400ms) ease-in-out,
-    transform var(--routefade-exit-duration, 400ms) ease-in-out;
+    opacity var(--routefade-exit-duration, 400ms) cubic-bezier(.2,.8,.2,1),
+    transform var(--routefade-exit-duration, 400ms) cubic-bezier(.2,.8,.2,1),
+    filter var(--routefade-exit-duration, 400ms) linear;
 }
 
 /* Page enter animation classes for react-transition-group (legacy, home-only) */
