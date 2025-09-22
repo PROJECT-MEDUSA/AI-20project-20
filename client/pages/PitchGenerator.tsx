@@ -145,18 +145,11 @@ function PitchGeneratorContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idea }),
       });
-      const bodyText = await res.clone().text().catch(() => "");
-      let data: any = null;
-      try {
-        data = bodyText ? JSON.parse(bodyText) : null;
-      } catch {
-        data = null;
-      }
       if (!res.ok) {
-        const msg = data?.error || bodyText || "Failed to refine idea";
-        throw new Error(msg);
+        throw new Error(`Request failed (${res.status}) — check GEMINI_API_KEY on server`);
       }
-      const out = String(data?.text || bodyText || "");
+      const data = (await res.json().catch(() => null)) as any;
+      const out = String(data?.text || "");
       setRefined(out);
       toast({ title: "Gemini", description: "Idea refined successfully" });
     } catch (err: any) {
@@ -189,18 +182,11 @@ function PitchGeneratorContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ refined, note }),
       });
-      const bodyText = await res.clone().text().catch(() => "");
-      let data: any = null;
-      try {
-        data = bodyText ? JSON.parse(bodyText) : null;
-      } catch {
-        data = null;
-      }
       if (!res.ok) {
-        const msg = data?.error || bodyText || "Failed to compile pitch deck";
-        throw new Error(msg);
+        throw new Error(`Request failed (${res.status}) — check GEMINI_API_KEY on server`);
       }
-      const out = String(data?.text || bodyText || "");
+      const data = (await res.json().catch(() => null)) as any;
+      const out = String(data?.text || "");
       setDeckText(out);
       setDeckReady(true);
       toast({ title: "Pitch Deck", description: "Deck outline generated" });
@@ -493,7 +479,7 @@ function PitchGeneratorContent() {
                                 Title Slide
                               </p>
                               <p className="mt-1 text-xs text-white/70">
-                                Problem ��� Solution • Impact
+                                Problem • Solution • Impact
                               </p>
                             </div>
                             <div className="rounded-lg border border-white/10 bg-gradient-to-br from-blue-500/10 to-violet-500/10 p-3 text-white/90">
