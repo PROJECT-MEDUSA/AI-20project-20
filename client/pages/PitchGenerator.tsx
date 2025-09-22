@@ -145,7 +145,7 @@ function PitchGeneratorContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idea }),
       });
-      const bodyText = await res.text();
+      const bodyText = await res.clone().text().catch(() => "");
       let data: any = null;
       try {
         data = bodyText ? JSON.parse(bodyText) : null;
@@ -189,7 +189,7 @@ function PitchGeneratorContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ refined, note }),
       });
-      const bodyText = await res.text();
+      const bodyText = await res.clone().text().catch(() => "");
       let data: any = null;
       try {
         data = bodyText ? JSON.parse(bodyText) : null;
@@ -493,7 +493,7 @@ function PitchGeneratorContent() {
                                 Title Slide
                               </p>
                               <p className="mt-1 text-xs text-white/70">
-                                Problem • Solution • Impact
+                                Problem ��� Solution • Impact
                               </p>
                             </div>
                             <div className="rounded-lg border border-white/10 bg-gradient-to-br from-blue-500/10 to-violet-500/10 p-3 text-white/90">
