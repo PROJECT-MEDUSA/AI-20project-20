@@ -142,6 +142,7 @@ function PitchGeneratorContent() {
     try {
       setLoadingRefine(true);
       setRefined("");
+      setRefineError("");
       const res = await fetch("/api/gemini/refine", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
