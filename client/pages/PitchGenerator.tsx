@@ -132,6 +132,7 @@ function PitchGeneratorContent() {
   const [deckReady, setDeckReady] = useState(false);
   const [loadingDeck, setLoadingDeck] = useState(false);
   const [deckText, setDeckText] = useState("");
+  const [deckError, setDeckError] = useState<string>("");
 
   const handleRefine = async () => {
     if (!idea.trim()) {
