@@ -145,9 +145,19 @@ function PitchGeneratorContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idea }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Failed to refine idea");
-      setRefined(String(data?.text || ""));
+      const bodyText = await res.text();
+      let data: any = null;
+      try {
+        data = bodyText ? JSON.parse(bodyText) : null;
+      } catch {
+        data = null;
+      }
+      if (!res.ok) {
+        const msg = data?.error || bodyText || "Failed to refine idea";
+        throw new Error(msg);
+      }
+      const out = String(data?.text || bodyText || "");
+      setRefined(out);
       toast({ title: "Gemini", description: "Idea refined successfully" });
     } catch (err: any) {
       toast({ title: "Gemini error", description: String(err?.message || err) });
@@ -179,9 +189,19 @@ function PitchGeneratorContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ refined, note }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Failed to compile pitch deck");
-      setDeckText(String(data?.text || ""));
+      const bodyText = await res.text();
+      let data: any = null;
+      try {
+        data = bodyText ? JSON.parse(bodyText) : null;
+      } catch {
+        data = null;
+      }
+      if (!res.ok) {
+        const msg = data?.error || bodyText || "Failed to compile pitch deck";
+        throw new Error(msg);
+      }
+      const out = String(data?.text || bodyText || "");
+      setDeckText(out);
       setDeckReady(true);
       toast({ title: "Pitch Deck", description: "Deck outline generated" });
     } catch (err: any) {
