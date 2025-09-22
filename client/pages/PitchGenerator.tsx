@@ -153,6 +153,9 @@ function PitchGeneratorContent() {
       }
       const data = (await res.json().catch(() => null)) as any;
       const out = String(data?.text || "");
+      if (!out) {
+        throw new Error("Empty response from Gemini");
+      }
       setRefined(out);
       toast({ title: "Gemini", description: "Idea refined successfully" });
     } catch (err: any) {
