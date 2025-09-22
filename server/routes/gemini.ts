@@ -38,7 +38,10 @@ async function generateWithGemini(prompt: string, model = "gemini-1.5-flash") {
   const data = (await res.json()) as any;
   // Safely extract text from candidates
   const text =
-    data?.candidates?.[0]?.content?.parts?.map((p: any) => p?.text).filter(Boolean).join("\n") ??
+    data?.candidates?.[0]?.content?.parts
+      ?.map((p: any) => p?.text)
+      .filter(Boolean)
+      .join("\n") ??
     data?.candidates?.[0]?.content?.parts?.[0]?.text ??
     "";
 
@@ -74,7 +77,9 @@ export async function handleGeminiCompile(req: Request, res: Response) {
 
     const refinedText = (refined || "").trim();
     if (!refinedText) {
-      return res.status(400).json({ error: "Missing 'refined' summary in request body" });
+      return res
+        .status(400)
+        .json({ error: "Missing 'refined' summary in request body" });
     }
 
     const instructions = (note || "").trim();

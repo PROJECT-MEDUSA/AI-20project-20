@@ -136,7 +136,10 @@ function PitchGeneratorContent() {
 
   const handleRefine = async () => {
     if (!idea.trim()) {
-      toast({ title: "Add an idea", description: "Please paste a rough idea first." });
+      toast({
+        title: "Add an idea",
+        description: "Please paste a rough idea first.",
+      });
       return;
     }
     try {
@@ -149,7 +152,9 @@ function PitchGeneratorContent() {
         body: JSON.stringify({ idea }),
       });
       if (!res.ok) {
-        throw new Error(`Request failed (${res.status}) — check GEMINI_API_KEY on server`);
+        throw new Error(
+          `Request failed (${res.status}) — check GEMINI_API_KEY on server`,
+        );
       }
       const data = (await res.json().catch(() => null)) as any;
       const out = String(data?.text || "");
@@ -178,7 +183,10 @@ function PitchGeneratorContent() {
 
   const handleDeck = async () => {
     if (!refined.trim()) {
-      toast({ title: "Refine first", description: "Please refine your idea before generating a deck." });
+      toast({
+        title: "Refine first",
+        description: "Please refine your idea before generating a deck.",
+      });
       return;
     }
     try {
@@ -191,7 +199,9 @@ function PitchGeneratorContent() {
         body: JSON.stringify({ refined, note }),
       });
       if (!res.ok) {
-        throw new Error(`Request failed (${res.status}) — check GEMINI_API_KEY on server`);
+        throw new Error(
+          `Request failed (${res.status}) — check GEMINI_API_KEY on server`,
+        );
       }
       const data = (await res.json().catch(() => null)) as any;
       const out = String(data?.text || "");
@@ -508,8 +518,8 @@ function PitchGeneratorContent() {
                                 {deckText
                                   ? `${deckText.slice(0, 160)}${deckText.length > 160 ? "…" : ""}`
                                   : refined
-                                  ? "Refined summary included"
-                                  : "Summary placeholder"}
+                                    ? "Refined summary included"
+                                    : "Summary placeholder"}
                               </p>
                             </div>
                             <div className="rounded-lg border border-white/10 bg-gradient-to-br from-blue-500/10 to-violet-500/10 p-3 text-white/90">
@@ -553,7 +563,11 @@ export default function PitchGenerator() {
             <color attach="background" args={["#0a0612"]} />
             <ambientLight intensity={0.5} />
             <pointLight position={[6, 6, 6]} intensity={1.1} color="#22d3ee" />
-            <pointLight position={[-6, -6, -8]} intensity={0.8} color="#f472b6" />
+            <pointLight
+              position={[-6, -6, -8]}
+              intensity={0.8}
+              color="#f472b6"
+            />
             <Forge />
           </Canvas>
         </div>
@@ -581,7 +595,13 @@ function Forge() {
     <group position={[0, 0, -2]}>
       <mesh ref={core}>
         <torusKnotGeometry args={[1.2, 0.28, 128, 32]} />
-        <meshStandardMaterial color="#8b5cf6" emissive="#22d3ee" emissiveIntensity={1.2} metalness={0.5} roughness={0.2} />
+        <meshStandardMaterial
+          color="#8b5cf6"
+          emissive="#22d3ee"
+          emissiveIntensity={1.2}
+          metalness={0.5}
+          roughness={0.2}
+        />
       </mesh>
       <mesh ref={ring}>
         <torusGeometry args={[2.2, 0.04, 32, 256]} />
