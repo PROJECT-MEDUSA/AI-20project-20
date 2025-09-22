@@ -120,6 +120,7 @@ function PitchGeneratorContent() {
   const [idea, setIdea] = useState("");
   const [refined, setRefined] = useState<string>("");
   const [loadingRefine, setLoadingRefine] = useState(false);
+  const [refineError, setRefineError] = useState<string>("");
 
   // 2) Visualize
   const [visualPrompt, setVisualPrompt] = useState("");
