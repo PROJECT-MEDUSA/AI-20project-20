@@ -130,18 +130,30 @@ function PitchGeneratorContent() {
   const [note, setNote] = useState("");
   const [deckReady, setDeckReady] = useState(false);
   const [loadingDeck, setLoadingDeck] = useState(false);
+  const [deckText, setDeckText] = useState("");
 
-  const handleRefine = () => {
-    setLoadingRefine(true);
-    setTimeout(() => {
+  const handleRefine = async () => {
+    if (!idea.trim()) {
+      toast({ title: "Add an idea", description: "Please paste a rough idea first." });
+      return;
+    }
+    try {
+      setLoadingRefine(true);
+      setRefined("");
+      const res = await fetch("/api/gemini/refine", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idea }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Failed to refine idea");
+      setRefined(String(data?.text || ""));
+      toast({ title: "Gemini", description: "Idea refined successfully" });
+    } catch (err: any) {
+      toast({ title: "Gemini error", description: String(err?.message || err) });
+    } finally {
       setLoadingRefine(false);
-      setRefined(
-        idea.trim()
-          ? `API response here — refined professional description for: "${idea.trim()}"`
-          : "API response here — refined professional description will appear once you paste an idea.",
-      );
-      toast({ title: "Gemini", description: "API response here" });
-    }, 900);
+    }
   };
 
   const handleVisual = () => {
@@ -153,13 +165,30 @@ function PitchGeneratorContent() {
     }, 900);
   };
 
-  const handleDeck = () => {
-    setLoadingDeck(true);
-    setTimeout(() => {
-      setLoadingDeck(false);
+  const handleDeck = async () => {
+    if (!refined.trim()) {
+      toast({ title: "Refine first", description: "Please refine your idea before generating a deck." });
+      return;
+    }
+    try {
+      setLoadingDeck(true);
+      setDeckReady(false);
+      setDeckText("");
+      const res = await fetch("/api/gemini/compile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refined, note }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Failed to compile pitch deck");
+      setDeckText(String(data?.text || ""));
       setDeckReady(true);
-      toast({ title: "Pitch Deck", description: "API response here" });
-    }, 900);
+      toast({ title: "Pitch Deck", description: "Deck outline generated" });
+    } catch (err: any) {
+      toast({ title: "Gemini error", description: String(err?.message || err) });
+    } finally {
+      setLoadingDeck(false);
+    }
   };
 
   useEffect(() => {
@@ -450,7 +479,9 @@ function PitchGeneratorContent() {
                             <div className="rounded-lg border border-white/10 bg-gradient-to-br from-blue-500/10 to-violet-500/10 p-3 text-white/90">
                               <p className="text-sm font-semibold">Overview</p>
                               <p className="mt-1 text-xs text-white/70">
-                                {refined
+                                {deckText
+                                  ? `${deckText.slice(0, 160)}${deckText.length > 160 ? "…" : ""}`
+                                  : refined
                                   ? "Refined summary included"
                                   : "Summary placeholder"}
                               </p>

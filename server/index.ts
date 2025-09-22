@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleExports } from "./routes/exports";
+import { handleGeminiRefine, handleGeminiCompile } from "./routes/gemini";
 
 export function createServer() {
   const app = express();
@@ -20,6 +21,10 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
   app.get("/api/exports", handleExports);
+
+  // Gemini integration endpoints
+  app.post("/api/gemini/refine", handleGeminiRefine);
+  app.post("/api/gemini/compile", handleGeminiCompile);
 
   return app;
 }
