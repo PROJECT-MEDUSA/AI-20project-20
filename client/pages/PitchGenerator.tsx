@@ -199,7 +199,9 @@ function PitchGeneratorContent() {
       setDeckReady(true);
       toast({ title: "Pitch Deck", description: "Deck outline generated" });
     } catch (err: any) {
-      toast({ title: "Gemini error", description: String(err?.message || err) });
+      const msg = String(err?.message || err);
+      setDeckError(msg);
+      toast({ title: "Gemini error", description: msg });
     } finally {
       setLoadingDeck(false);
     }
