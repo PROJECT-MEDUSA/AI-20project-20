@@ -320,6 +320,16 @@ function PitchGeneratorContent() {
                             exit={{ opacity: 0 }}
                             className="h-full w-full animate-pulse rounded-lg bg-gradient-to-r from-white/10 via-white/5 to-white/10"
                           />
+                        ) : refineError ? (
+                          <motion.p
+                            key="refine-error"
+                            initial={{ y: 8, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="text-red-300"
+                          >
+                            {refineError}
+                          </motion.p>
                         ) : refined ? (
                           <motion.p
                             key="refine-out"
