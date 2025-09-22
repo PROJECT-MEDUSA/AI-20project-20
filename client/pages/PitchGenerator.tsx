@@ -159,7 +159,9 @@ function PitchGeneratorContent() {
       setRefined(out);
       toast({ title: "Gemini", description: "Idea refined successfully" });
     } catch (err: any) {
-      toast({ title: "Gemini error", description: String(err?.message || err) });
+      const msg = String(err?.message || err);
+      setRefineError(msg);
+      toast({ title: "Gemini error", description: msg });
     } finally {
       setLoadingRefine(false);
     }
